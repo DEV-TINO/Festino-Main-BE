@@ -2,10 +2,7 @@ package com.DevTino.festino_main.reservation.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,14 +12,15 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Reservation {
     @Id
     UUID reservationId;
 
     String userName;
+    String phoneNum;
     UUID boothId;
     Integer personCount;
-    String phoneNum;
 
     LocalDateTime createAt;
     LocalDateTime updateAt;

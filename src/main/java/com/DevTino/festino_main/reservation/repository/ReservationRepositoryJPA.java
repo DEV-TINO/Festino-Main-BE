@@ -8,5 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface ReservationRepositoryJPA extends JpaRepository<Reservation, UUID> {
-
+    Reservation findByUserNameAndPhoneNumAndBoothId(String userName, String phoneNum, UUID boothId);
 }
