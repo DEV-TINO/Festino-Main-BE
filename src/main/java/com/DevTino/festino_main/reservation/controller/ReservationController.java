@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.reservation.controller;
 
-import com.DevTino.festino_main.reservation.domain.DTO.RequestCreateReservationDTO;
+import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,8 +27,8 @@ public class ReservationController {
 
     // 예약 등록하기
     @PostMapping("/main/reservation")
-    public ResponseEntity<Map<String, Object>> createReservation(@RequestBody RequestCreateReservationDTO requestCreateReservationDTO) {
-        UUID reservationId = reservationService.createReservation(requestCreateReservationDTO);
+    public ResponseEntity<Map<String, Object>> createReservation(@RequestBody RequestReservationSaveDTO requestReservationSaveDTO) {
+        UUID reservationId = reservationService.createReservation(requestReservationSaveDTO);
 
         // HTTP 상태 반환
         HttpStatus httpStatus = (reservationId == null) ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.OK;

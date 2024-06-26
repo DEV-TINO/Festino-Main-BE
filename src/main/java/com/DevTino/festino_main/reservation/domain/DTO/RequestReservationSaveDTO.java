@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class RequestCreateReservationDTO {
+public class RequestReservationSaveDTO {
     String userName;
     String phoneNum;
     Integer personCount;

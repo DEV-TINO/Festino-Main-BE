@@ -3,7 +3,7 @@ package com.DevTino.festino_main.reservation.bean;
 import com.DevTino.festino_main.reservation.bean.small.CheckReservationDAOBean;
 import com.DevTino.festino_main.reservation.bean.small.CreateReservationDAOBean;
 import com.DevTino.festino_main.reservation.bean.small.SaveReservationDAOBean;
-import com.DevTino.festino_main.reservation.domain.DTO.RequestCreateReservationDTO;
+import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.domain.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,10 +24,10 @@ public class CreateReservationBean {
     }
 
     // 예약 등록하기
-    public UUID exec(RequestCreateReservationDTO requestCreateReservationDTO) {
+    public UUID exec(RequestReservationSaveDTO requestReservationSaveDTO) {
         // 이전 예약 기록이 없을 경우
-        if(checkReservationDAOBean.exec(requestCreateReservationDTO)) {
-            Reservation createReservation = CreateReservationDAOBean.exec(requestCreateReservationDTO);
+        if(checkReservationDAOBean.exec(requestReservationSaveDTO)) {
+            Reservation createReservation = CreateReservationDAOBean.exec(requestReservationSaveDTO);
             saveReservationDAOBean.exec(createReservation);
 
             return createReservation.getReservationId();

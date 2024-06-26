@@ -1,7 +1,7 @@
 package com.DevTino.festino_main.reservation.service;
 
 import com.DevTino.festino_main.reservation.bean.CreateReservationBean;
-import com.DevTino.festino_main.reservation.domain.DTO.RequestCreateReservationDTO;
+import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class ReservationService {
     }
 
     // 예약 등록하기
-    public UUID createReservation(RequestCreateReservationDTO requestCreateReservationDTO) {
-        return createReservationBean.exec(requestCreateReservationDTO);
+    public UUID createReservation(RequestReservationSaveDTO requestReservationSaveDTO) {
+        return createReservationBean.exec(requestReservationSaveDTO);
     }
 }

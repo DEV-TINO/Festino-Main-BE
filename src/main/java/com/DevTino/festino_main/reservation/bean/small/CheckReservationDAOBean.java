@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.reservation.bean.small;
 
-import com.DevTino.festino_main.reservation.domain.DTO.RequestCreateReservationDTO;
+import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.domain.Reservation;
 import com.DevTino.festino_main.reservation.repository.ReservationRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,8 @@ public class CheckReservationDAOBean {
         this.reservationRepositoryJPA = reservationRepositoryJPA;
     }
 
-    public boolean exec(RequestCreateReservationDTO requestCreateReservationDTO) {
-        Reservation reservation = reservationRepositoryJPA.findByUserNameAndPhoneNum(requestCreateReservationDTO.getUserName(), requestCreateReservationDTO.getPhoneNum());
+    public boolean exec(RequestReservationSaveDTO requestReservationSaveDTO) {
+        Reservation reservation = reservationRepositoryJPA.findByUserNameAndPhoneNum(requestReservationSaveDTO.getUserName(), requestReservationSaveDTO.getPhoneNum());
 
         return reservation == null;
     }
