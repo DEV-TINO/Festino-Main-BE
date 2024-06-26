@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class CreateReservationBean {
+public class SaveReservationBean {
     CheckReservationDAOBean checkReservationDAOBean;
     CreateReservationDAOBean createReservationDAOBean;
     SaveReservationDAOBean saveReservationDAOBean;
 
     @Autowired
-    public CreateReservationBean(CheckReservationDAOBean checkReservationDAOBean, CreateReservationDAOBean createReservationDAOBean, SaveReservationDAOBean saveReservationDAOBean) {
+    public SaveReservationBean(CheckReservationDAOBean checkReservationDAOBean, CreateReservationDAOBean createReservationDAOBean, SaveReservationDAOBean saveReservationDAOBean) {
         this.checkReservationDAOBean = checkReservationDAOBean;
         this.createReservationDAOBean = createReservationDAOBean;
         this.saveReservationDAOBean = saveReservationDAOBean;
