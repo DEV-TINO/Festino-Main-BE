@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.reservation.bean.small;
 
-import com.DevTino.festino_main.reservation.model.Reservation;
+import com.DevTino.festino_main.reservation.model.ReservationDAO;
 import com.DevTino.festino_main.reservation.repository.ReservationRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ public class SaveReservationDAOBean {
         this.reservationRepositoryJPA = reservationRepositoryJPA;
     }
 
-    public void exec(Reservation reservation) {
-        reservationRepositoryJPA.save(reservation);
+    public void exec(ReservationDAO reservationDAO) {
+        reservationRepositoryJPA.save(reservationDAO);
     }
 }

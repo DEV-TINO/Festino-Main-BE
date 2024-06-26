@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-public class Reservation {
+public class ReservationDAO {
     @Id
     UUID reservationId;
 
