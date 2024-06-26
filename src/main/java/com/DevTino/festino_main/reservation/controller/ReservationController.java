@@ -36,7 +36,8 @@ public class ReservationController {
         // message, success, id 값 json 데이터로 반환
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", reservationId != null);
-        requestMap.put("message", (reservationId == null) ? "error": "success");
+        requestMap.put("message", (reservationId == null) ? "already reservation exist": "reservation success");
+        requestMap.put("reservationId", (reservationId == null) ? "00000000-0000-0000-000000000000" : reservationId);
 
         return ResponseEntity.status(httpStatus).body(requestMap);
     }

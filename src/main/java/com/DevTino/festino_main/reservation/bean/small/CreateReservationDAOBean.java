@@ -18,6 +18,8 @@ public class CreateReservationDAOBean {
                 .boothId(requestReservationSaveDTO.getBoothId())
                 .personCount(requestReservationSaveDTO.getPersonCount())
                 .createAt(LocalDateTime.now())
+                .updateAt(LocalDateTime.now())
+                .isDeleted(false)
                 .build();
     }
 }
