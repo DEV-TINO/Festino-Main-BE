@@ -16,7 +16,7 @@ public class CheckReservationDAOBean {
     }
 
     public boolean exec(RequestCreateReservationDTO requestCreateReservationDTO) {
-        Reservation reservation = reservationRepositoryJPA.findByUserNameAndPhoneNumAndBoothId(requestCreateReservationDTO.getUserName(), requestCreateReservationDTO.getPhoneNum(), requestCreateReservationDTO.getBoothId());
+        Reservation reservation = reservationRepositoryJPA.findByUserNameAndPhoneNum(requestCreateReservationDTO.getUserName(), requestCreateReservationDTO.getPhoneNum());
 
         return reservation == null;
     }
