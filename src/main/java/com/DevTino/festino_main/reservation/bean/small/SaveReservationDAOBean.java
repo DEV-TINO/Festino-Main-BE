@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.reservation.bean.small;
 
-import com.DevTino.festino_main.reservation.domain.Reservation;
+import com.DevTino.festino_main.reservation.model.Reservation;
 import com.DevTino.festino_main.reservation.repository.ReservationRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

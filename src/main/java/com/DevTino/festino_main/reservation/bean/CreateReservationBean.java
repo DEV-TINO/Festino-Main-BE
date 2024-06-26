@@ -3,8 +3,8 @@ package com.DevTino.festino_main.reservation.bean;
 import com.DevTino.festino_main.reservation.bean.small.CheckReservationDAOBean;
 import com.DevTino.festino_main.reservation.bean.small.CreateReservationDAOBean;
 import com.DevTino.festino_main.reservation.bean.small.SaveReservationDAOBean;
-import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
-import com.DevTino.festino_main.reservation.domain.Reservation;
+import com.DevTino.festino_main.reservation.model.DTO.RequestReservationSaveDTO;
+import com.DevTino.festino_main.reservation.model.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
