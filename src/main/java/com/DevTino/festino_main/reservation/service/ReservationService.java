@@ -16,6 +16,7 @@ public class ReservationService {
         this.createReservationBean = createReservationBean;
     }
 
+    // 예약 등록하기
     public UUID createReservation(RequestCreateReservationDTO requestCreateReservationDTO) {
         return createReservationBean.exec(requestCreateReservationDTO);
     }

@@ -23,9 +23,9 @@ public class CreateReservationBean {
         this.saveReservationDAOBean = saveReservationDAOBean;
     }
 
+    // 예약 등록하기
     public UUID exec(RequestCreateReservationDTO requestCreateReservationDTO) {
-        // 해당 학과에 예약한 기록이 없을 경우
-        // 날짜도 고려?
+        // 이전 예약 기록이 없을 경우
         if(checkReservationDAOBean.exec(requestCreateReservationDTO)) {
             Reservation createReservation = CreateReservationDAOBean.exec(requestCreateReservationDTO);
             saveReservationDAOBean.exec(createReservation);
@@ -33,6 +33,7 @@ public class CreateReservationBean {
             return createReservation.getReservationId();
         }
 
+        // 이전 예약 기록이 있을 경우 예약이 불가능
         return null;
     }
 }

@@ -25,7 +25,7 @@ public class ReservationController {
         this.reservationService = reservationService;
     }
 
-    // 예약 추가
+    // 예약 등록하기
     @PostMapping("/main/reservation")
     public ResponseEntity<Map<String, Object>> createReservation(@RequestBody RequestCreateReservationDTO requestCreateReservationDTO) {
         UUID reservationId = reservationService.createReservation(requestCreateReservationDTO);
