@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.reservation.controller;
 
+import com.DevTino.festino_main.reservation.model.DTO.RequestReservationGetDTO;
 import com.DevTino.festino_main.reservation.model.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.model.ReservationDAO;
 import com.DevTino.festino_main.reservation.service.ReservationService;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/main/reservation")
 @CrossOrigin(origins = "*")
 public class ReservationController {
 
@@ -24,7 +26,7 @@ public class ReservationController {
     }
 
     // 예약 등록하기
-    @PostMapping("/main/reservation")
+    @PostMapping
     public ResponseEntity<Map<String, Object>> createReservation(@RequestBody RequestReservationSaveDTO requestReservationSaveDTO) {
         UUID reservationId = reservationService.createReservation(requestReservationSaveDTO);
 
@@ -41,9 +43,9 @@ public class ReservationController {
     }
 
     // 예약 조회하기
-    @GetMapping("/main/reservation/all/phone/{phoneNum}")
-    public ResponseEntity<Map<String, Object>> searchReservation(@PathVariable("phoneNum") String phoneNum) {
-        ReservationDAO reservationDAO = reservationService.searchReservation(phoneNum);
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> searchReservation(@RequestBody RequestReservationGetDTO requestReservationGetDTO) {
+        ReservationDAO reservationDAO = reservationService.searchReservation(requestReservationGetDTO);
 
         // HTTP 상태 반환
         HttpStatus httpStatus = (reservationDAO == null) ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.OK;
@@ -51,7 +53,7 @@ public class ReservationController {
         // message, success, id 값 json 데이터로 반환
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", reservationDAO != null);
-        requestMap.put("message", (reservationDAO == null) ? "already reservation exist": "reservation success");
+        requestMap.put("message", (reservationDAO == null) ? "doesn't exist reservation history": "exist reservation history");
         requestMap.put("reservationInfo", reservationDAO);
 
         return ResponseEntity.status(httpStatus).body(requestMap);

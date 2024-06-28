@@ -2,6 +2,7 @@ package com.DevTino.festino_main.reservation.service;
 
 import com.DevTino.festino_main.reservation.bean.GetReservationBean;
 import com.DevTino.festino_main.reservation.bean.SaveReservationBean;
+import com.DevTino.festino_main.reservation.model.DTO.RequestReservationGetDTO;
 import com.DevTino.festino_main.reservation.model.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.model.ReservationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class ReservationService {
     }
 
     // 예약 조회하기
-    public ReservationDAO searchReservation(String phoneNum) {
-        return getReservationBean.exec(phoneNum);
+    public ReservationDAO searchReservation(RequestReservationGetDTO requestReservationGetDTO) {
+        return getReservationBean.exec(requestReservationGetDTO);
     }
 }

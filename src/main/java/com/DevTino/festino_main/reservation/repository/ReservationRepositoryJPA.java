@@ -9,6 +9,4 @@ import java.util.UUID;
 @Repository
 public interface ReservationRepositoryJPA extends JpaRepository<ReservationDAO, UUID> {
     ReservationDAO findByUserNameAndPhoneNumAndIsDeleted(String userName, String phoneNum, Boolean isDeleted);
-
-    ReservationDAO findByPhoneNum(String phoneNum);
 }
