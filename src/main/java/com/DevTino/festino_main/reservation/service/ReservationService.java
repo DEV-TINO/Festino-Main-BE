@@ -4,7 +4,7 @@ import com.DevTino.festino_main.reservation.bean.GetReservationBean;
 import com.DevTino.festino_main.reservation.bean.SaveReservationBean;
 import com.DevTino.festino_main.reservation.model.DTO.RequestReservationGetDTO;
 import com.DevTino.festino_main.reservation.model.DTO.RequestReservationSaveDTO;
-import com.DevTino.festino_main.reservation.model.ReservationDAO;
+import com.DevTino.festino_main.reservation.model.DTO.ResponseReservationGetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +21,13 @@ public class ReservationService {
         this.getReservationBean = getReservationBean;
     }
 
-    // 예약 등록하기
-    public UUID createReservation(RequestReservationSaveDTO requestReservationSaveDTO) {
+    // 예약 등록
+    public UUID saveReservation(RequestReservationSaveDTO requestReservationSaveDTO) {
         return saveReservationBean.exec(requestReservationSaveDTO);
     }
 
-    // 예약 조회하기
-    public ReservationDAO searchReservation(RequestReservationGetDTO requestReservationGetDTO) {
+    // 예약 조회
+    public ResponseReservationGetDTO getReservation(RequestReservationGetDTO requestReservationGetDTO) {
         return getReservationBean.exec(requestReservationGetDTO);
     }
 }

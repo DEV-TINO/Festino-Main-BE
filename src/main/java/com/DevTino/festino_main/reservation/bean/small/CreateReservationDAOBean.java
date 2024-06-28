@@ -10,6 +10,7 @@ import java.util.UUID;
 @Component
 public class CreateReservationDAOBean {
 
+    // RequestReservationSaveDTO -> ReservationDAO로 변경
     public static ReservationDAO exec(RequestReservationSaveDTO requestReservationSaveDTO) {
         return ReservationDAO.builder()
                 .reservationId(UUID.randomUUID())

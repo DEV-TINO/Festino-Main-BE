@@ -7,6 +7,7 @@ import java.util.UUID;
 @Data
 public class ResponseReservationGetDTO {
     UUID reservationId;
-    Integer priorityNum;
-
+    Integer personCount;
+    UUID boothId;
+    Integer totalTeamCount;
 }

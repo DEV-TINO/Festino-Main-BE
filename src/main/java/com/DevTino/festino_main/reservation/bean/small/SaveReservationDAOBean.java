@@ -14,6 +14,7 @@ public class SaveReservationDAOBean {
         this.reservationRepositoryJPA = reservationRepositoryJPA;
     }
 
+    // 예약 등록
     public void exec(ReservationDAO reservationDAO) {
         reservationRepositoryJPA.save(reservationDAO);
     }

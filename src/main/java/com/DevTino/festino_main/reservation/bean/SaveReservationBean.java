@@ -23,17 +23,17 @@ public class SaveReservationBean {
         this.saveReservationDAOBean = saveReservationDAOBean;
     }
 
-    // 예약 등록하기
+    // 예약 등록
     public UUID exec(RequestReservationSaveDTO requestReservationSaveDTO) {
-        // 이전 예약 기록이 없을 경우
-        if(getReservationDAOBean.exec(requestReservationSaveDTO.getUserName(), requestReservationSaveDTO.getPhoneNum()) == null) {
-            ReservationDAO createReservationDAO = CreateReservationDAOBean.exec(requestReservationSaveDTO);
-            saveReservationDAOBean.exec(createReservationDAO);
-
-            return createReservationDAO.getReservationId();
+        // 이전 예약 기록이 있을 경우 예약이 불가능
+        if(getReservationDAOBean.exec(requestReservationSaveDTO.getUserName(), requestReservationSaveDTO.getPhoneNum()) != null) {
+            return null;
         }
 
-        // 이전 예약 기록이 있을 경우 예약이 불가능
-        return null;
+        // 예약을 등록한 뒤 reservationId 반환
+        ReservationDAO createReservationDAO = CreateReservationDAOBean.exec(requestReservationSaveDTO);
+        saveReservationDAOBean.exec(createReservationDAO);
+
+        return createReservationDAO.getReservationId();
     }
 }
