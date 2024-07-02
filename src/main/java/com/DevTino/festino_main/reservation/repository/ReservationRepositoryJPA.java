@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface ReservationRepositoryJPA extends JpaRepository<ReservationDAO, UUID> {
     ReservationDAO findByUserNameAndPhoneNumAndIsDeleted(String userName, String phoneNum, Boolean isDeleted);
 
-    List<ReservationDAO> findAllByBoothIdAndCreateAtLessThan(UUID boothId, LocalDateTime createAt);
+    List<ReservationDAO> findAllByBoothIdAndIsDeletedAndCreateAtLessThan(UUID boothId, Boolean isDeleted, LocalDateTime createAt);
 }
