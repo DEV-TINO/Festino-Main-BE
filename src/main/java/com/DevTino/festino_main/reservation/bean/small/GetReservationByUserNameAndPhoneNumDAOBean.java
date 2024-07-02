@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GetReservationDAOBean {
+public class GetReservationByUserNameAndPhoneNumDAOBean {
     ReservationRepositoryJPA reservationRepositoryJPA;
 
     @Autowired
-    public GetReservationDAOBean(ReservationRepositoryJPA reservationRepositoryJPA) {
+    public GetReservationByUserNameAndPhoneNumDAOBean(ReservationRepositoryJPA reservationRepositoryJPA) {
         this.reservationRepositoryJPA = reservationRepositoryJPA;
     }
 
