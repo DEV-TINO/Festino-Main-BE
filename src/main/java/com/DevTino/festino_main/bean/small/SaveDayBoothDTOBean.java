@@ -23,6 +23,5 @@ public class SaveDayBoothDTOBean {
         responseDayBoothDTO.setIsOpen(dayBoothDAO.getIsOpen());
 
         return responseDayBoothDTO;
-
     }
 }

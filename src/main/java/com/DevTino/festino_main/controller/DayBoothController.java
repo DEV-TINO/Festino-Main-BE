@@ -23,6 +23,7 @@ public class DayBoothController {
         this.dayBoothService = dayBoothService;
     }
 
+    // 주간 부스 디테일 조회
     @GetMapping("/day/{boothId}")
     public ResponseEntity<Map<String, Object>> read(@PathVariable UUID boothId){
         ResponseDayBoothDTO responseDayBoothDTO = dayBoothService.read(boothId);

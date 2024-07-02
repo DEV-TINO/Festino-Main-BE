@@ -17,8 +17,8 @@ public class GetDayBoothDAOBean {
         this.jpaDayBoothRepository = jpaDayBoothRepository;
     }
 
+    // 주간 부스 가져오기
     public DayBoothDAO exec(UUID boothId){
         return jpaDayBoothRepository.findById(boothId).get();
     }
-
 }
