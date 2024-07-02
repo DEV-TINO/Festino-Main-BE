@@ -17,6 +17,7 @@ public class FoodBoothService {
         this.getFoodBoothBean = getFoodBoothBean;
     }
 
+    // 푸드트럭 디테일 조회
     public ResponseFoodBoothDTO read(UUID boothId){
         return getFoodBoothBean.exec(boothId);
     }

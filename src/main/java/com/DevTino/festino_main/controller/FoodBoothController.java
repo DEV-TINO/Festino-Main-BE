@@ -23,6 +23,7 @@ public class FoodBoothController {
         this.foodBoothService = foodBoothService;
     }
 
+    // 푸드트럭 디테일 조회
     @GetMapping("/food/{boothId}")
     public ResponseEntity<Map<String, Object>> read(@PathVariable UUID boothId){
         ResponseFoodBoothDTO responseFoodBoothDTO = foodBoothService.read(boothId);
@@ -36,5 +37,4 @@ public class FoodBoothController {
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
-
 }

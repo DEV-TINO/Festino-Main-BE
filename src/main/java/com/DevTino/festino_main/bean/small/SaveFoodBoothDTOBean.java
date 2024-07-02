@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SaveFoodBoothDTOBean {
 
+    // 가져온 dao를 바탕으로 dto로 변경
     public ResponseFoodBoothDTO exec(FoodBoothDAO foodBoothDAO){
         ResponseFoodBoothDTO responseFoodBoothDTO = new ResponseFoodBoothDTO();
 
