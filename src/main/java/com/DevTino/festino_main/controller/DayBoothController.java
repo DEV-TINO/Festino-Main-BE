@@ -23,7 +23,7 @@ public class DayBoothController {
         this.dayBoothService = dayBoothService;
     }
 
-    @GetMapping("day/{boothId}")
+    @GetMapping("/day/{boothId}")
     public ResponseEntity<Map<String, Object>> read(@PathVariable UUID boothId){
         ResponseDayBoothDTO responseDayBoothDTO = dayBoothService.read(boothId);
 
@@ -32,7 +32,7 @@ public class DayBoothController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "주간 부스 저장 성공" : "주간 부스 저장 시 DAO 저장 실패");
-        requestMap.put("responseDayBoothDTO", responseDayBoothDTO);
+        requestMap.put("boothInfo", responseDayBoothDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }

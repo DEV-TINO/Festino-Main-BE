@@ -17,7 +17,7 @@ public class DayBoothService {
         this.getDayBoothBean = getDayBoothBean;
     }
 
-    public ResponseDayBoothDTO read(UUID boothId){
+    public ResponseDayBoothDTO read(UUID boothId) {
         return getDayBoothBean.exec(boothId);
     }
 }

@@ -11,15 +11,15 @@ public class SaveDayBoothDTOBean {
     public ResponseDayBoothDTO exec(DayBoothDAO dayBoothDAO){
         ResponseDayBoothDTO responseDayBoothDTO = new ResponseDayBoothDTO();
 
+        responseDayBoothDTO.setBoothId(dayBoothDAO.getBoothId());
         responseDayBoothDTO.setBoothName(dayBoothDAO.getBoothName());
         responseDayBoothDTO.setAdminCategory(dayBoothDAO.getAdminCategory());
+        responseDayBoothDTO.setAdminName(dayBoothDAO.getAdminName());
         responseDayBoothDTO.setOpenTime(dayBoothDAO.getOpenTime());
         responseDayBoothDTO.setCloseTime(dayBoothDAO.getCloseTime());
         responseDayBoothDTO.setBoothIntro(dayBoothDAO.getBoothIntro());
         responseDayBoothDTO.setBoothImage(dayBoothDAO.getBoothImage());
         responseDayBoothDTO.setLocation(dayBoothDAO.getLocation());
-        responseDayBoothDTO.setDescripteImage(dayBoothDAO.getDescripteImage());
-        responseDayBoothDTO.setDescripte(dayBoothDAO.getDescription());
         responseDayBoothDTO.setIsOpen(dayBoothDAO.getIsOpen());
 
         return responseDayBoothDTO;
