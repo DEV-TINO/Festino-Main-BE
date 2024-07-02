@@ -16,6 +16,7 @@ public class GetNightBoothDAOBean {
         this.jpaNightBoothRepository = jpaNightBoothRepository;
     }
 
+    // 야간 부스 가져오기
     public NightBoothDAO exec(UUID boothId){
         return jpaNightBoothRepository.findById(boothId).get();
     }

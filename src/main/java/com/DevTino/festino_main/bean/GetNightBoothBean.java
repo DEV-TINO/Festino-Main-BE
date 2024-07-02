@@ -20,9 +20,13 @@ public class GetNightBoothBean {
         this.saveNightBoothDTOBean = saveNightBoothDTOBean;
     }
 
+    // 야간 부스 dao 가져온 후 dto 반환
     public ResponseNightBoothDTO exec(UUID boothId){
+
+        // 야간 부스 디테일 dao 가져오기
         NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(boothId);
 
+        // 가져온 dao를 dto로 변환
         return saveNightBoothDTOBean.exec(nightBoothDAO);
     }
 }

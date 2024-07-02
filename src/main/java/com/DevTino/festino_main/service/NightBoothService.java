@@ -17,6 +17,7 @@ public class NightBoothService {
         this.getNightBoothBean = getNightBoothBean;
     }
 
+    // 야간 부스 디테일 조회
     public ResponseNightBoothDTO read(UUID boothId){
         return getNightBoothBean.exec(boothId);
     }

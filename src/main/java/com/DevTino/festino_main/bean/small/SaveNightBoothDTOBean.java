@@ -26,6 +26,5 @@ public class SaveNightBoothDTOBean {
         responseNightBoothDTO.setTotalReservationNum(nightBoothDAO.getTotalReservationNum());
 
         return responseNightBoothDTO;
-
     }
 }

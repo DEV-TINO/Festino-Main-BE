@@ -23,6 +23,7 @@ public class NightBoothController {
         this.nightBoothService = nightBoothService;
     }
 
+    // 야간 부스 디테일 조회
     @GetMapping("/night/{boothId}")
     public ResponseEntity<Map<String, Object>> read(@PathVariable UUID boothId){
         ResponseNightBoothDTO responseNightBoothDTO = nightBoothService.read(boothId);
@@ -36,5 +37,4 @@ public class NightBoothController {
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
-
 }
