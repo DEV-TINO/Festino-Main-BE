@@ -14,15 +14,14 @@ public class CreateReservationDTOBean {
         this.getReservationsByBoothIdAndCreateAtLessThanDAOBean = getReservationsByBoothIdAndCreateAtLessThanDAOBean;
     }
 
-    // ReservationDAO -> ResponseReservationGetDTO로 변경
+    // ReservationDAO -> ResponseReservationGetDTO 변경
     public ResponseReservationGetDTO exec(ReservationDAO reservationDAO) {
-        ResponseReservationGetDTO responseReservationGetDTO = new ResponseReservationGetDTO();
-        responseReservationGetDTO.setReservationId(reservationDAO.getReservationId());
-        responseReservationGetDTO.setPersonCount(reservationDAO.getPersonCount());
-        responseReservationGetDTO.setBoothId(reservationDAO.getBoothId());
-        responseReservationGetDTO.setTotalTeamCount(getReservationsByBoothIdAndCreateAtLessThanDAOBean.exec(reservationDAO).size());
-        // priorityNum 추가 예정
-
-        return responseReservationGetDTO;
+        return ResponseReservationGetDTO.builder()
+                .reservationId(reservationDAO.getReservationId())
+                .personCount(reservationDAO.getPersonCount())
+                .boothId(reservationDAO.getBoothId())
+                .totalTeamCount(getReservationsByBoothIdAndCreateAtLessThanDAOBean.exec(reservationDAO).size())
+                // priorityNum 추가 예정
+                .build();
     }
 }
