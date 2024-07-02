@@ -11,17 +11,19 @@ public class SaveNightBoothDTOBean {
     public ResponseNightBoothDTO exec(NightBoothDAO nightBoothDAO){
         ResponseNightBoothDTO responseNightBoothDTO = new ResponseNightBoothDTO();
 
+        responseNightBoothDTO.setBoothId(nightBoothDAO.getBoothId());
         responseNightBoothDTO.setBoothName(nightBoothDAO.getBoothName());
         responseNightBoothDTO.setAdminCategory(nightBoothDAO.getAdminCategory());
+        responseNightBoothDTO.setAdminName(nightBoothDAO.getAdminName());
         responseNightBoothDTO.setOpenTime(nightBoothDAO.getOpenTime());
         responseNightBoothDTO.setCloseTime(nightBoothDAO.getCloseTime());
         responseNightBoothDTO.setBoothIntro(nightBoothDAO.getBoothIntro());
         responseNightBoothDTO.setBoothImage(nightBoothDAO.getBoothImage());
         responseNightBoothDTO.setLocation(nightBoothDAO.getLocation());
-        responseNightBoothDTO.setDescripteImage(nightBoothDAO.getDescripteImage());
-        responseNightBoothDTO.setDescripte(nightBoothDAO.getDescription());
         responseNightBoothDTO.setIsOpen(nightBoothDAO.getIsOpen());
-        responseNightBoothDTO.setTotalTeam(nightBoothDAO.getTotalTeam());
+        responseNightBoothDTO.setIsOrder(nightBoothDAO.getIsOrder());
+        responseNightBoothDTO.setIsReservation(nightBoothDAO.getIsReservation());
+        responseNightBoothDTO.setTotalReservationNum(nightBoothDAO.getTotalReservationNum());
 
         return responseNightBoothDTO;
 

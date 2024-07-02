@@ -23,7 +23,7 @@ public class NightBoothController {
         this.nightBoothService = nightBoothService;
     }
 
-    @GetMapping("day/{boothId}")
+    @GetMapping("/night/{boothId}")
     public ResponseEntity<Map<String, Object>> read(@PathVariable UUID boothId){
         ResponseNightBoothDTO responseNightBoothDTO = nightBoothService.read(boothId);
 

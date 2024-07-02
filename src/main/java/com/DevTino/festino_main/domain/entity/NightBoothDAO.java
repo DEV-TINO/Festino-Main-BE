@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -18,14 +19,19 @@ public class NightBoothDAO {
 
     String boothName;
     String adminCategory;
+    String adminName;
     String openTime;
     String closeTime;
     String boothIntro;
     String boothImage;
     String location;
-    String description;
-    String descripteImage;
 
     Boolean isOpen;
-    Integer totalTeam;
+    Boolean isOrder;
+    Boolean isReservation;
+
+    Integer totalReservationNum;
+
+    LocalDateTime createAt;
+    LocalDateTime updateAt;
 }
