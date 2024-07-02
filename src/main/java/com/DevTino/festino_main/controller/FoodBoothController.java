@@ -23,7 +23,7 @@ public class FoodBoothController {
         this.foodBoothService = foodBoothService;
     }
 
-    @GetMapping("food/{boothId}")
+    @GetMapping("/food/{boothId}")
     public ResponseEntity<Map<String, Object>> read(@PathVariable UUID boothId){
         ResponseFoodBoothDTO responseFoodBoothDTO = foodBoothService.read(boothId);
 

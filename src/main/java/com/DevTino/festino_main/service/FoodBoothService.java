@@ -20,5 +20,4 @@ public class FoodBoothService {
     public ResponseFoodBoothDTO read(UUID boothId){
         return getFoodBoothBean.exec(boothId);
     }
-
 }

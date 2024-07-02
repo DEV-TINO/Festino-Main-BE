@@ -8,11 +8,12 @@ import java.util.UUID;
 public class ResponseFoodBoothDTO {
     UUID boothId;
     String boothName;
+    String adminCategory;
+    String adminName;
     String openTime;
     String closeTime;
     String boothIntro;
     String boothImage;
     String location;
-    String descripteImage;
     Boolean isOpen;
 }
