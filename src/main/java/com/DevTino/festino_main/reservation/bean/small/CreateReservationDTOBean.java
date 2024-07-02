@@ -22,6 +22,7 @@ public class CreateReservationDTOBean {
         responseReservationGetDTO.setPersonCount(reservationDAO.getPersonCount());
         responseReservationGetDTO.setBoothId(reservationDAO.getBoothId());
         responseReservationGetDTO.setTotalTeamCount(reservationRepositoryJPA.findAllByBoothIdAndCreateAtLessThan(reservationDAO.getBoothId(), reservationDAO.getCreateAt()).size());
+        // priorityNum 추가 예정
 
         return responseReservationGetDTO;
     }
