@@ -26,14 +26,18 @@ public class SaveAllBoothDTOBean {
         this.getAllFoodBoothDAOBean = getAllFoodBoothDAOBean;
     }
 
+    // 맵 형태로 리스트 반환
     public Map<String, List<ResponseAllBoothDTO>> exec(List<DayBoothDAO> dayBoothDAOList, List<NightBoothDAO> nightBoothDAOList, List<FoodBoothDAO> foodBoothDAOList){
 
+        // map 생성
         Map<String, List<ResponseAllBoothDTO>> newMap = new HashMap<>();
 
+        // 주간, 야간, 푸드트럭 빈 리스트 3개 생성
         List<ResponseAllBoothDTO> responseDayBoothDAOList = new ArrayList<>();
         List<ResponseAllBoothDTO> responseNightBoothDAOList = new ArrayList<>();
         List<ResponseAllBoothDTO> responseFoodBoothDAOList = new ArrayList<>();
 
+        // 주간 부스 전체 리스트로 가져오기
         for (DayBoothDAO dayBoothDAO : dayBoothDAOList) {
             ResponseAllBoothDTO responseAllBoothDTO = new ResponseAllBoothDTO();
 
@@ -50,14 +54,10 @@ public class SaveAllBoothDTOBean {
 
             responseDayBoothDAOList.add(responseAllBoothDTO);
         }
+        // 맵에 주간부스 전체 리스트 추가
         newMap.put("dayBoothInfo", responseDayBoothDAOList);
-        // [1]
-        // day``: [1]
 
-        // [1, 2]
-        // day``: [1]
-        // dayno : [1,2]
-
+        // 야간 부스 전체 리스트로 가져오기
         for (NightBoothDAO nightBoothDAO : nightBoothDAOList) {
             ResponseAllBoothDTO responseAllBoothDTO = new ResponseAllBoothDTO();
 
@@ -74,8 +74,10 @@ public class SaveAllBoothDTOBean {
 
             responseNightBoothDAOList.add(responseAllBoothDTO);
         }
+        // 맵에 야간부스 전체 리스트 추가
         newMap.put("nightBoothInfo", responseNightBoothDAOList);
 
+        // 푸드트럭 부스 전체 리스트로 가져오기
         for (FoodBoothDAO foodBoothDAO : foodBoothDAOList) {
             ResponseAllBoothDTO responseAllBoothDTO = new ResponseAllBoothDTO();
 
@@ -92,9 +94,10 @@ public class SaveAllBoothDTOBean {
 
             responseFoodBoothDAOList.add(responseAllBoothDTO);
         }
-
+        // 맵에 푸드트럭 전체 리스트 추가
         newMap.put("foodBoothList", responseFoodBoothDAOList);
 
+        //맵 반환
         return newMap;
     }
 }

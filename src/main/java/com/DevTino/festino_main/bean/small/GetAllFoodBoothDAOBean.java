@@ -17,6 +17,7 @@ public class GetAllFoodBoothDAOBean {
         this.jpaFoodBoothRepository = jpaFoodBoothRepository;
     }
 
+    // 푸드트럭 부스 리스트 가져오기
     public List<FoodBoothDAO> exec(){
         return jpaFoodBoothRepository.findAll();
     }

@@ -18,6 +18,7 @@ public class AllBoothService {
         this.getAllBoothBean = getAllBoothBean;
     }
 
+    // 부스 전체 조회
     public Map<String, List<ResponseAllBoothDTO>> read(){
         return getAllBoothBean.exec();
     }

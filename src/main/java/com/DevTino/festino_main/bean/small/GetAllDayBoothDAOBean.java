@@ -17,6 +17,7 @@ public class GetAllDayBoothDAOBean {
         this.jpaDayBoothRepository = jpaDayBoothRepository;
     }
 
+    // 주간 부스 리스트 가져오기
     public List<DayBoothDAO> exec(){
         return jpaDayBoothRepository.findAll();
     }

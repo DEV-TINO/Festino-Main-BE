@@ -23,6 +23,7 @@ public class AllBoothController {
         this.categoryBoothService = categoryBoothService;
     }
 
+    // 부스 전체 조회
     @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> read(){
         Map<String, List<ResponseAllBoothDTO>> stringListMap = categoryBoothService.read();
@@ -36,5 +37,4 @@ public class AllBoothController {
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
-
 }

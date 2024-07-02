@@ -30,12 +30,15 @@ public class GetAllBoothBean {
         this.saveAllBoothDTOBean = saveAllBoothDTOBean;
     }
 
+    // 주간, 야간, 푸드트럭 전체 리스트 가져온 다음 map으로 반환
     public Map<String, List<ResponseAllBoothDTO>> exec(){
 
+        // 주간, 야간, 푸드트럭 전체 dao 리스트 가져오기
         List<DayBoothDAO> dayBoothDAOList = getAllDayBoothDAOBean.exec();
         List<NightBoothDAO> nightBoothDAOList = getAllNightBoothDAOBean.exec();
         List<FoodBoothDAO> foodBoothDAOList = getAllFoodBoothDAOBean.exec();
 
+        // 가져온 전체 dao 리스트를 전체 dto 리스트로 변환 후 맵에 추가
         return saveAllBoothDTOBean.exec(dayBoothDAOList, nightBoothDAOList, foodBoothDAOList);
     }
 }
