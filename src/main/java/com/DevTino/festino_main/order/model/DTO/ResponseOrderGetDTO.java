@@ -11,6 +11,6 @@ import java.util.List;
 public class ResponseOrderGetDTO {
     Integer tableNum;
     LocalDateTime createAt;
-    List<MenuInfoDTO> menuInfoDTOList;
+    List<MenuInfoDTO> menuInfo;
     Integer totalPrice;
 }
