@@ -1,7 +1,7 @@
 package com.DevTino.festino_main.bean;
 
 import com.DevTino.festino_main.bean.small.GetDayBoothDAOBean;
-import com.DevTino.festino_main.bean.small.SaveDayBoothDTOBean;
+import com.DevTino.festino_main.bean.small.CreateDayBoothDTOBean;
 import com.DevTino.festino_main.domain.DTO.ResponseDayBoothDTO;
 import com.DevTino.festino_main.domain.entity.DayBoothDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +13,20 @@ import java.util.UUID;
 public class GetDayBoothBean {
 
     GetDayBoothDAOBean getDayBoothDAOBean;
-    SaveDayBoothDTOBean saveDayBoothDTOBean;
+    CreateDayBoothDTOBean saveDayBoothDTOBean;
 
     @Autowired
-    public GetDayBoothBean(GetDayBoothDAOBean getDayBoothDAOBean, SaveDayBoothDTOBean saveDayBoothDTOBean){
+    public GetDayBoothBean(GetDayBoothDAOBean getDayBoothDAOBean, CreateDayBoothDTOBean saveDayBoothDTOBean){
         this.getDayBoothDAOBean = getDayBoothDAOBean;
         this.saveDayBoothDTOBean = saveDayBoothDTOBean;
     }
 
-    // 주간 부스 dao 가져온 후 dto 반환
+    // 주간 부스 전체 조회
     public ResponseDayBoothDTO exec(UUID boothId){
 
         // 주간 부스 디테일 dao 가져오기
         DayBoothDAO dayBoothDAO = getDayBoothDAOBean.exec(boothId);
+        if(dayBoothDAO == null) return null;
 
         // 가져온 dao를 dto로 변환
         return saveDayBoothDTOBean.exec(dayBoothDAO);
