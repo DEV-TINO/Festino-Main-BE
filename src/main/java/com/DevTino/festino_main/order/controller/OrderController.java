@@ -2,7 +2,6 @@ package com.DevTino.festino_main.order.controller;
 
 import com.DevTino.festino_main.order.model.DTO.RequestOrderSaveDTO;
 import com.DevTino.festino_main.order.service.OrderService;
-import com.DevTino.festino_main.reservation.model.DTO.RequestReservationSaveDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

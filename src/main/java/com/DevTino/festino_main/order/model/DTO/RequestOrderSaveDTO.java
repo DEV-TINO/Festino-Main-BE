@@ -7,7 +7,7 @@ import java.util.List;
 @Data
 public class RequestOrderSaveDTO {
     Integer tableNum;
-    String name;
+    String userName;
     String phoneNum;
     List<MenuInfoDTO> menuList;
     Integer totalPrice;

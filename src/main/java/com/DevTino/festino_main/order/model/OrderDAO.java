@@ -3,7 +3,6 @@ package com.DevTino.festino_main.order.model;
 import com.DevTino.festino_main.order.model.DTO.MenuInfoDTO;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +19,7 @@ public class OrderDAO {
     UUID orderId;
 
     Integer tableNum;
-    String name;
+    String userName;
     String phoneNum;
 
     @ElementCollection
