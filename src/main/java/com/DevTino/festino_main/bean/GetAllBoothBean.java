@@ -1,9 +1,9 @@
 package com.DevTino.festino_main.bean;
 
-import com.DevTino.festino_main.bean.small.GetAllDayBoothDAOBean;
-import com.DevTino.festino_main.bean.small.GetAllFoodBoothDAOBean;
-import com.DevTino.festino_main.bean.small.GetAllNightBoothDAOBean;
-import com.DevTino.festino_main.bean.small.SaveAllBoothDTOBean;
+import com.DevTino.festino_main.bean.small.GetDayBoothsDAOBean;
+import com.DevTino.festino_main.bean.small.GetFoodBoothsDAOBean;
+import com.DevTino.festino_main.bean.small.GetNightBoothsDAOBean;
+import com.DevTino.festino_main.bean.small.CreateAllBoothDTOBean;
 import com.DevTino.festino_main.domain.DTO.ResponseAllBoothDTO;
 import com.DevTino.festino_main.domain.entity.DayBoothDAO;
 import com.DevTino.festino_main.domain.entity.FoodBoothDAO;
@@ -17,13 +17,13 @@ import java.util.Map;
 @Component
 public class GetAllBoothBean {
 
-    GetAllDayBoothDAOBean getAllDayBoothDAOBean;
-    GetAllNightBoothDAOBean getAllNightBoothDAOBean;
-    GetAllFoodBoothDAOBean getAllFoodBoothDAOBean;
-    SaveAllBoothDTOBean saveAllBoothDTOBean;
+    GetDayBoothsDAOBean getAllDayBoothDAOBean;
+    GetNightBoothsDAOBean getAllNightBoothDAOBean;
+    GetFoodBoothsDAOBean getAllFoodBoothDAOBean;
+    CreateAllBoothDTOBean saveAllBoothDTOBean;
 
     @Autowired
-    public GetAllBoothBean(GetAllDayBoothDAOBean getAllDayBoothDAOBean, GetAllNightBoothDAOBean getAllNightBoothDAOBean, GetAllFoodBoothDAOBean getAllFoodBoothDAOBean, SaveAllBoothDTOBean saveAllBoothDTOBean) {
+    public GetAllBoothBean(GetDayBoothsDAOBean getAllDayBoothDAOBean, GetNightBoothsDAOBean getAllNightBoothDAOBean, GetFoodBoothsDAOBean getAllFoodBoothDAOBean, CreateAllBoothDTOBean saveAllBoothDTOBean) {
         this.getAllDayBoothDAOBean = getAllDayBoothDAOBean;
         this.getAllNightBoothDAOBean = getAllNightBoothDAOBean;
         this.getAllFoodBoothDAOBean = getAllFoodBoothDAOBean;
