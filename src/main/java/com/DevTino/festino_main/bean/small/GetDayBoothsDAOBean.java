@@ -1,19 +1,19 @@
 package com.DevTino.festino_main.bean.small;
 
 import com.DevTino.festino_main.domain.entity.DayBoothDAO;
-import com.DevTino.festino_main.repository.JPADayBoothRepository;
+import com.DevTino.festino_main.repository.DayBoothRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class GetAllDayBoothDAOBean {
+public class GetDayBoothsDAOBean {
 
-    JPADayBoothRepository jpaDayBoothRepository;
+    DayBoothRepositoryJPA jpaDayBoothRepository;
 
     @Autowired
-    public GetAllDayBoothDAOBean(JPADayBoothRepository jpaDayBoothRepository){
+    public GetDayBoothsDAOBean(DayBoothRepositoryJPA jpaDayBoothRepository){
         this.jpaDayBoothRepository = jpaDayBoothRepository;
     }
 

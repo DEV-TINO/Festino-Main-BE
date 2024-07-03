@@ -1,19 +1,19 @@
 package com.DevTino.festino_main.bean.small;
 
 import com.DevTino.festino_main.domain.entity.FoodBoothDAO;
-import com.DevTino.festino_main.repository.JPAFoodBoothRepository;
+import com.DevTino.festino_main.repository.FoodBoothRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class GetAllFoodBoothDAOBean {
+public class GetFoodBoothsDAOBean {
 
-    JPAFoodBoothRepository jpaFoodBoothRepository;
+    FoodBoothRepositoryJPA jpaFoodBoothRepository;
 
     @Autowired
-    public GetAllFoodBoothDAOBean(JPAFoodBoothRepository jpaFoodBoothRepository){
+    public GetFoodBoothsDAOBean(FoodBoothRepositoryJPA jpaFoodBoothRepository){
         this.jpaFoodBoothRepository = jpaFoodBoothRepository;
     }
 
