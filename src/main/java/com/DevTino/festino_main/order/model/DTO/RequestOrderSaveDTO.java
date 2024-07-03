@@ -9,7 +9,7 @@ public class RequestOrderSaveDTO {
     Integer tableNum;
     String userName;
     String phoneNum;
-    List<MenuInfoDTO> menuList;
+    List<MenuInfoDTO> menuInfo;
     Integer totalPrice;
     Boolean isCoupon;
 }
