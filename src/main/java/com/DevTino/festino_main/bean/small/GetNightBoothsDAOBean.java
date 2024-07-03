@@ -10,15 +10,15 @@ import java.util.List;
 @Component
 public class GetNightBoothsDAOBean {
 
-    NightBoothRepositoryJPA jpaNightBoothRepository;
+    NightBoothRepositoryJPA nightBoothRepositoryJPA;
 
     @Autowired
-    public GetNightBoothsDAOBean(NightBoothRepositoryJPA jpaNightBoothRepository){
-        this.jpaNightBoothRepository = jpaNightBoothRepository;
+    public GetNightBoothsDAOBean(NightBoothRepositoryJPA nightBoothRepositoryJPA){
+        this.nightBoothRepositoryJPA = nightBoothRepositoryJPA;
     }
 
     // 야간 부스 리스트 가져오기
     public List<NightBoothDAO> exec(){
-        return jpaNightBoothRepository.findAll();
+        return nightBoothRepositoryJPA.findAll();
     }
 }

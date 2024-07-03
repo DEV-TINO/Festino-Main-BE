@@ -12,12 +12,12 @@ import java.util.UUID;
 @Component
 public class GetNightBoothBean {
     GetNightBoothDAOBean getNightBoothDAOBean;
-    CreateNightBoothDTOBean saveNightBoothDTOBean;
+    CreateNightBoothDTOBean createNightBoothDTOBean;
 
     @Autowired
-    public GetNightBoothBean(GetNightBoothDAOBean getNightBoothDAOBean, CreateNightBoothDTOBean saveNightBoothDTOBean){
+    public GetNightBoothBean(GetNightBoothDAOBean getNightBoothDAOBean, CreateNightBoothDTOBean createNightBoothDTOBean){
         this.getNightBoothDAOBean = getNightBoothDAOBean;
-        this.saveNightBoothDTOBean = saveNightBoothDTOBean;
+        this.createNightBoothDTOBean = createNightBoothDTOBean;
     }
 
     // 야간 부스 전체 조회
@@ -28,6 +28,6 @@ public class GetNightBoothBean {
         if(nightBoothDAO == null) return null;
 
         // 가져온 dao를 dto로 변환
-        return saveNightBoothDTOBean.exec(nightBoothDAO);
+        return createNightBoothDTOBean.exec(nightBoothDAO);
     }
 }

@@ -10,15 +10,15 @@ import java.util.List;
 @Component
 public class GetDayBoothsDAOBean {
 
-    DayBoothRepositoryJPA jpaDayBoothRepository;
+    DayBoothRepositoryJPA dayBoothRepositoryJPA;
 
     @Autowired
-    public GetDayBoothsDAOBean(DayBoothRepositoryJPA jpaDayBoothRepository){
-        this.jpaDayBoothRepository = jpaDayBoothRepository;
+    public GetDayBoothsDAOBean(DayBoothRepositoryJPA dayBoothRepositoryJPA){
+        this.dayBoothRepositoryJPA = dayBoothRepositoryJPA;
     }
 
     // 주간 부스 리스트 가져오기
     public List<DayBoothDAO> exec(){
-        return jpaDayBoothRepository.findAll();
+        return dayBoothRepositoryJPA.findAll();
     }
 }

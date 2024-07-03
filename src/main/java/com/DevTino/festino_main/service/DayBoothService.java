@@ -18,7 +18,7 @@ public class DayBoothService {
     }
 
     // 주간 부스 디테일 조회
-    public ResponseDayBoothDTO read(UUID boothId) {
+    public ResponseDayBoothDTO getDayBooth(UUID boothId) {
         return getDayBoothBean.exec(boothId);
     }
 }

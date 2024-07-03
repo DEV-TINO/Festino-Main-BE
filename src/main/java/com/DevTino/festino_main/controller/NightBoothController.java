@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/main/booth")
 public class NightBoothController {
 
-    private NightBoothService nightBoothService;
+    NightBoothService nightBoothService;
 
     @Autowired
     public NightBoothController(NightBoothService nightBoothService){
@@ -25,15 +25,15 @@ public class NightBoothController {
 
     // 야간 부스 디테일 조회
     @GetMapping("/night/{boothId}")
-    public ResponseEntity<Map<String, Object>> read(@PathVariable UUID boothId){
-        ResponseNightBoothDTO responseNightBoothDTO = nightBoothService.read(boothId);
+    public ResponseEntity<Map<String, Object>> getNightBooth(@PathVariable UUID boothId){
+        ResponseNightBoothDTO responseNightBoothDTO = nightBoothService.getNightBooth(boothId);
 
         boolean success = (responseNightBoothDTO == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "야간 부스 저장 성공" : "야간 부스 저장 시 DAO 저장 실패");
-        requestMap.put("responseNightBoothDTO", responseNightBoothDTO);
+        requestMap.put("boothInfo", responseNightBoothDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }

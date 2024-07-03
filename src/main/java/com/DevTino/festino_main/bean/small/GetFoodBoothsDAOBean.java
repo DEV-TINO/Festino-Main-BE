@@ -10,15 +10,15 @@ import java.util.List;
 @Component
 public class GetFoodBoothsDAOBean {
 
-    FoodBoothRepositoryJPA jpaFoodBoothRepository;
+    FoodBoothRepositoryJPA foodBoothRepositoryJPA;
 
     @Autowired
-    public GetFoodBoothsDAOBean(FoodBoothRepositoryJPA jpaFoodBoothRepository){
-        this.jpaFoodBoothRepository = jpaFoodBoothRepository;
+    public GetFoodBoothsDAOBean(FoodBoothRepositoryJPA foodBoothRepositoryJPA){
+        this.foodBoothRepositoryJPA = foodBoothRepositoryJPA;
     }
 
     // 푸드트럭 부스 리스트 가져오기
     public List<FoodBoothDAO> exec(){
-        return jpaFoodBoothRepository.findAll();
+        return foodBoothRepositoryJPA.findAll();
     }
 }

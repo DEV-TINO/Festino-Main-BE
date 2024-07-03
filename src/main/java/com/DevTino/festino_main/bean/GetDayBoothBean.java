@@ -13,12 +13,12 @@ import java.util.UUID;
 public class GetDayBoothBean {
 
     GetDayBoothDAOBean getDayBoothDAOBean;
-    CreateDayBoothDTOBean saveDayBoothDTOBean;
+    CreateDayBoothDTOBean createDayBoothDTOBean;
 
     @Autowired
-    public GetDayBoothBean(GetDayBoothDAOBean getDayBoothDAOBean, CreateDayBoothDTOBean saveDayBoothDTOBean){
+    public GetDayBoothBean(GetDayBoothDAOBean getDayBoothDAOBean, CreateDayBoothDTOBean createDayBoothDTOBean){
         this.getDayBoothDAOBean = getDayBoothDAOBean;
-        this.saveDayBoothDTOBean = saveDayBoothDTOBean;
+        this.createDayBoothDTOBean = createDayBoothDTOBean;
     }
 
     // 주간 부스 전체 조회
@@ -29,6 +29,6 @@ public class GetDayBoothBean {
         if(dayBoothDAO == null) return null;
 
         // 가져온 dao를 dto로 변환
-        return saveDayBoothDTOBean.exec(dayBoothDAO);
+        return createDayBoothDTOBean.exec(dayBoothDAO);
     }
 }

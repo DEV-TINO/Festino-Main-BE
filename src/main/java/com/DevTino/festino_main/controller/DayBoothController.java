@@ -16,7 +16,7 @@ import java.util.UUID;
 @RequestMapping("/main/booth")
 public class DayBoothController {
 
-    private DayBoothService dayBoothService;
+    DayBoothService dayBoothService;
 
     @Autowired
     public DayBoothController(DayBoothService dayBoothService){
@@ -25,8 +25,8 @@ public class DayBoothController {
 
     // 주간 부스 디테일 조회
     @GetMapping("/day/{boothId}")
-    public ResponseEntity<Map<String, Object>> read(@PathVariable UUID boothId){
-        ResponseDayBoothDTO responseDayBoothDTO = dayBoothService.read(boothId);
+    public ResponseEntity<Map<String, Object>> getDayBooth(@PathVariable UUID boothId){
+        ResponseDayBoothDTO responseDayBoothDTO = dayBoothService.getDayBooth(boothId);
 
         boolean success = (responseDayBoothDTO == null) ? false : true;
 

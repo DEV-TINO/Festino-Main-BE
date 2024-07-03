@@ -18,7 +18,7 @@ public class FoodBoothService {
     }
 
     // 푸드트럭 디테일 조회
-    public ResponseFoodBoothDTO read(UUID boothId){
+    public ResponseFoodBoothDTO getFoodBooth(UUID boothId){
         return getFoodBoothBean.exec(boothId);
     }
 }

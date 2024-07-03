@@ -1,7 +1,7 @@
 package com.DevTino.festino_main.controller;
 
 import com.DevTino.festino_main.domain.DTO.ResponseAllBoothDTO;
-import com.DevTino.festino_main.service.AllBoothService;
+import com.DevTino.festino_main.service.BoothService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,26 +14,26 @@ import java.util.Map;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/main/booth")
-public class AllBoothController {
+public class BoothController {
 
-    AllBoothService categoryBoothService;
+    BoothService boothService;
 
     @Autowired
-    public AllBoothController(AllBoothService categoryBoothService){
-        this.categoryBoothService = categoryBoothService;
+    public BoothController(BoothService boothService){
+        this.boothService = boothService;
     }
 
     // 부스 전체 조회
     @GetMapping("/all")
-    public ResponseEntity<Map<String, Object>> read(){
-        Map<String, List<ResponseAllBoothDTO>> stringListMap = categoryBoothService.read();
+    public ResponseEntity<Map<String, Object>> getBooths(){
+        Map<String, List<ResponseAllBoothDTO>> boothInfo = boothService.getBooths();
 
-        boolean success = (stringListMap == null) ? false : true;
+        boolean success = (boothInfo == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "전체 부스 저장 성공" : "전체 부스 저장 시 DAO 저장 실패");
-        requestMap.put("boothInfo", stringListMap);
+        requestMap.put("boothInfo", boothInfo);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }

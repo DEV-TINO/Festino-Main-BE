@@ -25,15 +25,15 @@ public class FoodBoothController {
 
     // 푸드트럭 디테일 조회
     @GetMapping("/food/{boothId}")
-    public ResponseEntity<Map<String, Object>> read(@PathVariable UUID boothId){
-        ResponseFoodBoothDTO responseFoodBoothDTO = foodBoothService.read(boothId);
+    public ResponseEntity<Map<String, Object>> getFoodBooth(@PathVariable UUID boothId){
+        ResponseFoodBoothDTO responseFoodBoothDTO = foodBoothService.getFoodBooth(boothId);
 
         boolean success = (responseFoodBoothDTO == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "푸드트럭 부스 저장 성공" : "푸드트럭 부스 저장 시 DAO 저장 실패");
-        requestMap.put("responseFoodBoothDTO", responseFoodBoothDTO);
+        requestMap.put("boothInfo", responseFoodBoothDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }

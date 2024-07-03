@@ -13,12 +13,12 @@ import java.util.UUID;
 public class GetFoodBoothBean {
 
     GetFoodBoothDAOBean getFoodBoothDAOBean;
-    CreateFoodBoothDTOBean saveFoodBoothDTOBean;
+    CreateFoodBoothDTOBean createFoodBoothDTOBean;
 
     @Autowired
-    public GetFoodBoothBean(GetFoodBoothDAOBean getFoodBoothDAOBean, CreateFoodBoothDTOBean saveFoodBoothDTOBean){
+    public GetFoodBoothBean(GetFoodBoothDAOBean getFoodBoothDAOBean, CreateFoodBoothDTOBean createFoodBoothDTOBean){
         this.getFoodBoothDAOBean = getFoodBoothDAOBean;
-        this.saveFoodBoothDTOBean = saveFoodBoothDTOBean;
+        this.createFoodBoothDTOBean = createFoodBoothDTOBean;
     }
 
     // 푸드트럭 부스 전체 조회
@@ -29,6 +29,6 @@ public class GetFoodBoothBean {
         if(foodBoothDAO == null) return null;
 
         // 가져온 dao를 dto로 변환
-        return saveFoodBoothDTOBean.exec(foodBoothDAO);
+        return createFoodBoothDTOBean.exec(foodBoothDAO);
     }
 }
