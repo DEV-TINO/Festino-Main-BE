@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CreateNoticeDTOBean {
 
+    // DTO 값 넣기
     public ResponseNoticeGetDTO exec(NoticeDAO noticeDAO){
         return ResponseNoticeGetDTO.builder()
                 .noticeId(noticeDAO.getNoticeId())

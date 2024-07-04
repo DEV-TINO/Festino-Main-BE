@@ -17,6 +17,7 @@ public class GetNoticeDAOBean {
         this.noticeRepositoryJPA = noticeRepositoryJPA;
     }
 
+    // DAO 가져오기
     public NoticeDAO exec(UUID noticeId){
         return noticeRepositoryJPA.findById(noticeId).orElse(null);
     }

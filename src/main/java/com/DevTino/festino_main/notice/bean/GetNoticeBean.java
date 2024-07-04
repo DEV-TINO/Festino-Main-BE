@@ -21,6 +21,7 @@ public class GetNoticeBean {
         this.createNoticeDTOBean = createNoticeDTOBean;
     }
 
+    // 특정 공지 조회
     public ResponseNoticeGetDTO exec(UUID noticeId){
         NoticeDAO noticeDAO = getNoticeDAOBean.exec(noticeId);
         if (noticeDAO == null) return null;
