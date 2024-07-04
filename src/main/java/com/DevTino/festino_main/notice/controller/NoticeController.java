@@ -35,7 +35,7 @@ public class NoticeController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "공지 저장 성공" : "공지 저장 시 DAO 저장 실패");
-        requestMap.put("NoticeInfo", responseNoticeDTO);
+        requestMap.put("noticeInfo", responseNoticeDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
