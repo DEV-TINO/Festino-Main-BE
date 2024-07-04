@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class ResponseNoticeDTO {
+public class ResponseNoticeGetDTO {
     UUID noticeId;
     String title;
     String writerName;

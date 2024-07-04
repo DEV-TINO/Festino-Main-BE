@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.notice.controller;
 
-import com.DevTino.festino_main.notice.domain.DTO.ResponseNoticeDTO;
+import com.DevTino.festino_main.notice.domain.DTO.ResponseNoticeGetDTO;
 import com.DevTino.festino_main.notice.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,14 +28,14 @@ public class NoticeController {
 
     @GetMapping("/{noticeId}")
     public ResponseEntity<Map<String, Object>> getNotice(UUID noticeId){
-        ResponseNoticeDTO responseNoticeDTO = noticeService.getNotice(noticeId);
+        ResponseNoticeGetDTO responseNoticeGetDTO = noticeService.getNotice(noticeId);
 
-        boolean success = (responseNoticeDTO == null) ? false : true;
+        boolean success = (responseNoticeGetDTO == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "공지 저장 성공" : "공지 저장 시 DAO 저장 실패");
-        requestMap.put("noticeInfo", responseNoticeDTO);
+        requestMap.put("noticeInfo", responseNoticeGetDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
