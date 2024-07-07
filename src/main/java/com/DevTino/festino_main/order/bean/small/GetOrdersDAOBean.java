@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class GetOrderByUserNameAndPhoneNumOrderByCreateAtDescDAOsBean {
+public class GetOrdersDAOBean {
     OrderRepositoryJPA orderRepositoryJPA;
 
-    public GetOrderByUserNameAndPhoneNumOrderByCreateAtDescDAOsBean(OrderRepositoryJPA orderRepositoryJPA) {
+    public GetOrdersDAOBean(OrderRepositoryJPA orderRepositoryJPA) {
         this.orderRepositoryJPA = orderRepositoryJPA;
     }
 
