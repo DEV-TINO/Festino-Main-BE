@@ -30,7 +30,6 @@ public class OrderDAO {
 
     LocalDateTime createAt;
 
-    Boolean isDeposit;
     Boolean isCoupon;
     Boolean isDeleted;
 }

@@ -20,7 +20,6 @@ public class CreateOrderDAOBean {
                 .menuList(requestOrderSaveDTO.getMenuInfo())
                 .totalPrice(requestOrderSaveDTO.getTotalPrice())
                 .createAt(LocalDateTime.now())
-                .isDeposit(false)
                 .isCoupon(requestOrderSaveDTO.getIsCoupon())
                 .isDeleted(false)
                 .build();
