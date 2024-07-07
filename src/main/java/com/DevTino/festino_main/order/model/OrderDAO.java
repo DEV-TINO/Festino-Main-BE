@@ -1,6 +1,7 @@
 package com.DevTino.festino_main.order.model;
 
 import com.DevTino.festino_main.order.model.DTO.MenuInfoDTO;
+import com.DevTino.festino_main.order.others.StringListConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,8 +23,7 @@ public class OrderDAO {
     String userName;
     String phoneNum;
 
-    @ElementCollection
-    @CollectionTable(name = "order_menu", joinColumns = @JoinColumn(name = "order_id"))
+    @Convert(converter = StringListConverter.class)
     List<MenuInfoDTO> menuList;
 
     Integer totalPrice;
