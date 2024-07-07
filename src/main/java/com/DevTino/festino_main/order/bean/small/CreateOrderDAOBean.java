@@ -17,7 +17,7 @@ public class CreateOrderDAOBean {
                 .tableNum(requestOrderSaveDTO.getTableNum())
                 .userName(requestOrderSaveDTO.getUserName())
                 .phoneNum(requestOrderSaveDTO.getPhoneNum())
-                .menuList(requestOrderSaveDTO.getMenuInfo())
+                .menuInfo(requestOrderSaveDTO.getMenuInfo())
                 .totalPrice(requestOrderSaveDTO.getTotalPrice())
                 .createAt(LocalDateTime.now())
                 .isCoupon(requestOrderSaveDTO.getIsCoupon())

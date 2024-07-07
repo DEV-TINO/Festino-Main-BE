@@ -18,7 +18,7 @@ public class CreateResponseGetDTOBean {
             responseOrderGetDTOList.add(ResponseOrderGetDTO.builder()
                             .createAt(orderDAO.getCreateAt())
                             .tableNum(orderDAO.getTableNum())
-                            .menuInfo(orderDAO.getMenuList())
+                            .menuInfo(orderDAO.getMenuInfo())
                             .totalPrice(orderDAO.getTotalPrice())
                             .build());
         }
