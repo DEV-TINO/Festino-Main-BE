@@ -10,6 +10,7 @@ import java.util.UUID;
 public class ResponseNoticesGetDTO {
     UUID noticeId;
     String title;
+    String writerName;
     String imageUrl;
     String content;
     Boolean isPin;
