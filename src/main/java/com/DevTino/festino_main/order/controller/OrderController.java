@@ -1,8 +1,8 @@
 package com.DevTino.festino_main.order.controller;
 
-import com.DevTino.festino_main.order.model.DTO.RequestOrderGetDTO;
-import com.DevTino.festino_main.order.model.DTO.RequestOrderSaveDTO;
-import com.DevTino.festino_main.order.model.DTO.ResponseOrderGetDTO;
+import com.DevTino.festino_main.order.domain.DTO.RequestOrderGetDTO;
+import com.DevTino.festino_main.order.domain.DTO.RequestOrderSaveDTO;
+import com.DevTino.festino_main.order.domain.DTO.ResponseOrderGetDTO;
 import com.DevTino.festino_main.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

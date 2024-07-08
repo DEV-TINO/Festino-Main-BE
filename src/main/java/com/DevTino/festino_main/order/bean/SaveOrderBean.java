@@ -2,8 +2,8 @@ package com.DevTino.festino_main.order.bean;
 
 import com.DevTino.festino_main.order.bean.small.CreateOrderDAOBean;
 import com.DevTino.festino_main.order.bean.small.SaveOrderDAOBean;
-import com.DevTino.festino_main.order.model.DTO.RequestOrderSaveDTO;
-import com.DevTino.festino_main.order.model.OrderDAO;
+import com.DevTino.festino_main.order.domain.DTO.RequestOrderSaveDTO;
+import com.DevTino.festino_main.order.domain.OrderDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

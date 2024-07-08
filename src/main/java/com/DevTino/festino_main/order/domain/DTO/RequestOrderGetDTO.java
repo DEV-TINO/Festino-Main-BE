@@ -1,4 +1,4 @@
-package com.DevTino.festino_main.order.model.DTO;
+package com.DevTino.festino_main.order.domain.DTO;
 
 import lombok.Data;
 

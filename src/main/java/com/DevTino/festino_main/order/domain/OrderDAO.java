@@ -1,4 +1,4 @@
-package com.DevTino.festino_main.order.model;
+package com.DevTino.festino_main.order.domain;
 
 import com.DevTino.festino_main.order.others.StringListConverter;
 import jakarta.persistence.*;

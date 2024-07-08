@@ -2,9 +2,9 @@ package com.DevTino.festino_main.order.bean;
 
 import com.DevTino.festino_main.order.bean.small.CreateResponseGetDTOBean;
 import com.DevTino.festino_main.order.bean.small.GetOrdersDAOBean;
-import com.DevTino.festino_main.order.model.DTO.RequestOrderGetDTO;
-import com.DevTino.festino_main.order.model.DTO.ResponseOrderGetDTO;
-import com.DevTino.festino_main.order.model.OrderDAO;
+import com.DevTino.festino_main.order.domain.DTO.RequestOrderGetDTO;
+import com.DevTino.festino_main.order.domain.DTO.ResponseOrderGetDTO;
+import com.DevTino.festino_main.order.domain.OrderDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,22 +1,24 @@
-package com.DevTino.festino_main.order.model.DTO;
+package com.DevTino.festino_main.order.domain.DTO;
 
 import com.DevTino.festino_main.order.others.StringListConverter;
 import jakarta.persistence.Convert;
-import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Data
-@Builder
-public class ResponseOrderGetDTO {
+public class RequestOrderSaveDTO {
+    UUID boothId;
+
     Integer tableNum;
-    LocalDateTime createAt;
+    String userName;
+    String phoneNum;
 
     @Convert(converter = StringListConverter.class)
     List<Map<String, Object>> menuInfo;
 
     Integer totalPrice;
+    Boolean isCoupon;
 }

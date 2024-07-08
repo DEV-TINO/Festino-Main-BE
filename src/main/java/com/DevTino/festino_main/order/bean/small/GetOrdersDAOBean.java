@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.order.bean.small;
 
-import com.DevTino.festino_main.order.model.OrderDAO;
+import com.DevTino.festino_main.order.domain.OrderDAO;
 import com.DevTino.festino_main.order.repository.OrderRepositoryJPA;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
