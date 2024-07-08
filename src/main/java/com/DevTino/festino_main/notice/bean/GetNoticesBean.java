@@ -21,6 +21,7 @@ public class GetNoticesBean {
         this.createNoticesDTOBean = createNoticesDTOBean;
     }
 
+    // 공지 전체 리스트 가져온 다음 반환
     public List<ResponseNoticesGetDTO> exec(){
 
         List<NoticeDAO> noticeDAOList = getNoticesDAOBean.exec();

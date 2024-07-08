@@ -17,6 +17,7 @@ public class GetNoticesDAOBean {
         this.noticeRepositoryJPA = noticeRepositoryJPA;
     }
 
+    // 공지 전체 리스트 가져오기
     public List<NoticeDAO> exec() {
         return noticeRepositoryJPA.findAll();
     }

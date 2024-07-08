@@ -17,6 +17,7 @@ public class NoticesService {
         this.getNoticesBean = getNoticesBean;
     }
 
+    // 공지 전체 조회
     public List<ResponseNoticesGetDTO> getNotices(){
         return getNoticesBean.exec();
     }

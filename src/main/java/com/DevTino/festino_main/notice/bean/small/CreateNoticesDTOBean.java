@@ -21,10 +21,12 @@ public class CreateNoticesDTOBean {
                 .build();
     }
 
+
     public List<ResponseNoticesGetDTO> exec(List<NoticeDAO> noticeDAOList){
 
         List<ResponseNoticesGetDTO> responseNoticesGetDTOList = new ArrayList<>();
 
+        // 공지 전체 리스트로 가져오기
         for (NoticeDAO noticeDAO : noticeDAOList){
             ResponseNoticesGetDTO responseNoticesGetDTO = exec(noticeDAO);
 
