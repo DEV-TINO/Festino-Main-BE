@@ -14,6 +14,7 @@ public class CreateNoticesDTOBean {
         return ResponseNoticesGetDTO.builder()
                 .noticeId(noticeDAO.getNoticeId())
                 .title(noticeDAO.getTitle())
+                .updateAt(noticeDAO.getUpdateAt())
                 .writerName(noticeDAO.getWriterName())
                 .imageUrl(noticeDAO.getImageUrl())
                 .content(noticeDAO.getContent())
