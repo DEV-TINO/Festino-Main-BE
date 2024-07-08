@@ -18,6 +18,6 @@ public class GetOrdersDAOBean {
     // 유저의 이름과 핸드폰 번호로 주문 내역들을 조회
     @Transactional(readOnly = true)
     public List<OrderDAO> exec(String userName, String phoneNum) {
-        return orderRepositoryJPA.findAllByUserNameAndPhoneNumAndIsDeletedOrderByCreateAtDesc(userName, phoneNum, false);
+        return orderRepositoryJPA.findAllByUserNameAndPhoneNumOrderByCreateAtDesc(userName, phoneNum);
     }
 }

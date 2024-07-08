@@ -33,5 +33,4 @@ public class OrderDAO {
     LocalDateTime createAt;
 
     Boolean isCoupon;
-    Boolean isDeleted;
 }

@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface OrderRepositoryJPA extends JpaRepository<OrderDAO, UUID> {
-    List<OrderDAO> findAllByUserNameAndPhoneNumAndIsDeletedOrderByCreateAtDesc(String userName, String phoneNum, Boolean isDeleted);
+    List<OrderDAO> findAllByUserNameAndPhoneNumOrderByCreateAtDesc(String userName, String phoneNum);
 }

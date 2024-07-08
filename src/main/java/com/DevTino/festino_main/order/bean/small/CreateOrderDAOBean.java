@@ -22,7 +22,6 @@ public class CreateOrderDAOBean {
                 .totalPrice(requestOrderSaveDTO.getTotalPrice())
                 .createAt(LocalDateTime.now())
                 .isCoupon(requestOrderSaveDTO.getIsCoupon())
-                .isDeleted(false)
                 .build();
     }
 }
