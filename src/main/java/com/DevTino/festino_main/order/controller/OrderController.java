@@ -37,7 +37,7 @@ public class OrderController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", orderId != null);
         requestMap.put("message", (orderId == null) ? "order failure": "order success");
-        requestMap.put("orderId", (orderId == null) ? "00000000-0000-0000-000000000000" : orderId);
+        requestMap.put("orderId", (orderId == null) ? "00000000-0000-0000-0000-000000000000" : orderId);
 
         return ResponseEntity.status(httpStatus).body(requestMap);
     }

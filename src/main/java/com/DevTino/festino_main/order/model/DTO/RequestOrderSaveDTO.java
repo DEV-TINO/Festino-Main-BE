@@ -6,9 +6,12 @@ import lombok.Data;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Data
 public class RequestOrderSaveDTO {
+    UUID boothId;
+
     Integer tableNum;
     String userName;
     String phoneNum;

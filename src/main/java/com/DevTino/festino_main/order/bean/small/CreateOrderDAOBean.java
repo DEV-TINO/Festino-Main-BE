@@ -14,6 +14,7 @@ public class CreateOrderDAOBean {
     public OrderDAO exec(RequestOrderSaveDTO requestOrderSaveDTO) {
         return OrderDAO.builder()
                 .orderId(UUID.randomUUID())
+                .boothId(requestOrderSaveDTO.getBoothId())
                 .tableNum(requestOrderSaveDTO.getTableNum())
                 .userName(requestOrderSaveDTO.getUserName())
                 .phoneNum(requestOrderSaveDTO.getPhoneNum())

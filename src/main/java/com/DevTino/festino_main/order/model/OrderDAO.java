@@ -19,6 +19,8 @@ public class OrderDAO {
     @Id
     UUID orderId;
 
+    UUID boothId;
+
     Integer tableNum;
     String userName;
     String phoneNum;
