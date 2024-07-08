@@ -19,6 +19,6 @@ public class GetNoticesDAOBean {
 
     // 공지 전체 리스트 가져오기
     public List<NoticeDAO> exec() {
-        return noticeRepositoryJPA.findAll();
+        return noticeRepositoryJPA.findByOrderByIsPinDescUpdateAtDesc();
     }
 }
