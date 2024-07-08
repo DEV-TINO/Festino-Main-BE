@@ -24,6 +24,7 @@ public class GetNoticesBean {
     // 공지 전체 리스트 가져온 다음 반환
     public List<ResponseNoticesGetDTO> exec(){
 
+        // 핀여부, 업로드 시간 순으로 내림차순 정렬하여 리스트로 가져오기
         List<NoticeDAO> noticeDAOList = getNoticesDAOBean.exec();
 
         return createNoticesDTOBean.exec(noticeDAOList);

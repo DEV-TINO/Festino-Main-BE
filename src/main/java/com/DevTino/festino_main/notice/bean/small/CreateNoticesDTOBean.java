@@ -22,6 +22,7 @@ public class CreateNoticesDTOBean {
     }
 
 
+    // 공지 전체 리스트로 반환
     public List<ResponseNoticesGetDTO> exec(List<NoticeDAO> noticeDAOList){
 
         List<ResponseNoticesGetDTO> responseNoticesGetDTOList = new ArrayList<>();
