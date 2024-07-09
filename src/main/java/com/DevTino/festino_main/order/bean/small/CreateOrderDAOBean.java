@@ -2,6 +2,7 @@ package com.DevTino.festino_main.order.bean.small;
 
 import com.DevTino.festino_main.order.domain.DTO.RequestOrderSaveDTO;
 import com.DevTino.festino_main.order.domain.OrderDAO;
+import com.DevTino.festino_main.order.domain.OrderType;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

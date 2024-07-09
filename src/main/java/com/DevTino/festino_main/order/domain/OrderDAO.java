@@ -20,7 +20,7 @@ public class OrderDAO {
     UUID orderId;
 
     UUID boothId;
-
+    OrderType orderType;
     Integer tableNum;
     String userName;
     String phoneNum;
