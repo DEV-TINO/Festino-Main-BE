@@ -23,6 +23,7 @@ public class NoticeController {
         this.noticeService = noticeService;
     }
 
+    // 공지 전체 조회
     @GetMapping("/{noticeId}")
     public ResponseEntity<Map<String, Object>> getNotice(@PathVariable UUID noticeId){
         ResponseNoticeGetDTO responseNoticeGetDTO = noticeService.getNotice(noticeId);
