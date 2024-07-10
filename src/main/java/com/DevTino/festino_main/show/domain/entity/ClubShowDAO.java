@@ -15,17 +15,15 @@ import java.util.UUID;
 @Builder
 public class ClubShowDAO {
     @Id
-    UUID talentId;
+    UUID clubId;
 
     String clubName;
-    String showData;
+    String showDate;
     String showStartTime;
     String showEndTime;
     String clubImage;
-
-    Boolean isShowing;
+    String clubDescription;
 
     LocalDateTime createAt;
     LocalDateTime updateAt;
-
 }
