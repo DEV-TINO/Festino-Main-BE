@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-public class menuDAO {
+public class MenuDAO {
     @Id
     UUID menuId;
     UUID boothId;
