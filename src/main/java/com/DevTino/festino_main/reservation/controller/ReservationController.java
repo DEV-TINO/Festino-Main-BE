@@ -37,7 +37,7 @@ public class ReservationController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", reservationId != null);
         requestMap.put("message", (reservationId == null) ? "already reservation exist": "reservation success");
-        requestMap.put("reservationId", (reservationId == null) ? "00000000-0000-0000-000000000000" : reservationId);
+        requestMap.put("reservationId", (reservationId == null) ? "00000000-0000-0000-0000-000000000000" : reservationId);
 
         return ResponseEntity.status(httpStatus).body(requestMap);
     }
