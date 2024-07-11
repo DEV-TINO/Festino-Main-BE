@@ -1,8 +1,8 @@
 package com.DevTino.festino_main.reservation.controller;
 
-import com.DevTino.festino_main.reservation.model.DTO.RequestReservationGetDTO;
-import com.DevTino.festino_main.reservation.model.DTO.RequestReservationSaveDTO;
-import com.DevTino.festino_main.reservation.model.DTO.ResponseReservationGetDTO;
+import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationGetDTO;
+import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
+import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationGetDTO;
 import com.DevTino.festino_main.reservation.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,7 +37,7 @@ public class ReservationController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", reservationId != null);
         requestMap.put("message", (reservationId == null) ? "already reservation exist": "reservation success");
-        requestMap.put("reservationId", (reservationId == null) ? "00000000-0000-0000-000000000000" : reservationId);
+        requestMap.put("reservationId", (reservationId == null) ? "00000000-0000-0000-0000-000000000000" : reservationId);
 
         return ResponseEntity.status(httpStatus).body(requestMap);
     }

@@ -1,4 +1,4 @@
-package com.DevTino.festino_main.reservation.model.DTO;
+package com.DevTino.festino_main.reservation.domain.DTO;
 
 import lombok.Data;
 

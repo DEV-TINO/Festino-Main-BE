@@ -1,4 +1,4 @@
-package com.DevTino.festino_main.reservation.model;
+package com.DevTino.festino_main.reservation.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

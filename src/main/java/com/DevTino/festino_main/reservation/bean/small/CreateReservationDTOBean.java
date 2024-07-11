@@ -1,7 +1,7 @@
 package com.DevTino.festino_main.reservation.bean.small;
 
-import com.DevTino.festino_main.reservation.model.DTO.ResponseReservationGetDTO;
-import com.DevTino.festino_main.reservation.model.ReservationDAO;
+import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationGetDTO;
+import com.DevTino.festino_main.reservation.domain.ReservationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

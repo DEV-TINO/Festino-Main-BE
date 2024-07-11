@@ -2,9 +2,9 @@ package com.DevTino.festino_main.reservation.service;
 
 import com.DevTino.festino_main.reservation.bean.GetReservationBean;
 import com.DevTino.festino_main.reservation.bean.SaveReservationBean;
-import com.DevTino.festino_main.reservation.model.DTO.RequestReservationGetDTO;
-import com.DevTino.festino_main.reservation.model.DTO.RequestReservationSaveDTO;
-import com.DevTino.festino_main.reservation.model.DTO.ResponseReservationGetDTO;
+import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationGetDTO;
+import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
+import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationGetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
