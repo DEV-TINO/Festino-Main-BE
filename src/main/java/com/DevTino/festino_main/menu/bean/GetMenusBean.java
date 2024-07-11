@@ -22,7 +22,9 @@ public class GetMenusBean {
         this.createMenusDTOBean = createMenusDTOBean;
     }
 
+    // 부스 별 메뉴 전체 조회
     public List<ResponseMenuGetDTO> exec(UUID boothId){
+        // 메뉴 전체 가져오기
         List<MenuDAO> menuDAOList = getMenuDAOBean.exec();
         if(menuDAOList.isEmpty()) return null;
 

@@ -18,8 +18,8 @@ public class GetMenuDAOBean {
         this.menuRepositoryJPA = menuRepositoryJPA;
     }
 
+    // 메뉴 전체 리스트 반환
     public List<MenuDAO> exec(){
         return menuRepositoryJPA.findAll();
     }
-
 }

@@ -18,6 +18,7 @@ public class MenuService {
         this.getMenusBean = getMenusBean;
     }
 
+    // 부스 별 전체 메뉴 조회
     public List<ResponseMenuGetDTO> getMenus(UUID boothId){
         return getMenusBean.exec(boothId);
     }
