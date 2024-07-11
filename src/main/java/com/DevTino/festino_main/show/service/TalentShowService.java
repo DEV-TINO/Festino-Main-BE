@@ -17,6 +17,7 @@ public class TalentShowService {
         this.getTalentShowsBean = getTalentShowsBean;
     }
 
+    // 날짜 별 연예인 타임 테이블 조회
     public List<ResponseTalentShowsGetDTO> getShows(int day){
         return getTalentShowsBean.exec(day);
     }
