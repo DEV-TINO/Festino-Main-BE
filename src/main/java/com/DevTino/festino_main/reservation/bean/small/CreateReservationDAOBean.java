@@ -1,7 +1,7 @@
 package com.DevTino.festino_main.reservation.bean.small;
 
-import com.DevTino.festino_main.reservation.model.DTO.RequestReservationSaveDTO;
-import com.DevTino.festino_main.reservation.model.ReservationDAO;
+import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
+import com.DevTino.festino_main.reservation.domain.ReservationDAO;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

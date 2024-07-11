@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.reservation.repository;
 
-import com.DevTino.festino_main.reservation.model.ReservationDAO;
+import com.DevTino.festino_main.reservation.domain.ReservationDAO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
