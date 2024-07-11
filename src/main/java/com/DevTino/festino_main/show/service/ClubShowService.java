@@ -17,6 +17,7 @@ public class ClubShowService {
         this.getClubShowsBean = getClubShowsBean;
     }
 
+    // 날짜 별 동아리 타임 테이블 조회
     public List<ResponseClubShowsGetDTO> getShow(int day) {
         return getClubShowsBean.exec(day);
     }

@@ -17,6 +17,7 @@ public class GetClubShowDAOBean {
         this.clubShowRepositoryJPA = clubShowRepositoryJPA;
     }
 
+    // 동아리 전체 리스트로 가져오기
     public List<ClubShowDAO> exec() {
         return clubShowRepositoryJPA.findAll();
     }

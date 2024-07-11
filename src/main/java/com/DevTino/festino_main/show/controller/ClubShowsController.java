@@ -23,7 +23,7 @@ public class ClubShowsController {
         this.clubShowService = clubShowService;
     }
 
-    //@GetMapping("/club/all/date/{showDate}")
+    // 날짜 별 동아리 타임 테이블 전체 조회
     @GetMapping("/club/all/date/{year}/{month}/{day}")
     public ResponseEntity<Map<String, Object>> getShow(@PathVariable int day){
         List<ResponseClubShowsGetDTO> responseClubShowsGetDTOList = clubShowService.getShow(day);
