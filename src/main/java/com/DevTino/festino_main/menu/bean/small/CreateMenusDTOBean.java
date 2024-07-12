@@ -23,16 +23,14 @@ public class CreateMenusDTOBean {
     }
 
     // 해당 부스 메뉴 전체 반환
-    public List<ResponseMenuGetDTO> exec(List<MenuDAO> menuDAOList, UUID boothId){
+    public List<ResponseMenuGetDTO> exec(List<MenuDAO> menuDAOList){
         List<ResponseMenuGetDTO> responseMenuGetDTOList = new ArrayList<>();
 
         // 해당 부스 메뉴 전체 리스트 가져오기
         for(MenuDAO menuDAO : menuDAOList){
-            if(boothId.equals(menuDAO.getBoothId())){
                 ResponseMenuGetDTO responseMenuGetDTO = exec(menuDAO);
 
                 responseMenuGetDTOList.add(responseMenuGetDTO);
-            }
         }
         return responseMenuGetDTOList;
     }

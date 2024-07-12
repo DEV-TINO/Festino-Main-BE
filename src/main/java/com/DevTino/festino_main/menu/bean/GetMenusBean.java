@@ -25,9 +25,9 @@ public class GetMenusBean {
     // 부스 별 메뉴 전체 조회
     public List<ResponseMenuGetDTO> exec(UUID boothId){
         // 메뉴 전체 가져오기
-        List<MenuDAO> menuDAOList = getMenuDAOBean.exec();
-        if(menuDAOList.isEmpty()) return null;
+        List<MenuDAO> menuDAO = getMenuDAOBean.exec(boothId);
+        if(menuDAO == null) return null;
 
-        return createMenusDTOBean.exec(menuDAOList, boothId);
+        return createMenusDTOBean.exec(menuDAO);
     }
 }
