@@ -24,7 +24,7 @@ public class TalentShowController {
     }
 
     // 날짜 별 연예인 전체 조회
-    @GetMapping("/talent/all/date/{year}/{month}/{day}")
+    @GetMapping("/talent/all/date/{day}")
     public ResponseEntity<Map<String, Object>> getShows(@PathVariable int day){
         List<ResponseTalentShowsGetDTO> responseTalentShowsGetDTOList = talentShowService.getShows(day);
 
