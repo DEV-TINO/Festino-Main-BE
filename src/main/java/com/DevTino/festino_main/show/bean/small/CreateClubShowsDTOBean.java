@@ -33,6 +33,7 @@ public class CreateClubShowsDTOBean {
                 .showEndTime(clubShowDAO.getShowEndTime())
                 .clubImage(clubShowDAO.getClubImage())
                 .clubDescription(clubShowDAO.getClubDescription())
+                .instagram(clubShowDAO.getInstagram())
                 .isShowing(isShowing)
                 .build();
     }

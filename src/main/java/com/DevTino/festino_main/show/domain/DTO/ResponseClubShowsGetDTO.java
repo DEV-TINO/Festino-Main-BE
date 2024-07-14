@@ -15,5 +15,6 @@ public class ResponseClubShowsGetDTO {
     String showEndTime;
     String clubImage;
     String clubDescription;
+    String instagram;
     Boolean isShowing;
 }
