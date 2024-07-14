@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface NoticeRepositoryJPA extends JpaRepository<NoticeDAO, UUID> {
-    //
+
     List<NoticeDAO> findByOrderByIsPinDescUpdateAtDesc();
+
+    NoticeDAO findTop1ByOrderByIsPinDescUpdateAtDesc();
 }
