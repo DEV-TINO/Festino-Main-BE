@@ -44,7 +44,7 @@ public class ReservationController {
 
     // 예약 조회
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getReservation(@RequestBody RequestReservationGetDTO requestReservationGetDTO) {
+    public ResponseEntity<Map<String, Object>> getReservation(@RequestParam RequestReservationGetDTO requestReservationGetDTO) {
         ResponseReservationGetDTO responseReservationGetDTO = reservationService.getReservation(requestReservationGetDTO);
 
         // HTTP 상태 반환
