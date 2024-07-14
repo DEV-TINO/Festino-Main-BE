@@ -27,7 +27,7 @@ public class ReservationService {
     }
 
     // 예약 조회
-    public ResponseReservationGetDTO getReservation(RequestReservationGetDTO requestReservationGetDTO) {
-        return getReservationBean.exec(requestReservationGetDTO);
+    public ResponseReservationGetDTO getReservation(String userName, String phoneNum) {
+        return getReservationBean.exec(userName, phoneNum);
     }
 }

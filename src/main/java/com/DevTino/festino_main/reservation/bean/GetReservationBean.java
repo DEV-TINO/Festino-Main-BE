@@ -20,9 +20,9 @@ public class GetReservationBean {
     }
 
     // 예약 조회
-    public ResponseReservationGetDTO exec(RequestReservationGetDTO requestReservationGetDTO) {
+    public ResponseReservationGetDTO exec(String userName, String phoneNum) {
         // 예약된 내역이 있는지 조회
-        ReservationDAO reservationDAO = getReservationByUserNameAndPhoneNumDAOBean.exec(requestReservationGetDTO.getUserName(), requestReservationGetDTO.getPhoneNum());
+        ReservationDAO reservationDAO = getReservationByUserNameAndPhoneNumDAOBean.exec(userName, phoneNum);
 
         // 데이터가 없을 경우 null, 있을 경우 ResponseReservationGetDTO로 변환해서 반환
         return reservationDAO == null ? null : createReservationDTOBean.exec(reservationDAO);

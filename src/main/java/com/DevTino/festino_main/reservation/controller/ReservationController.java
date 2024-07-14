@@ -44,8 +44,8 @@ public class ReservationController {
 
     // 예약 조회
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getReservation(@RequestParam RequestReservationGetDTO requestReservationGetDTO) {
-        ResponseReservationGetDTO responseReservationGetDTO = reservationService.getReservation(requestReservationGetDTO);
+    public ResponseEntity<Map<String, Object>> getReservation(@RequestParam("userName") String userName, @RequestParam("phoneNum") String phoneNum) {
+        ResponseReservationGetDTO responseReservationGetDTO = reservationService.getReservation(userName, phoneNum);
 
         // HTTP 상태 반환
         HttpStatus httpStatus = (responseReservationGetDTO == null) ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.OK;
