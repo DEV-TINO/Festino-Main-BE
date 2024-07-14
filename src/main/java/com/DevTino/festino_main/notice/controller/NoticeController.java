@@ -40,6 +40,7 @@ public class NoticeController {
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
 
+    // 공지 전체 조회
     @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> getNotices(){
         List<ResponseNoticesGetDTO> responseNoticesGetDTOList = noticeService.getNotices()  ;
