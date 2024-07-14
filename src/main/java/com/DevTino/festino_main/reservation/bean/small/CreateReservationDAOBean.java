@@ -20,7 +20,7 @@ public class CreateReservationDAOBean {
                 .personCount(requestReservationSaveDTO.getPersonCount())
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
-                .isDeleted(false)
+                .isCancel(false)
                 .build();
     }
 }

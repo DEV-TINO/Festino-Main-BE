@@ -16,7 +16,8 @@ public class GetReservationsByBoothIdAndCreateAtLessThanDAOBean {
         this.reservationRepositoryJPA = reservationRepositoryJPA;
     }
 
+    // 특정 부스에서 취소되지 않은 데이터들을 내림차순으로 정렬해서 반환
     public List<ReservationDAO> exec(ReservationDAO reservationDAO) {
-        return reservationRepositoryJPA.findAllByBoothIdAndIsDeletedAndCreateAtLessThan(reservationDAO.getBoothId(), false, reservationDAO.getCreateAt());
+        return reservationRepositoryJPA.findAllByBoothIdAndIsCancelAndCreateAtLessThan(reservationDAO.getBoothId(), false, reservationDAO.getCreateAt());
     }
 }

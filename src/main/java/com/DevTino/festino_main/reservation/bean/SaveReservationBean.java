@@ -1,6 +1,5 @@
 package com.DevTino.festino_main.reservation.bean;
 
-import com.DevTino.festino_main.booth.bean.GetNightBoothBean;
 import com.DevTino.festino_main.booth.bean.small.GetNightBoothDAOBean;
 import com.DevTino.festino_main.booth.bean.small.SaveNightBoothDAOBean;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;

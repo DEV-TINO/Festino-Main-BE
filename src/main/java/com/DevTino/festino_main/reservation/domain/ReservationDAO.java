@@ -26,5 +26,5 @@ public class ReservationDAO {
     LocalDateTime createAt;
     LocalDateTime updateAt;
 
-    Boolean isDeleted;
+    Boolean isCancel;
 }
