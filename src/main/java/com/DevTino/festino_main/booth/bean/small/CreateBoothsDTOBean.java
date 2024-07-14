@@ -44,7 +44,7 @@ public class CreateBoothsDTOBean {
         // 맵에 주간부스, 야간부스, 푸드트럭 전체 리스트 추가
         newMap.put("dayBoothInfo", responseDayBoothsDTOList);
         newMap.put("nightBoothInfo", responseNightBoothsDTOList);
-        newMap.put("foodBoothList", responseFoodBoothsDTOList);
+        newMap.put("foodBoothInfo", responseFoodBoothsDTOList);
 
         //맵 반환
         return newMap;
