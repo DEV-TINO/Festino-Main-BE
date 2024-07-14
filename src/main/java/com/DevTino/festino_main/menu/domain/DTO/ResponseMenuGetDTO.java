@@ -14,4 +14,5 @@ public class ResponseMenuGetDTO {
     String menuImage;
     Integer menuPrice;
     Boolean isSoldOut;
+    String menuType;
 }
