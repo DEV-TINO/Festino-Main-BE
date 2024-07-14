@@ -21,4 +21,10 @@ public class GetNightBoothsDAOBean {
     public List<NightBoothDAO> exec(){
         return nightBoothRepositoryJPA.findAll();
     }
+
+    // isReservation이 true 인 것만 가져와서 정렬
+    public List<NightBoothDAO> exec(Boolean isReservation){
+        return nightBoothRepositoryJPA.findByIsReservation(isReservation);
+    }
+
 }
