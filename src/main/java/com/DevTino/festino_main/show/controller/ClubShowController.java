@@ -32,7 +32,7 @@ public class ClubShowController {
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
-        requestMap.put("message", success ? "동아리 타임 테이블 저장 성공" : "동아리 타임 테이블 저장 시 DAO 저장 실패");
+        requestMap.put("message", success ? "동아리 타임 테이블 성공" : "동아리 타임 테이블 실패");
         requestMap.put("showInfo", responseClubShowsGetDTOList);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
