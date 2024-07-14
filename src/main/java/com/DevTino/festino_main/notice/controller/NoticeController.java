@@ -23,7 +23,7 @@ public class NoticeController {
         this.noticeService = noticeService;
     }
 
-    // 공지 전체 조회
+    // 공지 조회
     @GetMapping("/{noticeId}")
     public ResponseEntity<Map<String, Object>> getNotice(@PathVariable UUID noticeId){
         ResponseNoticeGetDTO responseNoticeGetDTO = noticeService.getNotice(noticeId);
@@ -37,4 +37,20 @@ public class NoticeController {
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
+
+    // 가장 최근 공지 조회 - pin
+    @GetMapping("")
+    public ResponseEntity<Map<String, Object>> getRecentNotice(){
+        ResponseNoticeGetDTO responseNoticeGetDTO = noticeService.getRecentNotice();
+
+        boolean success = (responseNoticeGetDTO == null) ? false : true;
+
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("success", success);
+        requestMap.put("message", success ? "최근 공지 1개 성공" : "최근 공지 1개 실패");
+        requestMap.put("noticeInfo", responseNoticeGetDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+    }
+
 }
