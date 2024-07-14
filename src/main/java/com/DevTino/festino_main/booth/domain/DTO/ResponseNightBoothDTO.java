@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Data
@@ -18,7 +17,7 @@ public class ResponseNightBoothDTO {
     String openTime;
     String closeTime;
     String boothIntro;
-    String boothImage;
+    List<String> boothImage;
     String location;
     Boolean isOpen;
     Boolean isOrder;

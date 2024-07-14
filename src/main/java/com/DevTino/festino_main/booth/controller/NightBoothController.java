@@ -25,7 +25,7 @@ public class NightBoothController {
 
     // 야간 부스 디테일 조회
     @GetMapping("/night/{boothId}")
-    public ResponseEntity<Map<String, Object>> getNightBooth(@PathVariable UUID boothId){
+    public ResponseEntity<Map<String, Object>> getNightBooth(@PathVariable("boothId") UUID boothId){
         ResponseNightBoothDTO responseNightBoothDTO = nightBoothService.getNightBooth(boothId);
 
         boolean success = (responseNightBoothDTO == null) ? false : true;
