@@ -27,7 +27,7 @@ public class CreateClubShowsDTOBean {
 
         return ResponseClubShowsGetDTO.builder()
                 .clubId(clubShowDAO.getClubId())
-                .clubName(clubShowDAO.getClubName())
+                .performer(clubShowDAO.getClubName())
                 .showDate(clubShowDAO.getShowDate())
                 .showStartTime(clubShowDAO.getShowStartTime())
                 .showEndTime(clubShowDAO.getShowEndTime())

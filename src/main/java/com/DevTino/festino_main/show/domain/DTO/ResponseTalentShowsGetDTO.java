@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 public class ResponseTalentShowsGetDTO {
     UUID talentId;
-    String talentName;
+    String performer;
     String showDate;
     String showStartTime;
     String showEndTime;

@@ -27,7 +27,7 @@ public class CreateTalentShowsDTOBean {
 
         return ResponseTalentShowsGetDTO.builder()
                 .talentId(talentShowDAO.getTalentId())
-                .talentName(talentShowDAO.getTalentName())
+                .performer(talentShowDAO.getTalentName())
                 .showDate(talentShowDAO.getShowDate())
                 .showStartTime(talentShowDAO.getShowStartTime())
                 .showEndTime(talentShowDAO.getShowEndTime())

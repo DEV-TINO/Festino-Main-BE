@@ -9,7 +9,7 @@ import java.util.UUID;
 @Builder
 public class ResponseClubShowsGetDTO {
     UUID clubId;
-    String clubName;
+    String performer;
     String showDate;
     String showStartTime;
     String showEndTime;
