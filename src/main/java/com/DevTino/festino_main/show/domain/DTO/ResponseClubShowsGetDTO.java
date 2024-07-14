@@ -10,7 +10,7 @@ import java.util.UUID;
 public class ResponseClubShowsGetDTO {
     UUID clubId;
     String clubName;
-    String showData;
+    String showDate;
     String showStartTime;
     String showEndTime;
     String clubImage;
