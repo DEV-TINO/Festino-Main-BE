@@ -11,5 +11,6 @@ public class ResponseReservationGetDTO {
     UUID reservationId;
     Integer personCount;
     UUID boothId;
+
     Integer totalTeamCount;
 }

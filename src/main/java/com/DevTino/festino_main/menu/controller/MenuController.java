@@ -2,8 +2,6 @@ package com.DevTino.festino_main.menu.controller;
 
 import com.DevTino.festino_main.menu.domain.DTO.ResponseMenuGetDTO;
 import com.DevTino.festino_main.menu.service.MenuService;
-import com.DevTino.festino_main.notice.domain.DTO.ResponseNoticesGetDTO;
-import com.DevTino.festino_main.notice.service.NoticesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

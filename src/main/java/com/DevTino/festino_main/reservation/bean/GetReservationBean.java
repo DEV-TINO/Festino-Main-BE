@@ -2,7 +2,6 @@ package com.DevTino.festino_main.reservation.bean;
 
 import com.DevTino.festino_main.reservation.bean.small.CreateReservationDTOBean;
 import com.DevTino.festino_main.reservation.bean.small.GetReservationByUserNameAndPhoneNumDAOBean;
-import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationGetDTO;
 import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationGetDTO;
 import com.DevTino.festino_main.reservation.domain.ReservationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
