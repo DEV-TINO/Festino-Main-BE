@@ -13,7 +13,7 @@ public class CreateNightBoothsDTOBean {
         return ResponseReservationNightBoothDTO.builder()
                 .boothId(nightBoothDAO.getBoothId())
                 .adminName(nightBoothDAO.getAdminName())
-                .boothImage(nightBoothDAO.getBoothImage())
+                .boothImage(nightBoothDAO.getBoothImage().get(0))
                 .totalReservationNum(nightBoothDAO.getTotalReservationNum())
                 .build();
     }
