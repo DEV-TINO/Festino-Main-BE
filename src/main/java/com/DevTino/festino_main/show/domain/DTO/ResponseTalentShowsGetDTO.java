@@ -16,6 +16,6 @@ public class ResponseTalentShowsGetDTO {
     String showStartTime;
     String showEndTime;
     String talentImage;
-    List<Map<String, Object>> msuicList;
+    List<Map<String, Object>> musicList;
     Boolean isShowing;
 }

@@ -33,7 +33,7 @@ public class CreateTalentShowsDTOBean {
                 .showEndTime(talentShowDAO.getShowEndTime())
                 .talentImage(talentShowDAO.getTalentImage())
                 .isShowing(isShowing)
-                .msuicList(talentShowDAO.getMusicList())
+                .musicList(talentShowDAO.getMusicList())
                 .build();
     }
 
