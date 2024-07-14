@@ -22,10 +22,10 @@ public class GetRecentNoticeBean {
     // 가장 최근 공지 조회 - pin
     public ResponseNoticeGetDTO exec(){
 
-        // 공지에서 pin이 되어 있는 것을 찾고 최신순 top1 해주면 끝
+        // 공지에서 pin이 되어 있는 것을 찾고 최신순 top1으로 가져오기
         NoticeDAO noticeDAO = getRecentNoticeDAOBean.exec();
 
-        // Response
+        // DTO로 반환
         return createNoticeDTOBean.exec(noticeDAO);
     }
 }

@@ -25,6 +25,7 @@ public class NoticeService {
         return getNoticeBean.exec(noticeId);
     }
 
+    // 최근 공지 1개 조회 - pin
     public ResponseNoticeGetDTO getRecentNotice(){
         return getRecentNoticeBean.exec();
     }
