@@ -27,12 +27,13 @@ public class CreateClubShowsDTOBean {
 
         return ResponseClubShowsGetDTO.builder()
                 .clubId(clubShowDAO.getClubId())
-                .clubName(clubShowDAO.getClubName())
-                .showData(clubShowDAO.getShowDate())
+                .performer(clubShowDAO.getClubName())
+                .showDate(clubShowDAO.getShowDate())
                 .showStartTime(clubShowDAO.getShowStartTime())
                 .showEndTime(clubShowDAO.getShowEndTime())
                 .clubImage(clubShowDAO.getClubImage())
                 .clubDescription(clubShowDAO.getClubDescription())
+                .instagram(clubShowDAO.getInstagram())
                 .isShowing(isShowing)
                 .build();
     }

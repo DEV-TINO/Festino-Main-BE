@@ -9,11 +9,12 @@ import java.util.UUID;
 @Builder
 public class ResponseClubShowsGetDTO {
     UUID clubId;
-    String clubName;
-    String showData;
+    String performer;
+    String showDate;
     String showStartTime;
     String showEndTime;
     String clubImage;
     String clubDescription;
+    String instagram;
     Boolean isShowing;
 }

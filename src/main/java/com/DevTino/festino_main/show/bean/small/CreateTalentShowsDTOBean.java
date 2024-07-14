@@ -27,13 +27,13 @@ public class CreateTalentShowsDTOBean {
 
         return ResponseTalentShowsGetDTO.builder()
                 .talentId(talentShowDAO.getTalentId())
-                .talentName(talentShowDAO.getTalentName())
+                .performer(talentShowDAO.getTalentName())
                 .showDate(talentShowDAO.getShowDate())
-                .showStartTime(talentShowDAO.getTalentImage())
+                .showStartTime(talentShowDAO.getShowStartTime())
                 .showEndTime(talentShowDAO.getShowEndTime())
                 .talentImage(talentShowDAO.getTalentImage())
                 .isShowing(isShowing)
-                .msuicList(talentShowDAO.getMusicList())
+                .musicList(talentShowDAO.getMusicList())
                 .build();
     }
 

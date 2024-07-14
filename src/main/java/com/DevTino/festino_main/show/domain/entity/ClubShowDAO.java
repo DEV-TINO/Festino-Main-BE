@@ -23,6 +23,7 @@ public class ClubShowDAO {
     String showEndTime;
     String clubImage;
     String clubDescription;
+    String instagram;
 
     LocalDateTime createAt;
     LocalDateTime updateAt;
