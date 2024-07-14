@@ -4,7 +4,6 @@ import com.DevTino.festino_main.booth.bean.small.GetNightBoothDAOBean;
 import com.DevTino.festino_main.booth.bean.small.CreateNightBoothDTOBean;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothDTO;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
-import com.DevTino.festino_main.menu.bean.GetMenusBean;
 import com.DevTino.festino_main.menu.bean.small.GetMenuDAOBean;
 import com.DevTino.festino_main.menu.domain.entity.MenuDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +19,13 @@ public class GetNightBoothBean {
     GetMenuDAOBean getMenuDAOBean;
 
     @Autowired
-    public GetNightBoothBean(GetNightBoothDAOBean getNightBoothDAOBean, CreateNightBoothDTOBean createNightBoothDTOBean, GetMenuDAOBean getMenuDAOBean){
+    public GetNightBoothBean(GetNightBoothDAOBean getNightBoothDAOBean, CreateNightBoothDTOBean createNightBoothDTOBean, GetMenuDAOBean getMenuDAOBean) {
         this.getNightBoothDAOBean = getNightBoothDAOBean;
         this.createNightBoothDTOBean = createNightBoothDTOBean;
         this.getMenuDAOBean = getMenuDAOBean;
     }
 
-    // 야간 부스 전체 조회
+    // 야간 부스 조회
     public ResponseNightBoothDTO exec(UUID boothId){
 
         // 야간 부스 디테일 dao 가져오기
@@ -39,4 +38,5 @@ public class GetNightBoothBean {
         // 가져온 dao를 dto로 변환
         return createNightBoothDTOBean.exec(nightBoothDAO, menuDAOList);
     }
+
 }
