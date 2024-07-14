@@ -29,7 +29,7 @@ public class CreateTalentShowsDTOBean {
                 .talentId(talentShowDAO.getTalentId())
                 .talentName(talentShowDAO.getTalentName())
                 .showDate(talentShowDAO.getShowDate())
-                .showStartTime(talentShowDAO.getTalentImage())
+                .showStartTime(talentShowDAO.getShowStartTime())
                 .showEndTime(talentShowDAO.getShowEndTime())
                 .talentImage(talentShowDAO.getTalentImage())
                 .isShowing(isShowing)
