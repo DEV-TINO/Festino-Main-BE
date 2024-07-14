@@ -2,7 +2,6 @@ package com.DevTino.festino_main.order.bean;
 
 import com.DevTino.festino_main.order.bean.small.CreateResponseGetDTOBean;
 import com.DevTino.festino_main.order.bean.small.GetOrdersDAOBean;
-import com.DevTino.festino_main.order.domain.DTO.RequestOrderGetDTO;
 import com.DevTino.festino_main.order.domain.DTO.ResponseOrderGetDTO;
 import com.DevTino.festino_main.order.domain.OrderDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,8 @@ public class GetOrderBean {
     }
 
     // 주문 내역 조회
-    public List<ResponseOrderGetDTO> exec(RequestOrderGetDTO requestOrderGetDTO) {
-        List<OrderDAO> orderDAOList = getOrdersDAOBean.exec(requestOrderGetDTO.getUserName(), requestOrderGetDTO.getPhoneNum());
+    public List<ResponseOrderGetDTO> exec(String userName, String phoneNum) {
+        List<OrderDAO> orderDAOList = getOrdersDAOBean.exec(userName, phoneNum);
 
         return createResponseGetDTOBean.exec(orderDAOList);
     }

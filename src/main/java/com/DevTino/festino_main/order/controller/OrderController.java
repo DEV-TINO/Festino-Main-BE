@@ -1,6 +1,5 @@
 package com.DevTino.festino_main.order.controller;
 
-import com.DevTino.festino_main.order.domain.DTO.RequestOrderGetDTO;
 import com.DevTino.festino_main.order.domain.DTO.RequestOrderSaveDTO;
 import com.DevTino.festino_main.order.domain.DTO.ResponseOrderGetDTO;
 import com.DevTino.festino_main.order.service.OrderService;
@@ -44,17 +43,17 @@ public class OrderController {
 
     // 주문 조회
     @GetMapping("/order")
-    public ResponseEntity<Map<String, Object>> getOrder(@RequestBody RequestOrderGetDTO requestOrderGetDTO) {
-        List<ResponseOrderGetDTO> responseOrderGetDTOList = orderService.getOrder(requestOrderGetDTO);
+    public ResponseEntity<Map<String, Object>> getOrder(@RequestParam("userName") String userName, @RequestParam("phoneNum") String phoneNum) {
+        List<ResponseOrderGetDTO> responseOrderGetDTOList = orderService.getOrder(userName, phoneNum);
 
         // HTTP 상태 반환
-        HttpStatus httpStatus = (responseOrderGetDTOList.size() == 0) ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.OK;
+        HttpStatus httpStatus = (responseOrderGetDTOList.isEmpty()) ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.OK;
 
         // message, success, bills 값 json 데이터로 반환
         Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", responseOrderGetDTOList.size() != 0);
-        requestMap.put("message", (responseOrderGetDTOList.size() == 0) ? "doesn't exist order history": "exist order history");
-        requestMap.put("bills", (responseOrderGetDTOList.size() == 0) ? null : responseOrderGetDTOList);
+        requestMap.put("success", !responseOrderGetDTOList.isEmpty());
+        requestMap.put("message", responseOrderGetDTOList.isEmpty() ? "doesn't exist order history": "exist order history");
+        requestMap.put("bills", responseOrderGetDTOList.isEmpty() ? null : responseOrderGetDTOList);
 
         return ResponseEntity.status(httpStatus).body(requestMap);
     }

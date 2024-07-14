@@ -2,7 +2,6 @@ package com.DevTino.festino_main.order.service;
 
 import com.DevTino.festino_main.order.bean.GetOrderBean;
 import com.DevTino.festino_main.order.bean.SaveOrderBean;
-import com.DevTino.festino_main.order.domain.DTO.RequestOrderGetDTO;
 import com.DevTino.festino_main.order.domain.DTO.RequestOrderSaveDTO;
 import com.DevTino.festino_main.order.domain.DTO.ResponseOrderGetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class OrderService {
     }
 
     // 주문 조회
-    public List<ResponseOrderGetDTO> getOrder(RequestOrderGetDTO requestOrderGetDTO) {
-        return getOrderBean.exec(requestOrderGetDTO);
+    public List<ResponseOrderGetDTO> getOrder(String userName, String phoneNum) {
+        return getOrderBean.exec(userName, phoneNum);
     }
 }
