@@ -21,7 +21,8 @@ public class ReservationDAO {
     String phoneNum;
     UUID boothId;
     Integer personCount;
-    // priorityNum 추가 예정
+    Integer date;
+    Integer reservationNum;
 
     LocalDateTime createAt;
     LocalDateTime updateAt;

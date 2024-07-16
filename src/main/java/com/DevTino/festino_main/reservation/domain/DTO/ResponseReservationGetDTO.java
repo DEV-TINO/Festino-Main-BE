@@ -13,4 +13,6 @@ public class ResponseReservationGetDTO {
     UUID boothId;
     String adminName;
     Integer totalTeamCount;
+    Integer date;
+    Integer reservationNum;
 }

@@ -38,7 +38,7 @@ public class SaveReservationBean {
         }
 
         // 예약을 등록한 뒤 reservationId 반환
-        ReservationDAO createReservationDAO = CreateReservationDAOBean.exec(requestReservationSaveDTO);
+        ReservationDAO createReservationDAO = createReservationDAOBean.exec(requestReservationSaveDTO);
 
         NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(requestReservationSaveDTO.getBoothId());
         nightBoothDAO.setTotalReservationNum(nightBoothDAO.getTotalReservationNum() + 1);

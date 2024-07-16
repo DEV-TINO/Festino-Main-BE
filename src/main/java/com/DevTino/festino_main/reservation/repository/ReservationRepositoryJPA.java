@@ -11,4 +11,6 @@ public interface ReservationRepositoryJPA extends JpaRepository<ReservationDAO, 
     ReservationDAO findByUserNameAndPhoneNumAndIsCancel(String userName, String phoneNum, Boolean isCancel);
 
     List<ReservationDAO> findAllByBoothIdAndIsCancelAndCreateAtLessThan(UUID boothId, Boolean isCancel, LocalDateTime createAt);
+
+    ReservationDAO findFirstByDateOrderByReservationNumDesc(Integer date);
 }

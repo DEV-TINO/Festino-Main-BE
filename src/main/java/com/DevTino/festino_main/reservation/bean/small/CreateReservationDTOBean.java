@@ -25,7 +25,8 @@ public class CreateReservationDTOBean {
                 .boothId(reservationDAO.getBoothId())
                 .adminName(getNightBoothDAOBean.exec(reservationDAO.getBoothId()).getAdminName())
                 .totalTeamCount(getReservationsByBoothIdAndCreateAtLessThanDAOBean.exec(reservationDAO).size())
-                // priorityNum 추가 예정
+                .date(reservationDAO.getDate())
+                .reservationNum(reservationDAO.getReservationNum())
                 .build();
     }
 }
