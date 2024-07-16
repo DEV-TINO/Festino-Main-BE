@@ -12,11 +12,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Component
-public class CheckDateFieldBean {
+public class CheckOrderDAODateFieldBean {
     GetNightBoothDAOBean getNightBoothDAOBean;
 
     @Autowired
-    public CheckDateFieldBean(GetNightBoothDAOBean getNightBoothDAOBean) {
+    public CheckOrderDAODateFieldBean(GetNightBoothDAOBean getNightBoothDAOBean) {
         this.getNightBoothDAOBean = getNightBoothDAOBean;
     }
 

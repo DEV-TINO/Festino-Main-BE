@@ -11,18 +11,18 @@ import java.util.UUID;
 
 @Component
 public class CreateOrderDAOBean {
-    CheckDateFieldBean checkDateFieldBean;
+    CheckOrderDAODateFieldBean checkOrderDAODateFieldBean;
     OrderRepositoryJPA orderRepositoryJPA;
 
     @Autowired
-    public CreateOrderDAOBean(CheckDateFieldBean checkDateFieldBean, OrderRepositoryJPA orderRepositoryJPA) {
-        this.checkDateFieldBean = checkDateFieldBean;
+    public CreateOrderDAOBean(CheckOrderDAODateFieldBean checkOrderDAODateFieldBean, OrderRepositoryJPA orderRepositoryJPA) {
+        this.checkOrderDAODateFieldBean = checkOrderDAODateFieldBean;
         this.orderRepositoryJPA = orderRepositoryJPA;
     }
 
     // requestOrderSaveDTO -> OrderDAO 변경
     public OrderDAO exec(RequestOrderSaveDTO requestOrderSaveDTO) {
-        Integer date = checkDateFieldBean.exec(requestOrderSaveDTO.getBoothId());
+        Integer date = checkOrderDAODateFieldBean.exec(requestOrderSaveDTO.getBoothId());
         OrderDAO orderDAO = orderRepositoryJPA.findFirstByDateOrderByOrderNumDesc(date);
         Integer orderNum = orderDAO == null ? 1 : orderDAO.getOrderNum() + 1;
 
