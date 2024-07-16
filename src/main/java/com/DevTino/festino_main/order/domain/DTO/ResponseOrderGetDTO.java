@@ -15,6 +15,9 @@ public class ResponseOrderGetDTO {
     Integer tableNum;
     LocalDateTime createAt;
 
+    Integer date;
+    Integer orderNum;
+
     @Convert(converter = StringListConverter.class)
     List<Map<String, Object>> menuInfo;
 
