@@ -29,16 +29,13 @@ public class ReservationController {
     public ResponseEntity<Map<String, Object>> saveReservation(@RequestBody RequestReservationSaveDTO requestReservationSaveDTO) {
         UUID reservationId = reservationService.saveReservation(requestReservationSaveDTO);
 
-        // HTTP 상태 반환
-        HttpStatus httpStatus = (reservationId == null) ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.OK;
-
         // message, success, id 값 json 데이터로 반환
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", reservationId != null);
         requestMap.put("message", (reservationId == null) ? "already reservation exist": "reservation success");
         requestMap.put("reservationId", (reservationId == null) ? "00000000-0000-0000-0000-000000000000" : reservationId);
 
-        return ResponseEntity.status(httpStatus).body(requestMap);
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
 
     // 예약 조회
@@ -46,15 +43,12 @@ public class ReservationController {
     public ResponseEntity<Map<String, Object>> getReservation(@RequestParam("userName") String userName, @RequestParam("phoneNum") String phoneNum) {
         ResponseReservationGetDTO responseReservationGetDTO = reservationService.getReservation(userName, phoneNum);
 
-        // HTTP 상태 반환
-        HttpStatus httpStatus = (responseReservationGetDTO == null) ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.OK;
-
         // message, success, responseReservationGetDTO 값 json 데이터로 반환
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", responseReservationGetDTO != null);
         requestMap.put("message", (responseReservationGetDTO == null) ? "doesn't exist reservation history": "exist reservation history");
         requestMap.put("reservationInfo", responseReservationGetDTO);
 
-        return ResponseEntity.status(httpStatus).body(requestMap);
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
 }

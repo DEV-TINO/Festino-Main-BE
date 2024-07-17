@@ -29,16 +29,13 @@ public class OrderController {
     public ResponseEntity<Map<String, Object>> saveOrder(@RequestBody RequestOrderSaveDTO requestOrderSaveDTO) {
         UUID orderId = orderService.saveOrder(requestOrderSaveDTO);
 
-        // HTTP 상태 반환
-        HttpStatus httpStatus = (orderId == null) ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.OK;
-
         // message, success, id 값 json 데이터로 반환
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", orderId != null);
         requestMap.put("message", (orderId == null) ? "order failure": "order success");
         requestMap.put("orderId", (orderId == null) ? "00000000-0000-0000-0000-000000000000" : orderId);
 
-        return ResponseEntity.status(httpStatus).body(requestMap);
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
 
     // 주문 조회
@@ -46,15 +43,12 @@ public class OrderController {
     public ResponseEntity<Map<String, Object>> getOrder(@RequestParam("userName") String userName, @RequestParam("phoneNum") String phoneNum) {
         List<ResponseOrderGetDTO> responseOrderGetDTOList = orderService.getOrder(userName, phoneNum);
 
-        // HTTP 상태 반환
-        HttpStatus httpStatus = (responseOrderGetDTOList.isEmpty()) ? HttpStatus.INTERNAL_SERVER_ERROR : HttpStatus.OK;
-
         // message, success, bills 값 json 데이터로 반환
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", !responseOrderGetDTOList.isEmpty());
         requestMap.put("message", responseOrderGetDTOList.isEmpty() ? "doesn't exist order history": "exist order history");
         requestMap.put("bills", responseOrderGetDTOList.isEmpty() ? null : responseOrderGetDTOList);
 
-        return ResponseEntity.status(httpStatus).body(requestMap);
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
 }
