@@ -33,7 +33,6 @@ public class GetNightBoothBean {
         if(nightBoothDAO == null) return null;
 
         List<MenuDAO> menuDAOList = getMenuDAOBean.exec(boothId);
-        if(menuDAOList.isEmpty()) return null;
 
         // 가져온 dao를 dto로 변환
         return createNightBoothDTOBean.exec(nightBoothDAO, menuDAOList);
