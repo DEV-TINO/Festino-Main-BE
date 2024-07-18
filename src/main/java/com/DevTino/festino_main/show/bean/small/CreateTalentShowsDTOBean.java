@@ -53,11 +53,11 @@ public class CreateTalentShowsDTOBean {
 
                 responseTalentShowsGetDTOList.add(responseTalentShowsGetDTO);
             }
-
-            if (responseTalentShowsGetDTOList.isEmpty()){
-                return null;
-            }
         }
+        if (responseTalentShowsGetDTOList.isEmpty()){
+            return null;
+        }
+
         return responseTalentShowsGetDTOList;
     }
 }
