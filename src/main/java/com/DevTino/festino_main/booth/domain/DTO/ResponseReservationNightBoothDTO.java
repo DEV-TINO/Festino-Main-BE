@@ -12,4 +12,5 @@ public class ResponseReservationNightBoothDTO {
     String adminName;
     String boothImage;
     Integer totalReservationNum;
+    Boolean isOpen;
 }

@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.booth.repository;
 
+import com.DevTino.festino_main.booth.domain.entity.FoodBoothDAO;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -8,6 +9,9 @@ import java.util.UUID;
 
 public interface NightBoothRepositoryJPA extends JpaRepository<NightBoothDAO, UUID> {
 
-    // 예약가능한 야간부스 전체 가져오기
+    // 야간 부스 오픈 여부에 따른 전체 가져오기
+    List<NightBoothDAO> findAllByOrderByIsOpenDesc();
+
+    // 예약가능한 야간부스 전체 가져오기 - isOpen 이 true 인 값 위로 올리기
     List<NightBoothDAO> findByIsReservation(Boolean isReservation);
 }

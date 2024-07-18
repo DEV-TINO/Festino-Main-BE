@@ -2,7 +2,6 @@ package com.DevTino.festino_main.menu.bean.small;
 
 import com.DevTino.festino_main.menu.domain.entity.MenuDAO;
 import com.DevTino.festino_main.menu.repository.MenuRepositoryJPA;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +22,6 @@ public class GetMenuDAOBean {
 
     // 메뉴 전체 리스트 반환
     public List<MenuDAO> exec(UUID boothId){
-        return menuRepositoryJPA.findALlByBoothId(boothId);
+        return menuRepositoryJPA.findALlByBoothIdOrderByIsSoldOutAsc(boothId);
     }
 }

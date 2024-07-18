@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface MenuRepositoryJPA extends JpaRepository<MenuDAO, UUID> {
-    List<MenuDAO> findALlByBoothId(UUID boothId);
+    List<MenuDAO> findALlByBoothIdOrderByIsSoldOutAsc(UUID boothId);
 }

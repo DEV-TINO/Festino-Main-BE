@@ -15,6 +15,7 @@ public class CreateNightBoothsDTOBean {
                 .adminName(nightBoothDAO.getAdminName())
                 .boothImage(nightBoothDAO.getBoothImage().get(0))
                 .totalReservationNum(nightBoothDAO.getTotalReservationNum())
+                .isOpen(nightBoothDAO.getIsOpen())
                 .build();
     }
 
