@@ -54,11 +54,11 @@ public class CreateClubShowsDTOBean {
 
                 responseClubShowsGetDTOList.add(responseClubShowsGetDTO);
             }
-
-            if (responseClubShowsGetDTOList.isEmpty()){
-                return null;
-            }
         }
+        if (responseClubShowsGetDTOList.isEmpty()){
+            return null;
+        }
+
         return responseClubShowsGetDTOList;
     }
 }
