@@ -20,7 +20,7 @@ public class CreateBoothsByNightBoothDTOBean {
                 .boothIntro(nightBoothDAO.getBoothIntro())
                 .boothImage(nightBoothDAO.getBoothImage().get(0))
                 .location(nightBoothDAO.getLocation())
-                .isOpen(false)
+                .isOpen(nightBoothDAO.getIsOpen())
                 .build();
     }
 

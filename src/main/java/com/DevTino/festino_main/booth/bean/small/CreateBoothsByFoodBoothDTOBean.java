@@ -20,7 +20,7 @@ public class CreateBoothsByFoodBoothDTOBean {
                 .boothIntro(foodBoothDAO.getBoothIntro())
                 .boothImage(foodBoothDAO.getBoothImage().get(0))
                 .location(foodBoothDAO.getLocation())
-                .isOpen(false)
+                .isOpen(foodBoothDAO.getIsOpen())
                 .build();
     }
 
