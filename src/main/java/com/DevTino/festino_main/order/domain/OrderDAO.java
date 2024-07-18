@@ -22,6 +22,8 @@ public class OrderDAO {
     UUID boothId;
     OrderType orderType;
     Integer tableNum;
+    Integer date;
+    Integer orderNum;
     String userName;
     String phoneNum;
 

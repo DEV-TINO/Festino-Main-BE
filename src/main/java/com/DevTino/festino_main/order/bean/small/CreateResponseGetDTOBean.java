@@ -18,6 +18,8 @@ public class CreateResponseGetDTOBean {
             responseOrderGetDTOList.add(ResponseOrderGetDTO.builder()
                             .createAt(orderDAO.getCreateAt())
                             .tableNum(orderDAO.getTableNum())
+                            .date(orderDAO.getDate())
+                            .orderNum(orderDAO.getOrderNum())
                             .menuInfo(orderDAO.getMenuInfo())
                             .totalPrice(orderDAO.getTotalPrice())
                             .build());
