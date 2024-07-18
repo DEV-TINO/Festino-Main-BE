@@ -38,7 +38,8 @@ public class CheckReservationDAODateFieldBean {
         LocalDateTime end12 = start12.plusHours(12);
         LocalDateTime end13 = start13.plusHours(12);
 
-        LocalDateTime now = LocalDateTime.now();
+        // 서버 시간 고려 9시간 더해줌
+        LocalDateTime now = LocalDateTime.now().plusHours(9);
 
         Integer date = 0;
 
