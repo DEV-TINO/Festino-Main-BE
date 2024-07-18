@@ -2,6 +2,7 @@ package com.DevTino.festino_main.order.bean.small;
 
 import com.DevTino.festino_main.order.domain.DTO.RequestOrderSaveDTO;
 import com.DevTino.festino_main.order.domain.OrderDAO;
+import com.DevTino.festino_main.order.domain.OrderType;
 import com.DevTino.festino_main.order.repository.OrderRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,7 @@ public class CreateOrderDAOBean {
                 .phoneNum(requestOrderSaveDTO.getPhoneNum())
                 .date(date)
                 .orderNum(orderNum)
+                .orderType(OrderType.COOKING)
                 .menuInfo(requestOrderSaveDTO.getMenuInfo())
                 .totalPrice(requestOrderSaveDTO.getTotalPrice())
                 .createAt(LocalDateTime.now())
