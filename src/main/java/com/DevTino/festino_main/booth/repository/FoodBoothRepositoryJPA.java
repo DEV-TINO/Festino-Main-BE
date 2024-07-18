@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface FoodBoothRepositoryJPA extends JpaRepository<FoodBoothDAO, UUID> {
-    List<FoodBoothDAO> findAllByOrderByIsOpenAsc();
+    List<FoodBoothDAO> findAllByOrderByIsOpenDesc();
 }
