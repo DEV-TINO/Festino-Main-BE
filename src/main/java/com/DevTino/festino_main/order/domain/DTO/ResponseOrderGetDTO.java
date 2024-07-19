@@ -12,6 +12,7 @@ import java.util.Map;
 @Data
 @Builder
 public class ResponseOrderGetDTO {
+    String adminName;
     Integer tableNum;
     LocalDateTime createAt;
 
