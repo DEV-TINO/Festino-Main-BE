@@ -36,7 +36,7 @@ public class NightBoothController {
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
-        requestMap.put("message", success ? "야간 부스 저장 성공" : "야간 부스 저장 시 DAO 저장 실패");
+        requestMap.put("message", success ? "야간 부스 조회 성공" : "야간 부스 조회 실패");
         requestMap.put("boothInfo", responseNightBoothDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
@@ -51,7 +51,7 @@ public class NightBoothController {
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
-        requestMap.put("message", success ? "야간 부스 저장 성공" : "야간 부스 저장 시 DAO 저장 실패");
+        requestMap.put("message", success ? "야간 부스 조회 성공" : "야간 부스 조회 실패");
         requestMap.put("boothList", responseReservationNightBoothDTOList);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
