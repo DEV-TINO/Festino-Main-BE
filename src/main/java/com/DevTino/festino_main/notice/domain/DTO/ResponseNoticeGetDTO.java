@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -13,7 +14,7 @@ public class ResponseNoticeGetDTO {
     String title;
     LocalDateTime updateAt;
     String writerName;
-    String imageUrl;
+    List<String> imageUrl;
     String content;
     Boolean isPin;
 }

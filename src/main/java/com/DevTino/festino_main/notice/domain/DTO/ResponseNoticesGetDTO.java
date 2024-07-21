@@ -13,7 +13,6 @@ public class ResponseNoticesGetDTO {
     String title;
     String writerName;
     LocalDateTime updateAt;
-    String imageUrl;
     String content;
     Boolean isPin;
 }

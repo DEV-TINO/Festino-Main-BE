@@ -16,7 +16,6 @@ public class CreateNoticesDTOBean {
                 .title(noticeDAO.getTitle())
                 .updateAt(noticeDAO.getUpdateAt())
                 .writerName(noticeDAO.getWriterName())
-                .imageUrl(noticeDAO.getImageUrl())
                 .content(noticeDAO.getContent())
                 .isPin(noticeDAO.getIsPin())
                 .build();
