@@ -43,14 +43,14 @@ public class DayBoothController {
     // 주간 부스 전체 조회
     @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> getDayBooths(){
-        List<ResponseAllDayBoothDTO> boothInfo = dayBoothService.getDayBooths();
+        List<ResponseAllDayBoothDTO> responseAllDayBoothDTOList = dayBoothService.getDayBooths();
 
-        boolean success = (boothInfo == null) ? false : true;
+        boolean success = (responseAllDayBoothDTOList == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "전체 주간부스 조회 성공" : "전체 주간부스 조회 실패");
-        requestMap.put("boothInfo", boothInfo);
+        requestMap.put("boothList", responseAllDayBoothDTOList);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }

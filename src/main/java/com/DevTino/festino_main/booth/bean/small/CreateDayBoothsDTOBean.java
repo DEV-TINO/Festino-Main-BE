@@ -11,20 +11,31 @@ import java.util.List;
 @Component
 public class CreateDayBoothsDTOBean {
 
-    CreateOpenDayBoothsDTOBean createOpenDayBoothsDTOBean;
-    CreateCloseDayBoothsDTOBean createCloseDayBoothsDTOBean;
+    CreateAllDayBoothDTOBean createAllDayBoothDTOBean;
 
     @Autowired
-    public CreateDayBoothsDTOBean(CreateOpenDayBoothsDTOBean createOpenDayBoothsDTOBean, CreateCloseDayBoothsDTOBean createCloseDayBoothsDTOBean){
-        this.createOpenDayBoothsDTOBean = createOpenDayBoothsDTOBean;
-        this.createCloseDayBoothsDTOBean = createCloseDayBoothsDTOBean;
+    public CreateDayBoothsDTOBean(CreateAllDayBoothDTOBean createAllDayBoothDTOBean) {
+        this.createAllDayBoothDTOBean = createAllDayBoothDTOBean;
     }
 
     public List<ResponseAllDayBoothDTO> exec(List<DayBoothDAO> dayBoothDAOList){
+
         List<ResponseAllDayBoothDTO> responseAllDayBoothDTOList = new ArrayList<>();
 
-        List<ResponseAllDayBoothDTO> responseOpenAllDayBoothDTOList = createOpenDayBoothsDTOBean.exec(dayBoothDAOList);
-        List<ResponseAllDayBoothDTO> responseCloseAllDayBoothDTOList = createCloseDayBoothsDTOBean.exec(dayBoothDAOList);
+        List<ResponseAllDayBoothDTO> responseOpenAllDayBoothDTOList = new ArrayList<>();
+        List<ResponseAllDayBoothDTO> responseCloseAllDayBoothDTOList = new ArrayList<>();
+
+        // 주간 부스 전체 리스트로 가져오기
+        for (DayBoothDAO dayBoothDAO : dayBoothDAOList) {
+
+            ResponseAllDayBoothDTO responseAllDayBoothDTO = createAllDayBoothDTOBean.exec(dayBoothDAO);
+
+            if (dayBoothDAO.getIsOpen())
+                responseOpenAllDayBoothDTOList.add(responseAllDayBoothDTO);
+            else
+                responseCloseAllDayBoothDTOList.add(responseAllDayBoothDTO);
+
+        }
 
         responseAllDayBoothDTOList.addAll(responseOpenAllDayBoothDTOList);
         responseAllDayBoothDTOList.addAll(responseCloseAllDayBoothDTOList);

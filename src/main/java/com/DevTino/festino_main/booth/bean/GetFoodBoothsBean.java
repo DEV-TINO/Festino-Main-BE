@@ -22,6 +22,8 @@ public class GetFoodBoothsBean {
     }
 
     public List<ResponseAllFoodBoothDTO> exec(){
+
+        // 푸드트럭 시간 순 전체 조회
         List<FoodBoothDAO> foodBoothDAOList = getFoodBoothsDAOBean.exec();
 
         return createFoodBoothsDTOBean.exec(foodBoothDAOList);

@@ -13,56 +13,63 @@ import java.util.List;
 @Component
 public class CreateBoothsDTOBean {
 
-    CreateOpenBoothsByDayBoothDTOBean createOpenBoothsByDayBoothDTOBean;
-    CreateCloseBoothsByDayBoothDTOBean createCloseBoothsByDayBoothDTOBean;
-    CreateOpenBoothsByFoodBoothDTOBean createOpenBoothsByFoodBoothDTOBean;
-    CreateCloseBoothsByFoodBoothDTOBean createCloseBoothsByFoodBoothDTOBean;
-    CreateOpenBoothsByNightBoothDTOBean createOpenBoothsByNightBoothDTOBean;
-    CreateCloseBoothsByNightBoothDTOBean createCloseBoothsByNightBoothDTOBean;
+    CreateBoothsByNightBoothDTOBean createBoothsByNightBoothDTOBean;
+    CreateBoothsByDayBoothDTOBean createBoothsByDayBoothDTOBean;
+    CreateBoothsByFoodBoothDTOBean createBoothsByFoodBoothDTOBean;
 
     @Autowired
-    public CreateBoothsDTOBean(CreateOpenBoothsByDayBoothDTOBean createOpenBoothsByDayBoothDTOBean, CreateCloseBoothsByDayBoothDTOBean createCloseBoothsByDayBoothDTOBean, CreateOpenBoothsByFoodBoothDTOBean createOpenBoothsByFoodBoothDTOBean, CreateCloseBoothsByFoodBoothDTOBean createCloseBoothsByFoodBoothDTOBean, CreateOpenBoothsByNightBoothDTOBean createOpenBoothsByNightBoothDTOBean, CreateCloseBoothsByNightBoothDTOBean createCloseBoothsByNightBoothDTOBean) {
-        this.createOpenBoothsByDayBoothDTOBean = createOpenBoothsByDayBoothDTOBean;
-        this.createCloseBoothsByDayBoothDTOBean = createCloseBoothsByDayBoothDTOBean;
-        this.createOpenBoothsByFoodBoothDTOBean = createOpenBoothsByFoodBoothDTOBean;
-        this.createCloseBoothsByFoodBoothDTOBean = createCloseBoothsByFoodBoothDTOBean;
-        this.createOpenBoothsByNightBoothDTOBean = createOpenBoothsByNightBoothDTOBean;
-        this.createCloseBoothsByNightBoothDTOBean = createCloseBoothsByNightBoothDTOBean;
+    public CreateBoothsDTOBean(CreateBoothsByNightBoothDTOBean createBoothsByNightBoothDTOBean, CreateBoothsByDayBoothDTOBean createBoothsByDayBoothDTOBean, CreateBoothsByFoodBoothDTOBean createBoothsByFoodBoothDTOBean) {
+        this.createBoothsByNightBoothDTOBean = createBoothsByNightBoothDTOBean;
+        this.createBoothsByDayBoothDTOBean = createBoothsByDayBoothDTOBean;
+        this.createBoothsByFoodBoothDTOBean = createBoothsByFoodBoothDTOBean;
     }
 
     // 전체 부스 DTO 생성
     public List<ResponseAllBoothDTO> exec(List<DayBoothDAO> dayBoothDAOList, List<NightBoothDAO> nightBoothDAOList, List<FoodBoothDAO> foodBoothDAOList){
 
-        // map 생성
-//        Map<String, List<ResponseAllBoothDTO>> newMap = new HashMap<>();
-
+        // 전체
         List<ResponseAllBoothDTO> responseAllBoothDTOList = new ArrayList<>();
 
-        // 오픈중인 주간 부스 전체 리스트로 가져오기
-        List<ResponseAllBoothDTO> responseOpenDayBoothsDTOList = createOpenBoothsByDayBoothDTOBean.exec(dayBoothDAOList);
+        // 운영중, 운영안함
+        List<ResponseAllBoothDTO> responseOpenBoothsDTOList = new ArrayList<>();
+        List<ResponseAllBoothDTO> responseCloseBoothsDTOList = new ArrayList<>();
 
-        // 오픈이 아닌 주간 부스 전체 리스트 가져오기
-        List<ResponseAllBoothDTO> responseCloseDayBoothsDTOList = createCloseBoothsByDayBoothDTOBean.exec(dayBoothDAOList);
+        // 야간 부스 전체 리스트로 가져오기
+        for (NightBoothDAO nightBoothDAO : nightBoothDAOList) {
 
-        // 오픈중인 푸드트럭 부스 전체 리스트로 가져오기
-        List<ResponseAllBoothDTO> responseOpenFoodBoothsDTOList = createOpenBoothsByFoodBoothDTOBean.exec(foodBoothDAOList);
+            ResponseAllBoothDTO responseAllBoothDTO = createBoothsByNightBoothDTOBean.exec(nightBoothDAO);
 
-        // 오픈이 아닌 푸드트럭 부스 전체 리스트 가져오기
-        List<ResponseAllBoothDTO> responseCloseFoodBoothsDTOList = createCloseBoothsByFoodBoothDTOBean.exec(foodBoothDAOList);
+            if (nightBoothDAO.getIsOpen())
+                responseOpenBoothsDTOList.add(responseAllBoothDTO);
+            else
+                responseCloseBoothsDTOList.add(responseAllBoothDTO);
+        }
 
-        // 오픈중인 야간 부스 전체 리스트로 가져오기
-        List<ResponseAllBoothDTO> responseOpenNightBoothsDTOList = createOpenBoothsByNightBoothDTOBean.exec(nightBoothDAOList);
+        // 주간 부스 전체 리스트로 가져오기
+        for (DayBoothDAO dayBoothDAO : dayBoothDAOList) {
 
-        // 오픈이 아닌 야간 부스 전체 리스트로 가져오기
-        List<ResponseAllBoothDTO> responseCloseNightBoothsDTOList = createCloseBoothsByNightBoothDTOBean.exec(nightBoothDAOList);
+            ResponseAllBoothDTO responseAllBoothDTO = createBoothsByDayBoothDTOBean.exec(dayBoothDAO);
+
+            if (dayBoothDAO.getIsOpen())
+                responseOpenBoothsDTOList.add(responseAllBoothDTO);
+            else
+                responseCloseBoothsDTOList.add(responseAllBoothDTO);
+        }
+
+        // 푸드 부스 전체 리스트로 가져오기
+        for (FoodBoothDAO foodBoothDAO : foodBoothDAOList) {
+
+            ResponseAllBoothDTO responseAllBoothDTO = createBoothsByFoodBoothDTOBean.exec(foodBoothDAO);
+
+            if (foodBoothDAO.getIsOpen())
+                responseOpenBoothsDTOList.add(responseAllBoothDTO);
+            else
+                responseCloseBoothsDTOList.add(responseAllBoothDTO);
+        }
 
         // 하나의 리스트로 합치기
-        responseAllBoothDTOList.addAll(responseOpenNightBoothsDTOList);
-        responseAllBoothDTOList.addAll(responseOpenDayBoothsDTOList);
-        responseAllBoothDTOList.addAll(responseOpenFoodBoothsDTOList);
-        responseAllBoothDTOList.addAll(responseCloseNightBoothsDTOList);
-        responseAllBoothDTOList.addAll(responseCloseDayBoothsDTOList);
-        responseAllBoothDTOList.addAll(responseCloseFoodBoothsDTOList);
+        responseAllBoothDTOList.addAll(responseOpenBoothsDTOList);
+        responseAllBoothDTOList.addAll(responseCloseBoothsDTOList);
 
         //전체 리스트 반환 반환
         return responseAllBoothDTOList;

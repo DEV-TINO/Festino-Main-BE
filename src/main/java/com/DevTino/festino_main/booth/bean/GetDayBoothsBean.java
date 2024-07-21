@@ -22,6 +22,8 @@ public class GetDayBoothsBean {
     }
 
     public List<ResponseAllDayBoothDTO> exec(){
+
+        // 주간부스 시간순 전체조회
         List<DayBoothDAO> dayBoothDAOList = getDayBoothsDAOBean.exec();
 
         return createDayBoothsDTOBean.exec(dayBoothDAOList);

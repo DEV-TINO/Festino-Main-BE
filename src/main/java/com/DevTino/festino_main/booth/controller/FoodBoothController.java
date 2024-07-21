@@ -43,14 +43,14 @@ public class FoodBoothController {
     // 푸드트럭 부스 전체 조회
     @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> getFoodBooths(){
-        List<ResponseAllFoodBoothDTO> boothInfo = foodBoothService.getFoodBooths();
+        List<ResponseAllFoodBoothDTO> responseAllFoodBoothDTOList = foodBoothService.getFoodBooths();
 
-        boolean success = (boothInfo == null) ? false : true;
+        boolean success = (responseAllFoodBoothDTOList == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "전체 푸드트럭 조회 성공" : "전체 푸드트럭 조회 실패");
-        requestMap.put("boothInfo", boothInfo);
+        requestMap.put("boothList", responseAllFoodBoothDTOList);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
