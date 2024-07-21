@@ -19,7 +19,7 @@ public class GetNightBoothsDAOBean {
 
     // 야간 부스 리스트 가져오기
     public List<NightBoothDAO> exec(){
-        return nightBoothRepositoryJPA.findAllByOrderByIsOpenDesc();
+        return nightBoothRepositoryJPA.findAllByOrderByCreateAtAsc();
     }
 
     // isReservation이 true 인 것만 가져와서 정렬

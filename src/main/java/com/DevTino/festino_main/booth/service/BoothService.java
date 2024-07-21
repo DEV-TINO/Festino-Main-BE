@@ -19,7 +19,7 @@ public class BoothService {
     }
 
     // 부스 전체 조회
-    public Map<String, List<ResponseAllBoothDTO>> getBooths(){
+    public List<ResponseAllBoothDTO> getBooths(){
         return getBoothsBean.exec();
     }
 }

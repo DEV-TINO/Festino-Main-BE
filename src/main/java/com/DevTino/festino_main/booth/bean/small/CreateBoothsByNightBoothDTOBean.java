@@ -4,9 +4,6 @@ import com.DevTino.festino_main.booth.domain.DTO.ResponseAllBoothDTO;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
 public class CreateBoothsByNightBoothDTOBean {
     public ResponseAllBoothDTO exec(NightBoothDAO nightBoothDAO){
@@ -22,20 +19,5 @@ public class CreateBoothsByNightBoothDTOBean {
                 .location(nightBoothDAO.getLocation())
                 .isOpen(nightBoothDAO.getIsOpen())
                 .build();
-    }
-
-    public List<ResponseAllBoothDTO> exec(List<NightBoothDAO> nightBoothDAOList){
-
-        List<ResponseAllBoothDTO> responseDayBoothDAOList = new ArrayList<>();
-
-        // 주간 부스 전체 리스트로 가져오기
-        for (NightBoothDAO nightBoothDAO : nightBoothDAOList) {
-
-            ResponseAllBoothDTO responseAllBoothDTO = exec(nightBoothDAO);
-
-            responseDayBoothDAOList.add(responseAllBoothDTO);
-        }
-
-        return responseDayBoothDAOList;
     }
 }

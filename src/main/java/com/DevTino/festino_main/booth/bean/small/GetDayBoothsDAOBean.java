@@ -19,6 +19,6 @@ public class GetDayBoothsDAOBean {
 
     // 주간 부스 리스트 가져오기
     public List<DayBoothDAO> exec(){
-        return dayBoothRepositoryJPA.findAllByOrderByIsOpenDesc();
+        return dayBoothRepositoryJPA.findAllByOrderByCreateAtAsc();
     }
 }

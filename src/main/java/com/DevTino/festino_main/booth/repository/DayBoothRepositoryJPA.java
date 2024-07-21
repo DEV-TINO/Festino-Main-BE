@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface DayBoothRepositoryJPA extends JpaRepository<DayBoothDAO, UUID> {
-    List<DayBoothDAO> findAllByOrderByIsOpenDesc();
+    List<DayBoothDAO> findAllByOrderByCreateAtAsc();
 }

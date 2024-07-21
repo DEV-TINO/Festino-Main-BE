@@ -26,7 +26,7 @@ public class BoothController {
     // 부스 전체 조회
     @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> getBooths(){
-        Map<String, List<ResponseAllBoothDTO>> boothInfo = boothService.getBooths();
+        List<ResponseAllBoothDTO> boothInfo = boothService.getBooths();
 
         boolean success = (boothInfo == null) ? false : true;
 

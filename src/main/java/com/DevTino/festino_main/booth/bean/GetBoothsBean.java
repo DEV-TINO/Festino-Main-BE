@@ -31,7 +31,7 @@ public class GetBoothsBean {
     }
 
     // 주간, 야간, 푸드트럭 전체 리스트 가져온 다음 map으로 반환
-    public Map<String, List<ResponseAllBoothDTO>> exec(){
+    public List<ResponseAllBoothDTO> exec(){
 
         // 주간, 야간, 푸드트럭 전체 dao 리스트 가져오기
         List<DayBoothDAO> dayBoothDAOList = getDayBoothsDAOBean.exec();
