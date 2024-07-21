@@ -9,6 +9,7 @@ import java.util.UUID;
 @Builder
 public class ResponseAllNightBoothDTO {
     UUID boothId;
+    Integer boothNum;
     String boothName;
     String adminCategory;
     String adminName;

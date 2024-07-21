@@ -10,6 +10,7 @@ import java.util.UUID;
 @Builder
 public class ResponseFoodBoothDTO {
     UUID boothId;
+    Integer boothNum;
     String boothName;
     String adminCategory;
     String adminName;

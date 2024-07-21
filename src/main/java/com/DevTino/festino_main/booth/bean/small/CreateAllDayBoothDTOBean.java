@@ -11,6 +11,7 @@ public class CreateAllDayBoothDTOBean {
     public ResponseAllDayBoothDTO exec(DayBoothDAO dayBoothDAO){
         return ResponseAllDayBoothDTO.builder()
                 .boothId(dayBoothDAO.getBoothId())
+                .boothNum(dayBoothDAO.getBoothNum())
                 .boothName(dayBoothDAO.getBoothName())
                 .adminCategory(dayBoothDAO.getAdminCategory())
                 .adminName(dayBoothDAO.getAdminName())
