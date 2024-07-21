@@ -27,7 +27,7 @@ public class NoticeController {
 
     // 공지 조회
     @GetMapping("/{noticeId}")
-    public ResponseEntity<Map<String, Object>> getNotice(@PathVariable UUID noticeId){
+    public ResponseEntity<Map<String, Object>> getNotice(@PathVariable("noticeId") UUID noticeId){
         ResponseNoticeGetDTO responseNoticeGetDTO = noticeService.getNotice(noticeId);
 
         boolean success = (responseNoticeGetDTO == null) ? false : true;
