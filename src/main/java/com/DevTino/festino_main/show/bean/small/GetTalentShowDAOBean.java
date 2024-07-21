@@ -19,6 +19,6 @@ public class GetTalentShowDAOBean {
 
     // 연예인 전체 리스트로 가져오기
     public List<TalentShowDAO> exec(){
-        return talentShowRepositoryJPA.findAll();
+        return talentShowRepositoryJPA.findAllByOrderByShowStartTimeAsc();
     }
 }
