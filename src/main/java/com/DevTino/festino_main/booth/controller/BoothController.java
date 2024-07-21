@@ -33,7 +33,7 @@ public class BoothController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "전체 부스 조회 성공" : "전체 부스 조회 실패");
-        requestMap.put("boothInfo", boothInfo);
+        requestMap.put("boothList", boothInfo);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
