@@ -1,9 +1,6 @@
 package com.DevTino.festino_main.booth.bean;
 
-import com.DevTino.festino_main.booth.bean.small.GetDayBoothsDAOBean;
-import com.DevTino.festino_main.booth.bean.small.GetFoodBoothsDAOBean;
-import com.DevTino.festino_main.booth.bean.small.GetNightBoothsDAOBean;
-import com.DevTino.festino_main.booth.bean.small.CreateBoothsDTOBean;
+import com.DevTino.festino_main.booth.bean.small.*;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseAllBoothDTO;
 import com.DevTino.festino_main.booth.domain.entity.DayBoothDAO;
 import com.DevTino.festino_main.booth.domain.entity.FoodBoothDAO;

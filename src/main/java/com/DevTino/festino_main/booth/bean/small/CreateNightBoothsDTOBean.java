@@ -1,7 +1,8 @@
 package com.DevTino.festino_main.booth.bean.small;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseReservationNightBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseAllNightBoothDTO;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -9,26 +10,24 @@ import java.util.List;
 
 @Component
 public class CreateNightBoothsDTOBean {
-    public ResponseReservationNightBoothDTO exec(NightBoothDAO nightBoothDAO){
-        return ResponseReservationNightBoothDTO.builder()
-                .boothId(nightBoothDAO.getBoothId())
-                .adminName(nightBoothDAO.getAdminName())
-                .boothImage(nightBoothDAO.getBoothImage().get(0))
-                .totalReservationNum(nightBoothDAO.getTotalReservationNum())
-                .isOpen(nightBoothDAO.getIsOpen())
-                .build();
+
+    CreateOpenNightBoothsDTOBean createOpenNightBoothsDTOBean;
+    CreateCloseNightBoothsDTOBean createCloseNightBoothsDTOBean;
+
+    @Autowired
+    public CreateNightBoothsDTOBean(CreateOpenNightBoothsDTOBean createOpenNightBoothsDTOBean, CreateCloseNightBoothsDTOBean createCloseNightBoothsDTOBean){
+        this.createOpenNightBoothsDTOBean = createOpenNightBoothsDTOBean;
+        this.createCloseNightBoothsDTOBean = createCloseNightBoothsDTOBean;
     }
+    public List<ResponseAllNightBoothDTO> exec(List<NightBoothDAO> nightBoothDAOList){
+        List<ResponseAllNightBoothDTO> responseAllNightBoothDTOList = new ArrayList<>();
 
-    // DAO -> DTO 변환
-    public List<ResponseReservationNightBoothDTO> exec(List<NightBoothDAO> nightBoothDAOList){
+        List<ResponseAllNightBoothDTO> responseOpenAllNightBoothDTOList = createOpenNightBoothsDTOBean.exec(nightBoothDAOList);
+        List<ResponseAllNightBoothDTO> responseCloseAllNightBoothDTOList = createCloseNightBoothsDTOBean.exec(nightBoothDAOList);
 
-        List<ResponseReservationNightBoothDTO> responseReservationNightBoothDTOList = new ArrayList<>();
+        responseAllNightBoothDTOList.addAll(responseOpenAllNightBoothDTOList);
+        responseAllNightBoothDTOList.addAll(responseCloseAllNightBoothDTOList);
 
-        for(NightBoothDAO nightBoothDAO : nightBoothDAOList){
-            ResponseReservationNightBoothDTO responseReservationNightBoothDTO = exec(nightBoothDAO);
-
-            responseReservationNightBoothDTOList.add(responseReservationNightBoothDTO);
-        }
-        return responseReservationNightBoothDTOList;
+        return responseAllNightBoothDTOList;
     }
 }
