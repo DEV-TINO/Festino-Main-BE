@@ -26,7 +26,7 @@ public class MenuController {
 
     // 부스 별 전체 메뉴 조회
     @GetMapping("/menu/all/booth/{boothId}")
-    public ResponseEntity<Map<String, Object>> getMenus(@PathVariable UUID boothId){
+    public ResponseEntity<Map<String, Object>> getMenus(@PathVariable("boothId") UUID boothId){
         List<ResponseMenuGetDTO> responseMenuGetDTOList = menuService.getMenus(boothId)  ;
 
         boolean success = (responseMenuGetDTOList == null) ? false : true;

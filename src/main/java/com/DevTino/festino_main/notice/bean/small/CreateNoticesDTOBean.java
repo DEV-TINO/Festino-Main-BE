@@ -2,7 +2,6 @@ package com.DevTino.festino_main.notice.bean.small;
 
 import com.DevTino.festino_main.notice.domain.DTO.ResponseNoticesGetDTO;
 import com.DevTino.festino_main.notice.domain.entity.NoticeDAO;
-import org.apache.coyote.Response;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,8 +14,6 @@ public class CreateNoticesDTOBean {
                 .noticeId(noticeDAO.getNoticeId())
                 .title(noticeDAO.getTitle())
                 .updateAt(noticeDAO.getUpdateAt())
-                .writerName(noticeDAO.getWriterName())
-                .imageUrl(noticeDAO.getImageUrl())
                 .content(noticeDAO.getContent())
                 .isPin(noticeDAO.getIsPin())
                 .build();
