@@ -25,7 +25,7 @@ public class ClubShowController {
 
     // 날짜 별 동아리 타임 테이블 전체 조회
     @GetMapping("/club/all/date/{day}")
-    public ResponseEntity<Map<String, Object>> getShows(@PathVariable int day){
+    public ResponseEntity<Map<String, Object>> getShows(@PathVariable("day") int day){
         List<ResponseClubShowsGetDTO> responseClubShowsGetDTOList = clubShowService.getShows(day);
 
         boolean success = (responseClubShowsGetDTOList == null) ? false : true;

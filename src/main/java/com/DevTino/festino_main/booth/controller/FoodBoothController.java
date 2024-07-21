@@ -25,7 +25,7 @@ public class FoodBoothController {
 
     // 푸드트럭 디테일 조회
     @GetMapping("/food/{boothId}")
-    public ResponseEntity<Map<String, Object>> getFoodBooth(@PathVariable UUID boothId){
+    public ResponseEntity<Map<String, Object>> getFoodBooth(@PathVariable("boothId") UUID boothId){
         ResponseFoodBoothDTO responseFoodBoothDTO = foodBoothService.getFoodBooth(boothId);
 
         boolean success = (responseFoodBoothDTO == null) ? false : true;

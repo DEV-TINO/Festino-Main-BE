@@ -25,7 +25,7 @@ public class DayBoothController {
 
     // 주간 부스 디테일 조회
     @GetMapping("/day/{boothId}")
-    public ResponseEntity<Map<String, Object>> getDayBooth(@PathVariable UUID boothId){
+    public ResponseEntity<Map<String, Object>> getDayBooth(@PathVariable("boothId") UUID boothId){
         ResponseDayBoothDTO responseDayBoothDTO = dayBoothService.getDayBooth(boothId);
 
         boolean success = (responseDayBoothDTO == null) ? false : true;
