@@ -11,7 +11,6 @@ import java.util.UUID;
 public class ResponseNoticesGetDTO {
     UUID noticeId;
     String title;
-    String writerName;
     LocalDateTime updateAt;
     String content;
     Boolean isPin;
