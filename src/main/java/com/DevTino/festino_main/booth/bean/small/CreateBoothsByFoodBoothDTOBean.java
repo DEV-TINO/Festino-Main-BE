@@ -9,7 +9,6 @@ public class CreateBoothsByFoodBoothDTOBean {
     public ResponseAllBoothDTO exec(FoodBoothDAO foodBoothDAO){
         return ResponseAllBoothDTO.builder()
                 .boothId(foodBoothDAO.getBoothId())
-                .boothNum(foodBoothDAO.getBoothNum())
                 .boothName(foodBoothDAO.getBoothName())
                 .adminCategory(foodBoothDAO.getAdminCategory())
                 .adminName(foodBoothDAO.getAdminName())

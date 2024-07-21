@@ -20,8 +20,6 @@ public class DayBoothDAO {
     @Id
     UUID boothId;
 
-    Integer boothNum;
-
     String boothName;
     String adminCategory;
     String adminName;

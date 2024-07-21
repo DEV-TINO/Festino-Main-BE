@@ -9,7 +9,6 @@ public class CreateBoothsByNightBoothDTOBean {
     public ResponseAllBoothDTO exec(NightBoothDAO nightBoothDAO){
         return ResponseAllBoothDTO.builder()
                 .boothId(nightBoothDAO.getBoothId())
-                .boothNum(nightBoothDAO.getBoothNum())
                 .boothName(nightBoothDAO.getBoothName())
                 .adminCategory(nightBoothDAO.getAdminCategory())
                 .adminName(nightBoothDAO.getAdminName())
