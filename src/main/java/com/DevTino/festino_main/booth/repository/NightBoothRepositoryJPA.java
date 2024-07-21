@@ -1,6 +1,5 @@
 package com.DevTino.festino_main.booth.repository;
 
-import com.DevTino.festino_main.booth.domain.entity.FoodBoothDAO;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import org.springframework.data.jpa.repository.JpaRepository;
 
