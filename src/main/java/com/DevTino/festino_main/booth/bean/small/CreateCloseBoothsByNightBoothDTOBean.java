@@ -1,7 +1,6 @@
 package com.DevTino.festino_main.booth.bean.small;
 
 import com.DevTino.festino_main.booth.domain.DTO.ResponseAllBoothDTO;
-import com.DevTino.festino_main.booth.domain.entity.FoodBoothDAO;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

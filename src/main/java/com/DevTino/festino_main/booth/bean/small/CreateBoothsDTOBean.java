@@ -56,12 +56,6 @@ public class CreateBoothsDTOBean {
         // 오픈이 아닌 야간 부스 전체 리스트로 가져오기
         List<ResponseAllBoothDTO> responseCloseNightBoothsDTOList = createCloseBoothsByNightBoothDTOBean.exec(nightBoothDAOList);
 
-
-        // 맵에 주간부스, 야간부스, 푸드트럭 전체 리스트 추가
-//        newMap.put("dayBoothInfo", responseDayBoothsDTOList);
-//        newMap.put("nightBoothInfo", responseNightBoothsDTOList);
-//        newMap.put("foodBoothInfo", responseFoodBoothsDTOList);
-
         // 하나의 리스트로 합치기
         responseAllBoothDTOList.addAll(responseOpenDayBoothsDTOList);
         responseAllBoothDTOList.addAll(responseOpenFoodBoothsDTOList);
