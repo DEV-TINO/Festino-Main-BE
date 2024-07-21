@@ -5,16 +5,13 @@ import com.google.gson.reflect.TypeToken;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-@RestController
+@Component
 public class SaveReservationSendMessageBean {
 
     @Value("${gavia.key}")
