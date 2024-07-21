@@ -2,12 +2,14 @@ package com.DevTino.festino_main.reservation.controller;
 
 import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationGetDTO;
+import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationSaveDTO;
 import com.DevTino.festino_main.reservation.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -26,14 +28,14 @@ public class ReservationController {
 
     // 예약 등록
     @PostMapping
-    public ResponseEntity<Map<String, Object>> saveReservation(@RequestBody RequestReservationSaveDTO requestReservationSaveDTO) {
-        UUID reservationId = reservationService.saveReservation(requestReservationSaveDTO);
+    public ResponseEntity<Map<String, Object>> saveReservation(@RequestBody RequestReservationSaveDTO requestReservationSaveDTO) throws IOException {
+        ResponseReservationSaveDTO responseReservationSaveDTO = reservationService.saveReservation(requestReservationSaveDTO);
 
         // message, success, id 값 json 데이터로 반환
         Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", reservationId != null);
-        requestMap.put("message", (reservationId == null) ? "reservation failure": "reservation success");
-        requestMap.put("reservationId", (reservationId == null) ? "00000000-0000-0000-0000-000000000000" : reservationId);
+        requestMap.put("success", responseReservationSaveDTO != null);
+        requestMap.put("message", (responseReservationSaveDTO == null) ? "reservation failure": "reservation success");
+        requestMap.put("reservationInfo", (responseReservationSaveDTO == null) ? "00000000-0000-0000-0000-000000000000" : responseReservationSaveDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }

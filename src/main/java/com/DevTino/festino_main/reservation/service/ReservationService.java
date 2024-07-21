@@ -4,9 +4,11 @@ import com.DevTino.festino_main.reservation.bean.GetReservationBean;
 import com.DevTino.festino_main.reservation.bean.SaveReservationBean;
 import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationGetDTO;
+import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationSaveDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
@@ -21,7 +23,7 @@ public class ReservationService {
     }
 
     // 예약 등록
-    public UUID saveReservation(RequestReservationSaveDTO requestReservationSaveDTO) {
+    public ResponseReservationSaveDTO saveReservation(RequestReservationSaveDTO requestReservationSaveDTO) throws IOException {
         return saveReservationBean.exec(requestReservationSaveDTO);
     }
 
