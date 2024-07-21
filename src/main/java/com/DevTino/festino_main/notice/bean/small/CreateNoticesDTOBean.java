@@ -15,7 +15,6 @@ public class CreateNoticesDTOBean {
                 .noticeId(noticeDAO.getNoticeId())
                 .title(noticeDAO.getTitle())
                 .updateAt(noticeDAO.getUpdateAt())
-                .writerName(noticeDAO.getWriterName())
                 .content(noticeDAO.getContent())
                 .isPin(noticeDAO.getIsPin())
                 .build();

@@ -21,7 +21,6 @@ public class NoticeDAO {
     UUID noticeId;
 
     String title;
-    String writerName;
 
     @Convert(converter = StringConverter.class)
     List<String> imageUrl;
