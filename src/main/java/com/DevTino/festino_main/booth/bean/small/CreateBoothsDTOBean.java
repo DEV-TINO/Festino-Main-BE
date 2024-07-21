@@ -57,12 +57,12 @@ public class CreateBoothsDTOBean {
         List<ResponseAllBoothDTO> responseCloseNightBoothsDTOList = createCloseBoothsByNightBoothDTOBean.exec(nightBoothDAOList);
 
         // 하나의 리스트로 합치기
+        responseAllBoothDTOList.addAll(responseOpenNightBoothsDTOList);
         responseAllBoothDTOList.addAll(responseOpenDayBoothsDTOList);
         responseAllBoothDTOList.addAll(responseOpenFoodBoothsDTOList);
-        responseAllBoothDTOList.addAll(responseOpenNightBoothsDTOList);
+        responseAllBoothDTOList.addAll(responseCloseNightBoothsDTOList);
         responseAllBoothDTOList.addAll(responseCloseDayBoothsDTOList);
         responseAllBoothDTOList.addAll(responseCloseFoodBoothsDTOList);
-        responseAllBoothDTOList.addAll(responseCloseNightBoothsDTOList);
 
         //전체 리스트 반환 반환
         return responseAllBoothDTOList;
