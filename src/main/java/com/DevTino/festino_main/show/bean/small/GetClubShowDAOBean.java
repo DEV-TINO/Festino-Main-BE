@@ -19,6 +19,6 @@ public class GetClubShowDAOBean {
 
     // 동아리 전체 리스트로 가져오기
     public List<ClubShowDAO> exec() {
-        return clubShowRepositoryJPA.findAllByOrderByShowStartTimeAsc();
+        return clubShowRepositoryJPA.findAll();
     }
 }
