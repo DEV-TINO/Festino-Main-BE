@@ -23,4 +23,6 @@ public class ResponseOrderGetDTO {
     List<Map<String, Object>> menuInfo;
 
     Integer totalPrice;
+
+    Integer orderType;
 }
