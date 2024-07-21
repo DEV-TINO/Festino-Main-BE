@@ -43,6 +43,15 @@ public class CreateClubShowsDTOBean {
 
         List<ResponseClubShowsGetDTO> responseClubShowsGetDTOList = new ArrayList<>();
 
+        if (day == 1) {
+            day = 11;
+        } else if (day == 2){
+            day = 12;
+        } else if (day == 3) {
+            day = 13;
+        } else
+            return null;
+
         // 날짜 별 동아리 타임 테이블 전체 리스트로 가져오기
         for (ClubShowDAO clubShowDAO : clubShowDAOList) {
 
