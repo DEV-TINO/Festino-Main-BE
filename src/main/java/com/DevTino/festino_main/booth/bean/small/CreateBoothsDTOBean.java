@@ -7,46 +7,71 @@ import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class CreateBoothsDTOBean {
 
+    CreateBoothsByNightBoothDTOBean createBoothsByNightBoothDTOBean;
     CreateBoothsByDayBoothDTOBean createBoothsByDayBoothDTOBean;
     CreateBoothsByFoodBoothDTOBean createBoothsByFoodBoothDTOBean;
-    CreateBoothsByNightBoothDTOBean createBoothsByNightBoothDTOBean;
 
     @Autowired
-    public CreateBoothsDTOBean(CreateBoothsByDayBoothDTOBean createBoothsByDayBoothDTOBean, CreateBoothsByFoodBoothDTOBean createBoothsByFoodBoothDTOBean, CreateBoothsByNightBoothDTOBean createBoothsByNightBoothDTOBean) {
-        this.createBoothsByDayBoothDTOBean = createBoothsByDayBoothDTOBean;
+    public CreateBoothsDTOBean(CreateBoothsByNightBoothDTOBean createBoothsByNightBoothDTOBean, CreateBoothsByDayBoothDTOBean createBoothsByDayBoothDTOBean, CreateBoothsByFoodBoothDTOBean createBoothsByFoodBoothDTOBean) {
         this.createBoothsByNightBoothDTOBean = createBoothsByNightBoothDTOBean;
+        this.createBoothsByDayBoothDTOBean = createBoothsByDayBoothDTOBean;
         this.createBoothsByFoodBoothDTOBean = createBoothsByFoodBoothDTOBean;
     }
 
     // 전체 부스 DTO 생성
-    public Map<String, List<ResponseAllBoothDTO>> exec(List<DayBoothDAO> dayBoothDAOList, List<NightBoothDAO> nightBoothDAOList, List<FoodBoothDAO> foodBoothDAOList){
+    public List<ResponseAllBoothDTO> exec(List<DayBoothDAO> dayBoothDAOList, List<NightBoothDAO> nightBoothDAOList, List<FoodBoothDAO> foodBoothDAOList){
 
-        // map 생성
-        Map<String, List<ResponseAllBoothDTO>> newMap = new HashMap<>();
+        // 전체
+        List<ResponseAllBoothDTO> responseAllBoothDTOList = new ArrayList<>();
 
-        // 주간 부스 전체 리스트로 가져오기
-        List<ResponseAllBoothDTO> responseDayBoothsDTOList = createBoothsByDayBoothDTOBean.exec(dayBoothDAOList);
+        // 운영중, 운영안함
+        List<ResponseAllBoothDTO> responseOpenBoothsDTOList = new ArrayList<>();
+        List<ResponseAllBoothDTO> responseCloseBoothsDTOList = new ArrayList<>();
 
         // 야간 부스 전체 리스트로 가져오기
-        List<ResponseAllBoothDTO> responseNightBoothsDTOList = createBoothsByNightBoothDTOBean.exec(nightBoothDAOList);
+        for (NightBoothDAO nightBoothDAO : nightBoothDAOList) {
 
-        // 푸드트럭 부스 전체 리스트로 가져오기
-        List<ResponseAllBoothDTO> responseFoodBoothsDTOList = createBoothsByFoodBoothDTOBean.exec(foodBoothDAOList);
+            ResponseAllBoothDTO responseAllBoothDTO = createBoothsByNightBoothDTOBean.exec(nightBoothDAO);
 
+            if (nightBoothDAO.getIsOpen())
+                responseOpenBoothsDTOList.add(responseAllBoothDTO);
+            else
+                responseCloseBoothsDTOList.add(responseAllBoothDTO);
+        }
 
-        // 맵에 주간부스, 야간부스, 푸드트럭 전체 리스트 추가
-        newMap.put("dayBoothInfo", responseDayBoothsDTOList);
-        newMap.put("nightBoothInfo", responseNightBoothsDTOList);
-        newMap.put("foodBoothInfo", responseFoodBoothsDTOList);
+        // 주간 부스 전체 리스트로 가져오기
+        for (DayBoothDAO dayBoothDAO : dayBoothDAOList) {
 
-        //맵 반환
-        return newMap;
+            ResponseAllBoothDTO responseAllBoothDTO = createBoothsByDayBoothDTOBean.exec(dayBoothDAO);
+
+            if (dayBoothDAO.getIsOpen())
+                responseOpenBoothsDTOList.add(responseAllBoothDTO);
+            else
+                responseCloseBoothsDTOList.add(responseAllBoothDTO);
+        }
+
+        // 푸드 부스 전체 리스트로 가져오기
+        for (FoodBoothDAO foodBoothDAO : foodBoothDAOList) {
+
+            ResponseAllBoothDTO responseAllBoothDTO = createBoothsByFoodBoothDTOBean.exec(foodBoothDAO);
+
+            if (foodBoothDAO.getIsOpen())
+                responseOpenBoothsDTOList.add(responseAllBoothDTO);
+            else
+                responseCloseBoothsDTOList.add(responseAllBoothDTO);
+        }
+
+        // 하나의 리스트로 합치기
+        responseAllBoothDTOList.addAll(responseOpenBoothsDTOList);
+        responseAllBoothDTOList.addAll(responseCloseBoothsDTOList);
+
+        //전체 리스트 반환 반환
+        return responseAllBoothDTOList;
     }
 }

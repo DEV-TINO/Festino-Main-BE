@@ -1,9 +1,6 @@
 package com.DevTino.festino_main.booth.bean;
 
-import com.DevTino.festino_main.booth.bean.small.GetDayBoothsDAOBean;
-import com.DevTino.festino_main.booth.bean.small.GetFoodBoothsDAOBean;
-import com.DevTino.festino_main.booth.bean.small.GetNightBoothsDAOBean;
-import com.DevTino.festino_main.booth.bean.small.CreateBoothsDTOBean;
+import com.DevTino.festino_main.booth.bean.small.*;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseAllBoothDTO;
 import com.DevTino.festino_main.booth.domain.entity.DayBoothDAO;
 import com.DevTino.festino_main.booth.domain.entity.FoodBoothDAO;
@@ -12,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Map;
 
 @Component
 public class GetBoothsBean {
@@ -31,7 +27,7 @@ public class GetBoothsBean {
     }
 
     // 주간, 야간, 푸드트럭 전체 리스트 가져온 다음 map으로 반환
-    public Map<String, List<ResponseAllBoothDTO>> exec(){
+    public List<ResponseAllBoothDTO> exec(){
 
         // 주간, 야간, 푸드트럭 전체 dao 리스트 가져오기
         List<DayBoothDAO> dayBoothDAOList = getDayBoothsDAOBean.exec();

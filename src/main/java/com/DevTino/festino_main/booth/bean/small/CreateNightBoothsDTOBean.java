@@ -1,7 +1,8 @@
 package com.DevTino.festino_main.booth.bean.small;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseReservationNightBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseAllNightBoothDTO;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -9,26 +10,36 @@ import java.util.List;
 
 @Component
 public class CreateNightBoothsDTOBean {
-    public ResponseReservationNightBoothDTO exec(NightBoothDAO nightBoothDAO){
-        return ResponseReservationNightBoothDTO.builder()
-                .boothId(nightBoothDAO.getBoothId())
-                .adminName(nightBoothDAO.getAdminName())
-                .boothImage(nightBoothDAO.getBoothImage().get(0))
-                .totalReservationNum(nightBoothDAO.getTotalReservationNum())
-                .isOpen(nightBoothDAO.getIsOpen())
-                .build();
+
+    CreateAllNightBoothDTOBean createAllNightBoothDTOBean;
+
+    @Autowired
+    public CreateNightBoothsDTOBean(CreateAllNightBoothDTOBean createAllNightBoothDTOBean) {
+        this.createAllNightBoothDTOBean = createAllNightBoothDTOBean;
     }
 
-    // DAO -> DTO 변환
-    public List<ResponseReservationNightBoothDTO> exec(List<NightBoothDAO> nightBoothDAOList){
+    public List<ResponseAllNightBoothDTO> exec(List<NightBoothDAO> nightBoothDAOList){
 
-        List<ResponseReservationNightBoothDTO> responseReservationNightBoothDTOList = new ArrayList<>();
+        List<ResponseAllNightBoothDTO> responseAllNightBoothDTOList = new ArrayList<>();
 
-        for(NightBoothDAO nightBoothDAO : nightBoothDAOList){
-            ResponseReservationNightBoothDTO responseReservationNightBoothDTO = exec(nightBoothDAO);
+        List<ResponseAllNightBoothDTO> responseOpenAllNightBoothDTOList = new ArrayList<>();
+        List<ResponseAllNightBoothDTO> responseCloseAllNightBoothDTOList = new ArrayList<>();
 
-            responseReservationNightBoothDTOList.add(responseReservationNightBoothDTO);
+        // 주간 부스 전체 리스트로 가져오기
+        for (NightBoothDAO nightBoothDAO : nightBoothDAOList) {
+
+            ResponseAllNightBoothDTO responseAllNightBoothDTO = createAllNightBoothDTOBean.exec(nightBoothDAO);
+
+            if (nightBoothDAO.getIsOpen())
+                responseOpenAllNightBoothDTOList.add(responseAllNightBoothDTO);
+            else
+                responseCloseAllNightBoothDTOList.add(responseAllNightBoothDTO);
+
         }
-        return responseReservationNightBoothDTOList;
+
+        responseAllNightBoothDTOList.addAll(responseOpenAllNightBoothDTOList);
+        responseAllNightBoothDTOList.addAll(responseCloseAllNightBoothDTOList);
+
+        return responseAllNightBoothDTOList;
     }
 }
