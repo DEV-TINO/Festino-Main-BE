@@ -2,6 +2,7 @@ package com.DevTino.festino_main.reservation.bean.small;
 
 import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.domain.ReservationDAO;
+import com.DevTino.festino_main.reservation.domain.ReservationEnum;
 import com.DevTino.festino_main.reservation.repository.ReservationRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,7 @@ public class CreateReservationDAOBean {
                 .personCount(requestReservationSaveDTO.getPersonCount())
                 .date(date)
                 .reservationNum(reservationNum)
+                .reservationType(ReservationEnum.RESERVE)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
                 .isCancel(false)

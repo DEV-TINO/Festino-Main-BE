@@ -27,6 +27,7 @@ public class CreateReservationDTOBean {
                 .totalTeamCount(getReservationsByBoothIdAndCreateAtLessThanDAOBean.exec(reservationDAO).size())
                 .date(reservationDAO.getDate())
                 .reservationNum(reservationDAO.getReservationNum())
+                .reservationType(reservationDAO.getReservationType())
                 .build();
     }
 }

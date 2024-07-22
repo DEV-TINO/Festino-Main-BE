@@ -24,6 +24,8 @@ public class ReservationDAO {
     Integer date;
     Integer reservationNum;
 
+    ReservationEnum reservationType;
+
     LocalDateTime createAt;
     LocalDateTime updateAt;
 
