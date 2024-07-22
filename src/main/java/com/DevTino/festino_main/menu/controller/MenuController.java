@@ -34,7 +34,7 @@ public class MenuController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "메뉴 저장 성공" : "메뉴 저장 시 DAO 저장 실패");
-        requestMap.put("menuInfo", responseMenuGetDTOList);
+        requestMap.put("menuList", responseMenuGetDTOList);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
