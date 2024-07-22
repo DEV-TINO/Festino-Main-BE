@@ -31,7 +31,6 @@ public class CreateNightBoothDTOBean {
                 .closeTime(nightBoothDAO.getCloseTime())
                 .boothIntro(nightBoothDAO.getBoothIntro())
                 .boothImage(nightBoothDAO.getBoothImage())
-                .location(nightBoothDAO.getLocation())
                 .isOpen(nightBoothDAO.getIsOpen())
                 .isOrder(nightBoothDAO.getIsOrder())
                 .isReservation(nightBoothDAO.getIsReservation())

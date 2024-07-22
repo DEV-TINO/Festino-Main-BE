@@ -18,7 +18,6 @@ public class ResponseNightBoothDTO {
     String closeTime;
     String boothIntro;
     List<String> boothImage;
-    String location;
     Boolean isOpen;
     Boolean isOrder;
     Boolean isReservation;

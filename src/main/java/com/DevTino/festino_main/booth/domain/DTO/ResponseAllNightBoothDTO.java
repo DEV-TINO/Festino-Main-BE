@@ -16,6 +16,5 @@ public class ResponseAllNightBoothDTO {
     String closeTime;
     String boothIntro;
     String boothImage;
-    String location;
     Boolean isOpen;
 }
