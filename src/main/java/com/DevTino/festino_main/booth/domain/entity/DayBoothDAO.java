@@ -29,7 +29,6 @@ public class DayBoothDAO {
 
     @Convert(converter = StringConverter.class)
     List<String> boothImage;
-    String location;
 
     Boolean isOpen;
 
