@@ -38,7 +38,6 @@ public class CreateReservationDAOBean {
                 .reservationType(ReservationEnum.RESERVE)
                 .createAt(LocalDateTime.now())
                 .updateAt(LocalDateTime.now())
-                .isCancel(false)
                 .build();
     }
 }
