@@ -28,9 +28,12 @@ public class CreateMenusDTOBean {
 
         // 해당 부스 메뉴 전체 리스트 가져오기
         for(MenuDAO menuDAO : menuDAOList){
+
+            if (!menuDAO.getIsDeleted()) {
                 ResponseMenuGetDTO responseMenuGetDTO = exec(menuDAO);
 
                 responseMenuGetDTOList.add(responseMenuGetDTO);
+            }
         }
         return responseMenuGetDTOList;
     }

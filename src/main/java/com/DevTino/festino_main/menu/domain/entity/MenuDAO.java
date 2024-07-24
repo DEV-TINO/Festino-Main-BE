@@ -25,6 +25,7 @@ public class MenuDAO {
     Integer menuPrice;
 
     Boolean isSoldOut;
+    Boolean isDeleted;
 
     LocalDateTime createAt;
     LocalDateTime updateAt;
