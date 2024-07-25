@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.reservation.bean.small;
 
+import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.domain.ReservationDAO;
 import com.DevTino.festino_main.reservation.domain.ReservationEnum;
@@ -22,8 +23,8 @@ public class CreateReservationDAOBean {
     }
 
     // RequestReservationSaveDTO -> ReservationDAO 변경
-    public ReservationDAO exec(RequestReservationSaveDTO requestReservationSaveDTO) {
-        Integer date = checkReservationDAODateFieldBean.exec(requestReservationSaveDTO.getBoothId());
+    public ReservationDAO exec(NightBoothDAO nightBoothDAO, RequestReservationSaveDTO requestReservationSaveDTO) {
+        Integer date = checkReservationDAODateFieldBean.exec(nightBoothDAO);
         ReservationDAO reservationDAO = reservationRepositoryJPA.findFirstByDateOrderByReservationNumDesc(date);
         Integer reservationNum = reservationDAO == null ? 1 : reservationDAO.getReservationNum() + 1;
 

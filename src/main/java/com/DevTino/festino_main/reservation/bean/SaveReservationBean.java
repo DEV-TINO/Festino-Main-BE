@@ -36,6 +36,7 @@ public class SaveReservationBean {
 
     // 예약 등록
     public ResponseReservationSaveDTO exec(RequestReservationSaveDTO requestReservationSaveDTO) throws IOException {
+
         // 이전 예약 기록이 있을 경우 예약이 불가능
         // 예약은 전화번호, RELEASE 기준으로 함
         // 전화번호, RELEASE 가 같은 경우 기존 예약을 취소하고 진행함
@@ -43,14 +44,13 @@ public class SaveReservationBean {
             return null;
         }
 
-        if(getNightBoothDAOBean.exec(requestReservationSaveDTO.getBoothId()) == null) {
-            return null;
-        }
+        NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(requestReservationSaveDTO.getBoothId());
+        if (nightBoothDAO == null) return null;
 
         // 예약을 등록한 뒤 reservationId 반환
-        ReservationDAO createReservationDAO = createReservationDAOBean.exec(requestReservationSaveDTO);
+        ReservationDAO createReservationDAO = createReservationDAOBean.exec(nightBoothDAO, requestReservationSaveDTO);
+        if (createReservationDAO == null) return null;
 
-        NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(requestReservationSaveDTO.getBoothId());
         nightBoothDAO.setTotalReservationNum(nightBoothDAO.getTotalReservationNum() + 1);
 
         saveReservationDAOBean.exec(createReservationDAO);

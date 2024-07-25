@@ -1,30 +1,18 @@
 package com.DevTino.festino_main.reservation.bean.small;
 
-import com.DevTino.festino_main.booth.bean.small.GetNightBoothDAOBean;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 @Component
 public class CheckReservationDAODateFieldBean {
-    GetNightBoothDAOBean getNightBoothDAOBean;
-
-    @Autowired
-    public CheckReservationDAODateFieldBean(GetNightBoothDAOBean getNightBoothDAOBean) {
-        this.getNightBoothDAOBean = getNightBoothDAOBean;
-    }
 
     // 부스의 오픈 시간을 활용해서 몇일차인지 구함
-    public Integer exec(UUID boothId) {
-        NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(boothId);
-
-        if(nightBoothDAO == null) return null;
+    public Integer exec(NightBoothDAO nightBoothDAO) {
 
         String openTime = nightBoothDAO.getOpenTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
