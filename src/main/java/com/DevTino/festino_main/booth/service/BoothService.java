@@ -26,7 +26,6 @@ public class BoothService {
         this.getNightBoothsBean = getNightBoothsBean;
     }
 
-
     // 부스 전체 조회
     public List<ResponseAllBoothDTO> getBooths(){
         return getBoothsBean.exec();

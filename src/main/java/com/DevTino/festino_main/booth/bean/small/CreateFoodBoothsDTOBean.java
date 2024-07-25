@@ -18,6 +18,7 @@ public class CreateFoodBoothsDTOBean {
         this.createAllFoodBoothDTOBean = createAllFoodBoothDTOBean;
     }
 
+    // 푸드트럭 오픈 중과 오픈 아닌 것으로 나누어 정렬
     public List<ResponseAllFoodBoothDTO> exec(List<FoodBoothDAO> foodBoothDAOList){
 
         List<ResponseAllFoodBoothDTO> responseAllFoodBoothDTOList = new ArrayList<>();

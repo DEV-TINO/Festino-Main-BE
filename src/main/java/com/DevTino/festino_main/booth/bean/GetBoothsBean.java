@@ -29,10 +29,10 @@ public class GetBoothsBean {
         this.getFacilitiesDAOBean = getFacilitiesDAOBean;
     }
 
-    // 주간, 야간, 푸드트럭 전체 리스트 가져온 다음 map으로 반환
+    // 야간, 주간, 푸드트럭, 편의시설 전체 리스트 가져온 다음 map으로 반환
     public List<ResponseAllBoothDTO> exec(){
 
-        // 주간, 야간, 푸드트럭 전체 dao 리스트 가져오기
+        // 야간, 주간, 푸드트럭 편의시설 전체 dao 리스트 가져오기
         List<NightBoothDAO> nightBoothDAOList = getNightBoothsDAOBean.exec();
         List<DayBoothDAO> dayBoothDAOList = getDayBoothsDAOBean.exec();
         List<FoodBoothDAO> foodBoothDAOList = getFoodBoothsDAOBean.exec();

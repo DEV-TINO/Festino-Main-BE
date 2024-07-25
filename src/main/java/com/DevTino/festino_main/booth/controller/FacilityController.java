@@ -40,6 +40,7 @@ public class FacilityController {
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
 
+    // 특정 편의시설 조회
     @GetMapping("/facility/{boothId}")
     public ResponseEntity<Map<String, Object>> getAmenity(@PathVariable("boothId") UUID boothId){
         ResponseFacilityDTO responseFacilityDTO = facilityService.getAmenity(boothId);

@@ -21,9 +21,12 @@ public class GetFacilityBean {
         this.createFacilityDTOBean = createFacilityDTOBean;
     }
 
+    // 특정 편의시설 조회
     public ResponseFacilityDTO exec(UUID boothId){
+        // 아이디로 특정 편의시설 정보 가져오기
         FacilityDAO facilityDAO = getFacilityDAOBean.exec(boothId);
 
+        // 특정 편의시설 정보 반환
         return createFacilityDTOBean.exec(facilityDAO);
     }
 }

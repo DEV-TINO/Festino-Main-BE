@@ -1,7 +1,6 @@
 package com.DevTino.festino_main.booth.bean.small;
 
 import com.DevTino.festino_main.booth.domain.DTO.ResponseAllBoothDTO;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllFacilityDTO;
 import com.DevTino.festino_main.booth.domain.entity.DayBoothDAO;
 import com.DevTino.festino_main.booth.domain.entity.FacilityDAO;
 import com.DevTino.festino_main.booth.domain.entity.FoodBoothDAO;
@@ -71,7 +70,7 @@ public class CreateBoothsDTOBean {
                 responseCloseBoothsDTOList.add(responseAllBoothDTO);
         }
 
-
+        // 편의시설 전체 리스트로 가져오기
         for (FacilityDAO facilityDAO : facilityDAOList) {
 
             ResponseAllBoothDTO responseAllBoothDTO = createBoothsByFacilityDTOBean.exec(facilityDAO);

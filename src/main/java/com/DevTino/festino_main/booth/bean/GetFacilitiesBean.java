@@ -21,10 +21,12 @@ public class GetFacilitiesBean {
         this.createFacilitiesDTOBean = createFacilitiesDTOBean;
     }
 
+    // 전체 편의시설 조회
     public List<ResponseAllFacilityDTO> exec(){
-        //
+        // 편의시설 리스트로 가져오기
         List<FacilityDAO> facilityDAOList = getFacilitiesDAOBean.exec();
 
+        // 전체 편의시설 리스트 반환
         return createFacilitiesDTOBean.exec(facilityDAOList);
     }
 }

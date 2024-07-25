@@ -17,6 +17,7 @@ public class GetFacilitiesDAOBean {
         this.facilityRepositoryJPA = facilityRepositoryJPA;
     }
 
+    // 편의시설 리스트로 가져오기
     public List<FacilityDAO> exec(){
         return facilityRepositoryJPA.findAllByOrderByIsOpenDescMarkerNumAsc();
     }

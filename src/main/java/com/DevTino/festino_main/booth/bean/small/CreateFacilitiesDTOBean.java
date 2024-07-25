@@ -25,6 +25,7 @@ public class CreateFacilitiesDTOBean {
                 .build();
     }
 
+    // 전체 편의시설 리스트
     public List<ResponseAllFacilityDTO> exec(List<FacilityDAO> facilityDAOList){
 
         List<ResponseAllFacilityDTO> responseAllFacilityDTOList = new ArrayList<>();
