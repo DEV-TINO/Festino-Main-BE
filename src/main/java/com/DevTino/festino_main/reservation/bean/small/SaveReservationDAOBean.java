@@ -2,8 +2,11 @@ package com.DevTino.festino_main.reservation.bean.small;
 
 import com.DevTino.festino_main.reservation.domain.ReservationDAO;
 import com.DevTino.festino_main.reservation.repository.ReservationRepositoryJPA;
+import jakarta.persistence.LockModeType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class SaveReservationDAOBean {
@@ -15,6 +18,8 @@ public class SaveReservationDAOBean {
     }
 
     // 예약 등록
+    @Transactional
+    @Lock(LockModeType.PESSIMISTIC_READ)
     public void exec(ReservationDAO reservationDAO) {
         reservationRepositoryJPA.save(reservationDAO);
     }

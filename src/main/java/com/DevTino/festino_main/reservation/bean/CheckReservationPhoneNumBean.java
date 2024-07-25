@@ -1,24 +1,24 @@
 package com.DevTino.festino_main.reservation.bean;
 
-import com.DevTino.festino_main.reservation.bean.small.GetReservationDetailDAOBean;
-import com.DevTino.festino_main.reservation.domain.ReservationDetailDAO;
+import com.DevTino.festino_main.reservation.bean.small.GetReservationByPhoneNumDAOBean;
+import com.DevTino.festino_main.reservation.domain.ReservationDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CheckReservationPhoneNumBean {
 
-    GetReservationDetailDAOBean getReservationDetailBean;
+    GetReservationByPhoneNumDAOBean getReservationByPhoneNumDAOBean;
 
     @Autowired
-    public CheckReservationPhoneNumBean(GetReservationDetailDAOBean getReservationDetailBean) {
-        this.getReservationDetailBean = getReservationDetailBean;
+    public CheckReservationPhoneNumBean(GetReservationByPhoneNumDAOBean getReservationByPhoneNumDAOBean) {
+        this.getReservationByPhoneNumDAOBean = getReservationByPhoneNumDAOBean;
     }
-    
+
     // 예약된 전화번호인지 확인
     public boolean exec(String phoneNum) {
 
-        ReservationDetailDAO reservationDetailDAO = getReservationDetailBean.exec(phoneNum);
-        return reservationDetailDAO != null;
+        ReservationDAO reservationDAO = getReservationByPhoneNumDAOBean.exec(phoneNum);
+        return reservationDAO != null;
     }
 }

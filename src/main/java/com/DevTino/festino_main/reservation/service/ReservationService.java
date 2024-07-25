@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @Service
 public class ReservationService {
@@ -31,8 +30,8 @@ public class ReservationService {
     }
 
     // 예약 조회
-    public ResponseReservationGetDTO getReservation(String userName, String phoneNum) {
-        return getReservationBean.exec(userName, phoneNum);
+    public ResponseReservationGetDTO getReservation(String phoneNum) {
+        return getReservationBean.exec(phoneNum);
     }
 
     // 전화번호 중복 조회

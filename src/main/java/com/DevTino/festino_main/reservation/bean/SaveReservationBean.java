@@ -5,7 +5,7 @@ import com.DevTino.festino_main.booth.bean.small.SaveNightBoothDAOBean;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import com.DevTino.festino_main.message.bean.SaveReservationSendMessageBean;
 import com.DevTino.festino_main.reservation.bean.small.CreateReservationDAOBean;
-import com.DevTino.festino_main.reservation.bean.small.GetReservationByUserNameAndPhoneNumDAOBean;
+import com.DevTino.festino_main.reservation.bean.small.GetReservationByPhoneNumDAOBean;
 import com.DevTino.festino_main.reservation.bean.small.SaveReservationDAOBean;
 import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationSaveDTO;
@@ -14,11 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @Component
 public class SaveReservationBean {
-    GetReservationByUserNameAndPhoneNumDAOBean getReservationByUserNameAndPhoneNumDAOBean;
+    GetReservationByPhoneNumDAOBean getReservationByPhoneNumDAOBean;
     CreateReservationDAOBean createReservationDAOBean;
     SaveReservationDAOBean saveReservationDAOBean;
     GetNightBoothDAOBean getNightBoothDAOBean;
@@ -26,8 +25,8 @@ public class SaveReservationBean {
     SaveReservationSendMessageBean saveReservationSendMessageBean;
 
     @Autowired
-    public SaveReservationBean(GetReservationByUserNameAndPhoneNumDAOBean getReservationByUserNameAndPhoneNumDAOBean, CreateReservationDAOBean createReservationDAOBean, SaveReservationDAOBean saveReservationDAOBean, GetNightBoothDAOBean getNightBoothDAOBean, SaveNightBoothDAOBean saveNightBoothDAOBean, SaveReservationSendMessageBean saveReservationSendMessageBean) {
-        this.getReservationByUserNameAndPhoneNumDAOBean = getReservationByUserNameAndPhoneNumDAOBean;
+    public SaveReservationBean(GetReservationByPhoneNumDAOBean getReservationByPhoneNumDAOBean, CreateReservationDAOBean createReservationDAOBean, SaveReservationDAOBean saveReservationDAOBean, GetNightBoothDAOBean getNightBoothDAOBean, SaveNightBoothDAOBean saveNightBoothDAOBean, SaveReservationSendMessageBean saveReservationSendMessageBean) {
+        this.getReservationByPhoneNumDAOBean = getReservationByPhoneNumDAOBean;
         this.createReservationDAOBean = createReservationDAOBean;
         this.saveReservationDAOBean = saveReservationDAOBean;
         this.getNightBoothDAOBean = getNightBoothDAOBean;
@@ -38,7 +37,9 @@ public class SaveReservationBean {
     // 예약 등록
     public ResponseReservationSaveDTO exec(RequestReservationSaveDTO requestReservationSaveDTO) throws IOException {
         // 이전 예약 기록이 있을 경우 예약이 불가능
-        if(getReservationByUserNameAndPhoneNumDAOBean.exec(requestReservationSaveDTO.getUserName(), requestReservationSaveDTO.getPhoneNum()) != null) {
+        // 예약은 전화번호, RELEASE 기준으로 함
+        // 전화번호, RELEASE 가 같은 경우 기존 예약을 취소하고 진행함
+        if(getReservationByPhoneNumDAOBean.exec(requestReservationSaveDTO.getPhoneNum()) != null) {
             return null;
         }
 
