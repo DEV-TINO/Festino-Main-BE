@@ -23,12 +23,12 @@ public class FacilityService {
     }
 
     // 전체 편의시설 조회
-    public List<ResponseAllFacilityDTO> getAmenities(){
+    public List<ResponseAllFacilityDTO> getFacilities(){
         return getFacilitiesBean.exec();
     }
 
     // 편의시설 특정 조회
-    public ResponseFacilityDTO getAmenity(UUID boothId){
+    public ResponseFacilityDTO getFacility(UUID boothId){
         return getFacilityBean.exec(boothId);
     }
 }

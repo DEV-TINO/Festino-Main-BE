@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/main")
+@RequestMapping("/main/facility")
 public class FacilityController {
 
     FacilityService facilityService;
@@ -26,31 +26,31 @@ public class FacilityController {
     }
 
     // 전체 편의시설 조회
-    @GetMapping("/facility/all")
-    public ResponseEntity<Map<String, Object>> getAmenities(){
-        List<ResponseAllFacilityDTO> responseAllFacilityDTOList = facilityService.getAmenities();
+    @GetMapping("/all")
+    public ResponseEntity<Map<String, Object>> getFacilities(){
+        List<ResponseAllFacilityDTO> responseAllFacilityDTOList = facilityService.getFacilities();
 
         boolean success = (responseAllFacilityDTOList == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "전체 편의시설 조회 성공" : "전체 편의시설 조회 실패");
-        requestMap.put("boothList", responseAllFacilityDTOList);
+        requestMap.put("facilityList", responseAllFacilityDTOList);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
 
     // 특정 편의시설 조회
-    @GetMapping("/facility/{boothId}")
-    public ResponseEntity<Map<String, Object>> getAmenity(@PathVariable("boothId") UUID boothId){
-        ResponseFacilityDTO responseFacilityDTO = facilityService.getAmenity(boothId);
+    @GetMapping("/{boothId}")
+    public ResponseEntity<Map<String, Object>> getFacility(@PathVariable("boothId") UUID boothId){
+        ResponseFacilityDTO responseFacilityDTO = facilityService.getFacility(boothId);
 
         boolean success = (responseFacilityDTO == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "특정 편의시설 조회 성공" : "특정 편의시설 조회 실패");
-        requestMap.put("boothList", responseFacilityDTO);
+        requestMap.put("facility", responseFacilityDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
