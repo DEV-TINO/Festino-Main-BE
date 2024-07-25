@@ -40,4 +40,17 @@ public class FacilityController {
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
 
+    @GetMapping("/facility/{boothId}")
+    public ResponseEntity<Map<String, Object>> getAmenity(@PathVariable("boothId") UUID boothId){
+        ResponseFacilityDTO responseFacilityDTO = facilityService.getAmenity(boothId);
+
+        boolean success = (responseFacilityDTO == null) ? false : true;
+
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("success", success);
+        requestMap.put("message", success ? "특정 편의시설 조회 성공" : "특정 편의시설 조회 실패");
+        requestMap.put("boothList", responseFacilityDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+    }
 }

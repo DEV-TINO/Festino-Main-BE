@@ -27,4 +27,8 @@ public class FacilityService {
         return getFacilitiesBean.exec();
     }
 
+    // 편의시설 특정 조회
+    public ResponseFacilityDTO getAmenity(UUID boothId){
+        return getFacilityBean.exec(boothId);
+    }
 }
