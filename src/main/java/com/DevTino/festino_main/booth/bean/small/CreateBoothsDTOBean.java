@@ -1,7 +1,9 @@
 package com.DevTino.festino_main.booth.bean.small;
 
 import com.DevTino.festino_main.booth.domain.DTO.ResponseAllBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseAllFacilityDTO;
 import com.DevTino.festino_main.booth.domain.entity.DayBoothDAO;
+import com.DevTino.festino_main.booth.domain.entity.FacilityDAO;
 import com.DevTino.festino_main.booth.domain.entity.FoodBoothDAO;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +18,18 @@ public class CreateBoothsDTOBean {
     CreateBoothsByNightBoothDTOBean createBoothsByNightBoothDTOBean;
     CreateBoothsByDayBoothDTOBean createBoothsByDayBoothDTOBean;
     CreateBoothsByFoodBoothDTOBean createBoothsByFoodBoothDTOBean;
+    CreateBoothsByFacilityDTOBean createBoothsByFacilityDTOBean;
 
     @Autowired
-    public CreateBoothsDTOBean(CreateBoothsByNightBoothDTOBean createBoothsByNightBoothDTOBean, CreateBoothsByDayBoothDTOBean createBoothsByDayBoothDTOBean, CreateBoothsByFoodBoothDTOBean createBoothsByFoodBoothDTOBean) {
+    public CreateBoothsDTOBean(CreateBoothsByNightBoothDTOBean createBoothsByNightBoothDTOBean, CreateBoothsByDayBoothDTOBean createBoothsByDayBoothDTOBean, CreateBoothsByFoodBoothDTOBean createBoothsByFoodBoothDTOBean, CreateBoothsByFacilityDTOBean createBoothsByFacilityDTOBean) {
         this.createBoothsByNightBoothDTOBean = createBoothsByNightBoothDTOBean;
         this.createBoothsByDayBoothDTOBean = createBoothsByDayBoothDTOBean;
         this.createBoothsByFoodBoothDTOBean = createBoothsByFoodBoothDTOBean;
+        this.createBoothsByFacilityDTOBean = createBoothsByFacilityDTOBean;
     }
 
     // 전체 부스 DTO 생성
-    public List<ResponseAllBoothDTO> exec(List<DayBoothDAO> dayBoothDAOList, List<NightBoothDAO> nightBoothDAOList, List<FoodBoothDAO> foodBoothDAOList){
+    public List<ResponseAllBoothDTO> exec(List<NightBoothDAO> nightBoothDAOList, List<DayBoothDAO> dayBoothDAOList, List<FoodBoothDAO> foodBoothDAOList, List<FacilityDAO> facilityDAOList){
 
         // 전체
         List<ResponseAllBoothDTO> responseAllBoothDTOList = new ArrayList<>();
@@ -62,6 +66,17 @@ public class CreateBoothsDTOBean {
             ResponseAllBoothDTO responseAllBoothDTO = createBoothsByFoodBoothDTOBean.exec(foodBoothDAO);
 
             if (foodBoothDAO.getIsOpen())
+                responseOpenBoothsDTOList.add(responseAllBoothDTO);
+            else
+                responseCloseBoothsDTOList.add(responseAllBoothDTO);
+        }
+
+
+        for (FacilityDAO facilityDAO : facilityDAOList) {
+
+            ResponseAllBoothDTO responseAllBoothDTO = createBoothsByFacilityDTOBean.exec(facilityDAO);
+
+            if (facilityDAO.getIsOpen())
                 responseOpenBoothsDTOList.add(responseAllBoothDTO);
             else
                 responseCloseBoothsDTOList.add(responseAllBoothDTO);
