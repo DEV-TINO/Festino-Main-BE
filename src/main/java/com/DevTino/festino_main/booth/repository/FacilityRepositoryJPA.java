@@ -7,6 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface FacilityRepositoryJPA extends JpaRepository<FacilityDAO, UUID> {
-
-    List<FacilityDAO> findAllByOrderByIsOpenDescMarkerNumAsc();
+    // 오픈 중, 만든 시간 순으로 모든 편의시설 정렬
+    List<FacilityDAO> findAllByOrderByIsOpenDescCreateAtAsc();
 }
