@@ -3,11 +3,12 @@ package com.DevTino.festino_main.booth.domain.DTO;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
 @Builder
-public class ResponseAllBoothDTO {
+public class ResponseDayBoothGetDTO {
     UUID boothId;
     String boothName;
     String adminCategory;
@@ -15,7 +16,7 @@ public class ResponseAllBoothDTO {
     String openTime;
     String closeTime;
     String boothIntro;
-    String boothImage;
+    List<String> boothImage;
     Integer markerNum;
     String location;
     Boolean isOpen;

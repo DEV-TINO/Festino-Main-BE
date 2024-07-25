@@ -1,13 +1,13 @@
 package com.DevTino.festino_main.booth.bean.small;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseBoothsGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.DayBoothDAO;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CreateBoothsByDayBoothDTOBean {
-    public ResponseAllBoothDTO exec(DayBoothDAO dayBoothDAO){
-        return ResponseAllBoothDTO.builder()
+    public ResponseBoothsGetDTO exec(DayBoothDAO dayBoothDAO){
+        return ResponseBoothsGetDTO.builder()
                 .boothId(dayBoothDAO.getBoothId())
                 .boothName(dayBoothDAO.getBoothName())
                 .adminCategory(dayBoothDAO.getAdminCategory())

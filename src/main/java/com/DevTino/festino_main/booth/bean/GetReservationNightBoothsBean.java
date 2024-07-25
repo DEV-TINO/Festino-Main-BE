@@ -2,7 +2,7 @@ package com.DevTino.festino_main.booth.bean;
 
 import com.DevTino.festino_main.booth.bean.small.CreateReservationNightBoothsDTOBean;
 import com.DevTino.festino_main.booth.bean.small.GetReservationNightBoothsDAOBean;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseReservationNightBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseReservationNightBoothGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class GetReservationNightBoothsBean {
     }
 
     // 예약 시 야간 부스 전체 조회
-    public List<ResponseReservationNightBoothDTO> exec(){
+    public List<ResponseReservationNightBoothGetDTO> exec(){
 
         // 예약가능한 부스 전체 조회
         List<NightBoothDAO> nightBoothDAOList = getReservationNightBoothsDAOBean.exec(true);

@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class ResponseAllFoodBoothDTO {
+public class ResponseDayBoothsGetDTO {
     UUID boothId;
     String boothName;
     String adminCategory;

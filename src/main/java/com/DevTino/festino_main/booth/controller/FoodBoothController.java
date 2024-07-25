@@ -1,7 +1,7 @@
 package com.DevTino.festino_main.booth.controller;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllFoodBoothDTO;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseFoodBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseFoodBoothsGetDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseFoodBoothGetDTO;
 import com.DevTino.festino_main.booth.service.FoodBoothService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,14 +29,14 @@ public class FoodBoothController {
     @GetMapping("/{boothId}")
     public ResponseEntity<Map<String, Object>> getFoodBooth(@PathVariable("boothId") UUID boothId){
 
-        ResponseFoodBoothDTO responseFoodBoothDTO = foodBoothService.getFoodBooth(boothId);
+        ResponseFoodBoothGetDTO responseFoodBoothGetDTO = foodBoothService.getFoodBooth(boothId);
 
-        boolean success = (responseFoodBoothDTO == null) ? false : true;
+        boolean success = (responseFoodBoothGetDTO == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "푸드트럭 부스 조회 성공" : "푸드트럭 부스 조회 실패");
-        requestMap.put("boothInfo", responseFoodBoothDTO);
+        requestMap.put("boothInfo", responseFoodBoothGetDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
@@ -44,14 +44,14 @@ public class FoodBoothController {
     // 푸드트럭 부스 전체 조회
     @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> getFoodBooths(){
-        List<ResponseAllFoodBoothDTO> responseAllFoodBoothDTOList = foodBoothService.getFoodBooths();
+        List<ResponseFoodBoothsGetDTO> responseFoodBoothsGetDTOList = foodBoothService.getFoodBooths();
 
-        boolean success = (responseAllFoodBoothDTOList == null) ? false : true;
+        boolean success = (responseFoodBoothsGetDTOList == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "전체 푸드트럭 조회 성공" : "전체 푸드트럭 조회 실패");
-        requestMap.put("boothList", responseAllFoodBoothDTOList);
+        requestMap.put("boothList", responseFoodBoothsGetDTOList);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }

@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.booth.controller;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseBoothsGetDTO;
 import com.DevTino.festino_main.booth.service.BoothService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ public class BoothController {
     // 부스 전체 조회
     @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> getBooths(){
-        List<ResponseAllBoothDTO> boothInfo = boothService.getBooths();
+        List<ResponseBoothsGetDTO> boothInfo = boothService.getBooths();
 
         boolean success = (boothInfo == null) ? false : true;
 

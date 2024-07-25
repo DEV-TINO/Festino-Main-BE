@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.booth.bean.small;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllNightBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothsGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,28 +18,28 @@ public class CreateNightBoothsDTOBean {
         this.createAllNightBoothDTOBean = createAllNightBoothDTOBean;
     }
 
-    public List<ResponseAllNightBoothDTO> exec(List<NightBoothDAO> nightBoothDAOList){
+    public List<ResponseNightBoothsGetDTO> exec(List<NightBoothDAO> nightBoothDAOList){
 
-        List<ResponseAllNightBoothDTO> responseAllNightBoothDTOList = new ArrayList<>();
+        List<ResponseNightBoothsGetDTO> responseNightBoothsGetDTOList = new ArrayList<>();
 
-        List<ResponseAllNightBoothDTO> responseOpenAllNightBoothDTOList = new ArrayList<>();
-        List<ResponseAllNightBoothDTO> responseCloseAllNightBoothDTOList = new ArrayList<>();
+        List<ResponseNightBoothsGetDTO> responseOpenAllNightBoothDTOList = new ArrayList<>();
+        List<ResponseNightBoothsGetDTO> responseCloseAllNightBoothDTOList = new ArrayList<>();
 
         // 주간 부스 전체 리스트로 가져오기
         for (NightBoothDAO nightBoothDAO : nightBoothDAOList) {
 
-            ResponseAllNightBoothDTO responseAllNightBoothDTO = createAllNightBoothDTOBean.exec(nightBoothDAO);
+            ResponseNightBoothsGetDTO responseNightBoothsGetDTO = createAllNightBoothDTOBean.exec(nightBoothDAO);
 
             if (nightBoothDAO.getIsOpen())
-                responseOpenAllNightBoothDTOList.add(responseAllNightBoothDTO);
+                responseOpenAllNightBoothDTOList.add(responseNightBoothsGetDTO);
             else
-                responseCloseAllNightBoothDTOList.add(responseAllNightBoothDTO);
+                responseCloseAllNightBoothDTOList.add(responseNightBoothsGetDTO);
 
         }
 
-        responseAllNightBoothDTOList.addAll(responseOpenAllNightBoothDTOList);
-        responseAllNightBoothDTOList.addAll(responseCloseAllNightBoothDTOList);
+        responseNightBoothsGetDTOList.addAll(responseOpenAllNightBoothDTOList);
+        responseNightBoothsGetDTOList.addAll(responseCloseAllNightBoothDTOList);
 
-        return responseAllNightBoothDTOList;
+        return responseNightBoothsGetDTOList;
     }
 }
