@@ -16,6 +16,8 @@ public class CreateBoothsByNightBoothDTOBean {
                 .closeTime(nightBoothDAO.getCloseTime())
                 .boothIntro(nightBoothDAO.getBoothIntro())
                 .boothImage(nightBoothDAO.getBoothImage().get(0))
+                .markerNum(nightBoothDAO.getMarkerNum())
+                .location(nightBoothDAO.getLocation())
                 .isOpen(nightBoothDAO.getIsOpen())
                 .build();
     }

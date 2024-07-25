@@ -23,4 +23,6 @@ public class ResponseNightBoothDTO {
     Boolean isReservation;
     Integer totalReservationNum;
     List<ResponseMenuGetDTO> menuList;
+    Integer markerNum;
+    String location;
 }

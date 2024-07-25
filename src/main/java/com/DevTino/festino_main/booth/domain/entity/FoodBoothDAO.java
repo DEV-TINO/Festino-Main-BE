@@ -32,6 +32,9 @@ public class FoodBoothDAO {
 
     Boolean isOpen;
 
+    Integer markerNum;
+    String location;
+
     LocalDateTime createAt;
     LocalDateTime updateAt;
 }

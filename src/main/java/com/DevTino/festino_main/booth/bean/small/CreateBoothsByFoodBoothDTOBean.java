@@ -16,6 +16,8 @@ public class CreateBoothsByFoodBoothDTOBean {
                 .closeTime(foodBoothDAO.getCloseTime())
                 .boothIntro(foodBoothDAO.getBoothIntro())
                 .boothImage(foodBoothDAO.getBoothImage().get(0))
+                .markerNum(foodBoothDAO.getMarkerNum())
+                .location(foodBoothDAO.getLocation())
                 .isOpen(foodBoothDAO.getIsOpen())
                 .build();
     }

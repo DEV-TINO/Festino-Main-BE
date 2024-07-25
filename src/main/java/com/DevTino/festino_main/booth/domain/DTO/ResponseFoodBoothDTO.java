@@ -17,5 +17,7 @@ public class ResponseFoodBoothDTO {
     String closeTime;
     String boothIntro;
     List<String> boothImage;
+    Integer markerNum;
+    String location;
     Boolean isOpen;
 }

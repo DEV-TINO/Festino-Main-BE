@@ -36,6 +36,8 @@ public class CreateNightBoothDTOBean {
                 .isReservation(nightBoothDAO.getIsReservation())
                 .totalReservationNum(nightBoothDAO.getTotalReservationNum())
                 .menuList(createMenusDTOBean.exec(menuDAOList))
+                .markerNum(nightBoothDAO.getMarkerNum())
+                .location(nightBoothDAO.getLocation())
                 .build();
     }
 }

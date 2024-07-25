@@ -32,6 +32,11 @@ public class DayBoothDAO {
 
     Boolean isOpen;
 
+    Integer markerNum;
+    String location;
+
     LocalDateTime createAt;
     LocalDateTime updateAt;
+
+
 }
