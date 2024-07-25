@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.reservation.service;
 
+import com.DevTino.festino_main.reservation.bean.CheckReservationPhoneNumBean;
 import com.DevTino.festino_main.reservation.bean.GetReservationBean;
 import com.DevTino.festino_main.reservation.bean.SaveReservationBean;
 import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
@@ -15,11 +16,13 @@ import java.util.UUID;
 public class ReservationService {
     GetReservationBean getReservationBean;
     SaveReservationBean saveReservationBean;
+    CheckReservationPhoneNumBean checkReservationPhoneNumBean;
 
     @Autowired
-    public ReservationService(SaveReservationBean saveReservationBean, GetReservationBean getReservationBean) {
+    public ReservationService(SaveReservationBean saveReservationBean, GetReservationBean getReservationBean, CheckReservationPhoneNumBean checkReservationPhoneNumBean) {
         this.saveReservationBean = saveReservationBean;
         this.getReservationBean = getReservationBean;
+        this.checkReservationPhoneNumBean = checkReservationPhoneNumBean;
     }
 
     // 예약 등록
@@ -30,5 +33,10 @@ public class ReservationService {
     // 예약 조회
     public ResponseReservationGetDTO getReservation(String userName, String phoneNum) {
         return getReservationBean.exec(userName, phoneNum);
+    }
+
+    // 전화번호 중복 조회
+    public boolean checkReservationPhoneNum(String phoneNum) {
+        return checkReservationPhoneNumBean.exec(phoneNum);
     }
 }
