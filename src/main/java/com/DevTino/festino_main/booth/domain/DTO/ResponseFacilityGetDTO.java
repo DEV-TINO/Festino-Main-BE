@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class ResponseFacilityDTO {
+public class ResponseFacilityGetDTO {
     UUID boothId;
     String location;
     Integer markerNum;

@@ -2,8 +2,8 @@ package com.DevTino.festino_main.booth.service;
 
 import com.DevTino.festino_main.booth.bean.GetFacilitiesBean;
 import com.DevTino.festino_main.booth.bean.GetFacilityBean;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllFacilityDTO;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseFacilityDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseFacilitiesGetDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseFacilityGetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +23,12 @@ public class FacilityService {
     }
 
     // 전체 편의시설 조회
-    public List<ResponseAllFacilityDTO> getFacilities(){
+    public List<ResponseFacilitiesGetDTO> getFacilities(){
         return getFacilitiesBean.exec();
     }
 
     // 편의시설 특정 조회
-    public ResponseFacilityDTO getFacility(UUID boothId){
+    public ResponseFacilityGetDTO getFacility(UUID boothId){
         return getFacilityBean.exec(boothId);
     }
 }

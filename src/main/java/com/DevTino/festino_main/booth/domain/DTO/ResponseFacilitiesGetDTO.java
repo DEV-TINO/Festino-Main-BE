@@ -7,10 +7,16 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class ResponseReservationNightBoothDTO {
+public class ResponseFacilitiesGetDTO {
     UUID boothId;
+    String boothName;
+    String adminCategory;
     String adminName;
+    String openTime;
+    String closeTime;
+    String boothIntro;
     String boothImage;
-    Integer totalReservationNum;
+    Integer markerNum;
+    String location;
     Boolean isOpen;
 }

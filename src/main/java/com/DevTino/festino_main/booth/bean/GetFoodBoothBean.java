@@ -2,7 +2,7 @@ package com.DevTino.festino_main.booth.bean;
 
 import com.DevTino.festino_main.booth.bean.small.GetFoodBoothDAOBean;
 import com.DevTino.festino_main.booth.bean.small.CreateFoodBoothDTOBean;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseFoodBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseFoodBoothGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.FoodBoothDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class GetFoodBoothBean {
     }
 
     // 푸드트럭 부스 전체 조회
-    public ResponseFoodBoothDTO exec(UUID boothId){
+    public ResponseFoodBoothGetDTO exec(UUID boothId){
 
         // 푸드트럭 부스 디테일 dao 가져오기
         FoodBoothDAO foodBoothDAO = getFoodBoothDAOBean.exec(boothId);

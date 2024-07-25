@@ -2,7 +2,7 @@ package com.DevTino.festino_main.booth.bean;
 
 import com.DevTino.festino_main.booth.bean.small.CreateFacilitiesDTOBean;
 import com.DevTino.festino_main.booth.bean.small.GetFacilitiesDAOBean;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllFacilityDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseFacilitiesGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.FacilityDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class GetFacilitiesBean {
     }
 
     // 전체 편의시설 조회
-    public List<ResponseAllFacilityDTO> exec(){
+    public List<ResponseFacilitiesGetDTO> exec(){
         // 편의시설 리스트로 가져오기
         List<FacilityDAO> facilityDAOList = getFacilitiesDAOBean.exec();
 

@@ -1,7 +1,7 @@
 package com.DevTino.festino_main.booth.controller;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllFacilityDTO;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseFacilityDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseFacilitiesGetDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseFacilityGetDTO;
 import com.DevTino.festino_main.booth.service.FacilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,14 +28,14 @@ public class FacilityController {
     // 전체 편의시설 조회
     @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> getFacilities(){
-        List<ResponseAllFacilityDTO> responseAllFacilityDTOList = facilityService.getFacilities();
+        List<ResponseFacilitiesGetDTO> responseFacilitiesGetDTOList = facilityService.getFacilities();
 
-        boolean success = (responseAllFacilityDTOList == null) ? false : true;
+        boolean success = (responseFacilitiesGetDTOList == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "전체 편의시설 조회 성공" : "전체 편의시설 조회 실패");
-        requestMap.put("facilityList", responseAllFacilityDTOList);
+        requestMap.put("facilityList", responseFacilitiesGetDTOList);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
@@ -43,14 +43,14 @@ public class FacilityController {
     // 특정 편의시설 조회
     @GetMapping("/{boothId}")
     public ResponseEntity<Map<String, Object>> getFacility(@PathVariable("boothId") UUID boothId){
-        ResponseFacilityDTO responseFacilityDTO = facilityService.getFacility(boothId);
+        ResponseFacilityGetDTO responseFacilityGetDTO = facilityService.getFacility(boothId);
 
-        boolean success = (responseFacilityDTO == null) ? false : true;
+        boolean success = (responseFacilityGetDTO == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "특정 편의시설 조회 성공" : "특정 편의시설 조회 실패");
-        requestMap.put("facility", responseFacilityDTO);
+        requestMap.put("facility", responseFacilityGetDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }

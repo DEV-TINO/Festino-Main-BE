@@ -2,7 +2,7 @@ package com.DevTino.festino_main.booth.bean;
 
 import com.DevTino.festino_main.booth.bean.small.CreateFoodBoothsDTOBean;
 import com.DevTino.festino_main.booth.bean.small.GetFoodBoothsDAOBean;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllFoodBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseFoodBoothsGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.FoodBoothDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ public class GetFoodBoothsBean {
         this.createFoodBoothsDTOBean = createFoodBoothsDTOBean;
     }
 
-    public List<ResponseAllFoodBoothDTO> exec(){
+    public List<ResponseFoodBoothsGetDTO> exec(){
 
         // 푸드트럭 시간 순 전체 조회
         List<FoodBoothDAO> foodBoothDAOList = getFoodBoothsDAOBean.exec();

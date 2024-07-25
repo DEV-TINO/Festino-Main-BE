@@ -2,7 +2,7 @@ package com.DevTino.festino_main.booth.bean;
 
 import com.DevTino.festino_main.booth.bean.small.GetDayBoothDAOBean;
 import com.DevTino.festino_main.booth.bean.small.CreateDayBoothDTOBean;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.DayBoothDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class GetDayBoothBean {
     }
 
     // 주간 부스 전체 조회
-    public ResponseDayBoothDTO exec(UUID boothId){
+    public ResponseDayBoothGetDTO exec(UUID boothId){
 
         // 주간 부스 디테일 dao 가져오기
         DayBoothDAO dayBoothDAO = getDayBoothDAOBean.exec(boothId);

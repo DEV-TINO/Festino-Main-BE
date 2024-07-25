@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.booth.bean.small;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllFacilityDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseFacilitiesGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.FacilityDAO;
 import org.springframework.stereotype.Component;
 
@@ -9,8 +9,8 @@ import java.util.List;
 
 @Component
 public class CreateFacilitiesDTOBean {
-    public ResponseAllFacilityDTO exec(FacilityDAO facilityDAO){
-        return ResponseAllFacilityDTO.builder()
+    public ResponseFacilitiesGetDTO exec(FacilityDAO facilityDAO){
+        return ResponseFacilitiesGetDTO.builder()
                 .boothId(facilityDAO.getBoothId())
                 .boothName(facilityDAO.getBoothName())
                 .adminCategory(facilityDAO.getAdminCategory())
@@ -26,16 +26,16 @@ public class CreateFacilitiesDTOBean {
     }
 
     // 전체 편의시설 리스트
-    public List<ResponseAllFacilityDTO> exec(List<FacilityDAO> facilityDAOList){
+    public List<ResponseFacilitiesGetDTO> exec(List<FacilityDAO> facilityDAOList){
 
-        List<ResponseAllFacilityDTO> responseAllFacilityDTOList = new ArrayList<>();
+        List<ResponseFacilitiesGetDTO> responseFacilitiesGetDTOList = new ArrayList<>();
 
         for (FacilityDAO facilityDAO : facilityDAOList){
-            ResponseAllFacilityDTO responseAllFacilityDTO = exec(facilityDAO);
+            ResponseFacilitiesGetDTO responseFacilitiesGetDTO = exec(facilityDAO);
 
-            responseAllFacilityDTOList.add(responseAllFacilityDTO);
+            responseFacilitiesGetDTOList.add(responseFacilitiesGetDTO);
         }
 
-        return responseAllFacilityDTOList;
+        return responseFacilitiesGetDTOList;
     }
 }

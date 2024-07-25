@@ -2,8 +2,8 @@ package com.DevTino.festino_main.booth.service;
 
 import com.DevTino.festino_main.booth.bean.GetDayBoothBean;
 import com.DevTino.festino_main.booth.bean.GetDayBoothsBean;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllDayBoothDTO;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothsGetDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothGetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +23,12 @@ public class DayBoothService {
     }
 
     // 주간 부스 디테일 조회
-    public ResponseDayBoothDTO getDayBooth(UUID boothId) {
+    public ResponseDayBoothGetDTO getDayBooth(UUID boothId) {
         return getDayBoothBean.exec(boothId);
     }
 
     // 주간 부스 전체 조회
-    public List<ResponseAllDayBoothDTO> getDayBooths(){
+    public List<ResponseDayBoothsGetDTO> getDayBooths(){
         return getDayBoothsBean.exec();
     }
 }

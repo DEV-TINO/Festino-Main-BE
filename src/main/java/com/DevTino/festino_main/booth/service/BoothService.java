@@ -4,7 +4,7 @@ import com.DevTino.festino_main.booth.bean.GetBoothsBean;
 import com.DevTino.festino_main.booth.bean.GetDayBoothsBean;
 import com.DevTino.festino_main.booth.bean.GetFoodBoothsBean;
 import com.DevTino.festino_main.booth.bean.GetNightBoothsBean;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseBoothsGetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class BoothService {
     }
 
     // 부스 전체 조회
-    public List<ResponseAllBoothDTO> getBooths(){
+    public List<ResponseBoothsGetDTO> getBooths(){
         return getBoothsBean.exec();
     }
 }

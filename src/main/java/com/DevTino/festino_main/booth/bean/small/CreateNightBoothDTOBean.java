@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.booth.bean.small;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import com.DevTino.festino_main.menu.bean.small.CreateMenusDTOBean;
 import com.DevTino.festino_main.menu.domain.entity.MenuDAO;
@@ -20,9 +20,9 @@ public class CreateNightBoothDTOBean {
     }
 
     // 가져온 dao를 바탕으로 dto로 변경
-    public ResponseNightBoothDTO exec(NightBoothDAO nightBoothDAO, List<MenuDAO> menuDAOList) {
+    public ResponseNightBoothGetDTO exec(NightBoothDAO nightBoothDAO, List<MenuDAO> menuDAOList) {
 
-        return ResponseNightBoothDTO.builder()
+        return ResponseNightBoothGetDTO.builder()
                 .boothId(nightBoothDAO.getBoothId())
                 .boothName(nightBoothDAO.getBoothName())
                 .adminCategory(nightBoothDAO.getAdminCategory())

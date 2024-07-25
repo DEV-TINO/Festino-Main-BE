@@ -3,9 +3,9 @@ package com.DevTino.festino_main.booth.service;
 import com.DevTino.festino_main.booth.bean.GetNightBoothBean;
 import com.DevTino.festino_main.booth.bean.GetNightBoothsBean;
 import com.DevTino.festino_main.booth.bean.GetReservationNightBoothsBean;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllNightBoothDTO;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothDTO;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseReservationNightBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothsGetDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothGetDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseReservationNightBoothGetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,17 +27,17 @@ public class NightBoothService {
     }
 
     // 야간 부스 디테일 조회
-    public ResponseNightBoothDTO getNightBooth(UUID boothId){
+    public ResponseNightBoothGetDTO getNightBooth(UUID boothId){
         return getNightBoothBean.exec(boothId);
     }
 
     // 예약 시 야간 부스 전체 조회
-    public List<ResponseReservationNightBoothDTO> getReservationNightBooths(){
+    public List<ResponseReservationNightBoothGetDTO> getReservationNightBooths(){
         return getReservationNightBoothsBean.exec();
     }
 
     // 야간 부스 전체 조회
-    public List<ResponseAllNightBoothDTO> getNightBooths(){
+    public List<ResponseNightBoothsGetDTO> getNightBooths(){
         return getNightBoothsBean.exec();
     }
 }

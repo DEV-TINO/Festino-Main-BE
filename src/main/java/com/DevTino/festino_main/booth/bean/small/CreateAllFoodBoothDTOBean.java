@@ -1,14 +1,14 @@
 package com.DevTino.festino_main.booth.bean.small;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllFoodBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseFoodBoothsGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.FoodBoothDAO;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CreateAllFoodBoothDTOBean {
     // 가져온 dao를 바탕으로 dto로 변경
-    public ResponseAllFoodBoothDTO exec(FoodBoothDAO foodBoothDAO){
-        return ResponseAllFoodBoothDTO.builder()
+    public ResponseFoodBoothsGetDTO exec(FoodBoothDAO foodBoothDAO){
+        return ResponseFoodBoothsGetDTO.builder()
                 .boothId(foodBoothDAO.getBoothId())
                 .boothName(foodBoothDAO.getBoothName())
                 .adminCategory(foodBoothDAO.getAdminCategory())

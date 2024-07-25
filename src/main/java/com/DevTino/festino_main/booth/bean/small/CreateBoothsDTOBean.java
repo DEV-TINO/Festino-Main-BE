@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.booth.bean.small;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseBoothsGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.DayBoothDAO;
 import com.DevTino.festino_main.booth.domain.entity.FacilityDAO;
 import com.DevTino.festino_main.booth.domain.entity.FoodBoothDAO;
@@ -28,64 +28,64 @@ public class CreateBoothsDTOBean {
     }
 
     // 전체 부스 DTO 생성
-    public List<ResponseAllBoothDTO> exec(List<NightBoothDAO> nightBoothDAOList, List<DayBoothDAO> dayBoothDAOList, List<FoodBoothDAO> foodBoothDAOList, List<FacilityDAO> facilityDAOList){
+    public List<ResponseBoothsGetDTO> exec(List<NightBoothDAO> nightBoothDAOList, List<DayBoothDAO> dayBoothDAOList, List<FoodBoothDAO> foodBoothDAOList, List<FacilityDAO> facilityDAOList){
 
         // 전체
-        List<ResponseAllBoothDTO> responseAllBoothDTOList = new ArrayList<>();
+        List<ResponseBoothsGetDTO> responseBoothsGetDTOList = new ArrayList<>();
 
         // 운영중, 운영안함
-        List<ResponseAllBoothDTO> responseOpenBoothsDTOList = new ArrayList<>();
-        List<ResponseAllBoothDTO> responseCloseBoothsDTOList = new ArrayList<>();
+        List<ResponseBoothsGetDTO> responseOpenBoothsDTOList = new ArrayList<>();
+        List<ResponseBoothsGetDTO> responseCloseBoothsDTOList = new ArrayList<>();
 
         // 야간 부스 전체 리스트로 가져오기
         for (NightBoothDAO nightBoothDAO : nightBoothDAOList) {
 
-            ResponseAllBoothDTO responseAllBoothDTO = createBoothsByNightBoothDTOBean.exec(nightBoothDAO);
+            ResponseBoothsGetDTO responseBoothsGetDTO = createBoothsByNightBoothDTOBean.exec(nightBoothDAO);
 
             if (nightBoothDAO.getIsOpen())
-                responseOpenBoothsDTOList.add(responseAllBoothDTO);
+                responseOpenBoothsDTOList.add(responseBoothsGetDTO);
             else
-                responseCloseBoothsDTOList.add(responseAllBoothDTO);
+                responseCloseBoothsDTOList.add(responseBoothsGetDTO);
         }
 
         // 주간 부스 전체 리스트로 가져오기
         for (DayBoothDAO dayBoothDAO : dayBoothDAOList) {
 
-            ResponseAllBoothDTO responseAllBoothDTO = createBoothsByDayBoothDTOBean.exec(dayBoothDAO);
+            ResponseBoothsGetDTO responseBoothsGetDTO = createBoothsByDayBoothDTOBean.exec(dayBoothDAO);
 
             if (dayBoothDAO.getIsOpen())
-                responseOpenBoothsDTOList.add(responseAllBoothDTO);
+                responseOpenBoothsDTOList.add(responseBoothsGetDTO);
             else
-                responseCloseBoothsDTOList.add(responseAllBoothDTO);
+                responseCloseBoothsDTOList.add(responseBoothsGetDTO);
         }
 
         // 푸드 부스 전체 리스트로 가져오기
         for (FoodBoothDAO foodBoothDAO : foodBoothDAOList) {
 
-            ResponseAllBoothDTO responseAllBoothDTO = createBoothsByFoodBoothDTOBean.exec(foodBoothDAO);
+            ResponseBoothsGetDTO responseBoothsGetDTO = createBoothsByFoodBoothDTOBean.exec(foodBoothDAO);
 
             if (foodBoothDAO.getIsOpen())
-                responseOpenBoothsDTOList.add(responseAllBoothDTO);
+                responseOpenBoothsDTOList.add(responseBoothsGetDTO);
             else
-                responseCloseBoothsDTOList.add(responseAllBoothDTO);
+                responseCloseBoothsDTOList.add(responseBoothsGetDTO);
         }
 
         // 편의시설 전체 리스트로 가져오기
         for (FacilityDAO facilityDAO : facilityDAOList) {
 
-            ResponseAllBoothDTO responseAllBoothDTO = createBoothsByFacilityDTOBean.exec(facilityDAO);
+            ResponseBoothsGetDTO responseBoothsGetDTO = createBoothsByFacilityDTOBean.exec(facilityDAO);
 
             if (facilityDAO.getIsOpen())
-                responseOpenBoothsDTOList.add(responseAllBoothDTO);
+                responseOpenBoothsDTOList.add(responseBoothsGetDTO);
             else
-                responseCloseBoothsDTOList.add(responseAllBoothDTO);
+                responseCloseBoothsDTOList.add(responseBoothsGetDTO);
         }
 
         // 하나의 리스트로 합치기
-        responseAllBoothDTOList.addAll(responseOpenBoothsDTOList);
-        responseAllBoothDTOList.addAll(responseCloseBoothsDTOList);
+        responseBoothsGetDTOList.addAll(responseOpenBoothsDTOList);
+        responseBoothsGetDTOList.addAll(responseCloseBoothsDTOList);
 
         //전체 리스트 반환 반환
-        return responseAllBoothDTOList;
+        return responseBoothsGetDTOList;
     }
 }

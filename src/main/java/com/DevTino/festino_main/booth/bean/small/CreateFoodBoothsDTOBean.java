@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.booth.bean.small;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllFoodBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseFoodBoothsGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.FoodBoothDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,28 +19,28 @@ public class CreateFoodBoothsDTOBean {
     }
 
     // 푸드트럭 오픈 중과 오픈 아닌 것으로 나누어 정렬
-    public List<ResponseAllFoodBoothDTO> exec(List<FoodBoothDAO> foodBoothDAOList){
+    public List<ResponseFoodBoothsGetDTO> exec(List<FoodBoothDAO> foodBoothDAOList){
 
-        List<ResponseAllFoodBoothDTO> responseAllFoodBoothDTOList = new ArrayList<>();
+        List<ResponseFoodBoothsGetDTO> responseFoodBoothsGetDTOList = new ArrayList<>();
 
-        List<ResponseAllFoodBoothDTO> responseOpenAllFoodBoothDTOList = new ArrayList<>();
-        List<ResponseAllFoodBoothDTO> responseCloseAllFoodBoothDTOList = new ArrayList<>();
+        List<ResponseFoodBoothsGetDTO> responseOpenAllFoodBoothDTOList = new ArrayList<>();
+        List<ResponseFoodBoothsGetDTO> responseCloseAllFoodBoothDTOList = new ArrayList<>();
 
         // 주간 부스 전체 리스트로 가져오기
         for (FoodBoothDAO foodBoothDAO : foodBoothDAOList) {
 
-            ResponseAllFoodBoothDTO responseAllFoodBoothDTO = createAllFoodBoothDTOBean.exec(foodBoothDAO);
+            ResponseFoodBoothsGetDTO responseFoodBoothsGetDTO = createAllFoodBoothDTOBean.exec(foodBoothDAO);
 
             if (foodBoothDAO.getIsOpen())
-                responseOpenAllFoodBoothDTOList.add(responseAllFoodBoothDTO);
+                responseOpenAllFoodBoothDTOList.add(responseFoodBoothsGetDTO);
             else
-                responseCloseAllFoodBoothDTOList.add(responseAllFoodBoothDTO);
+                responseCloseAllFoodBoothDTOList.add(responseFoodBoothsGetDTO);
 
         }
 
-        responseAllFoodBoothDTOList.addAll(responseOpenAllFoodBoothDTOList);
-        responseAllFoodBoothDTOList.addAll(responseCloseAllFoodBoothDTOList);
+        responseFoodBoothsGetDTOList.addAll(responseOpenAllFoodBoothDTOList);
+        responseFoodBoothsGetDTOList.addAll(responseCloseAllFoodBoothDTOList);
 
-        return responseAllFoodBoothDTOList;
+        return responseFoodBoothsGetDTOList;
     }
 }

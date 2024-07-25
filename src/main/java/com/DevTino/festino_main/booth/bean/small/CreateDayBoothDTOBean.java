@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.booth.bean.small;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.DayBoothDAO;
 import org.springframework.stereotype.Component;
 
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 public class CreateDayBoothDTOBean {
 
     // 가져온 dao를 바탕으로 dto로 변경
-    public ResponseDayBoothDTO exec(DayBoothDAO dayBoothDAO){
-        return ResponseDayBoothDTO.builder()
+    public ResponseDayBoothGetDTO exec(DayBoothDAO dayBoothDAO){
+        return ResponseDayBoothGetDTO.builder()
                 .boothId(dayBoothDAO.getBoothId())
                 .boothName(dayBoothDAO.getBoothName())
                 .adminCategory(dayBoothDAO.getAdminCategory())

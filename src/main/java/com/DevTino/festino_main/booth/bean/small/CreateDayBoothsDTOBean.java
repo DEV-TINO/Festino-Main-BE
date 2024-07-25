@@ -1,6 +1,6 @@
 package com.DevTino.festino_main.booth.bean.small;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllDayBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothsGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.DayBoothDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,28 +18,28 @@ public class CreateDayBoothsDTOBean {
         this.createAllDayBoothDTOBean = createAllDayBoothDTOBean;
     }
 
-    public List<ResponseAllDayBoothDTO> exec(List<DayBoothDAO> dayBoothDAOList){
+    public List<ResponseDayBoothsGetDTO> exec(List<DayBoothDAO> dayBoothDAOList){
 
-        List<ResponseAllDayBoothDTO> responseAllDayBoothDTOList = new ArrayList<>();
+        List<ResponseDayBoothsGetDTO> responseDayBoothsGetDTOList = new ArrayList<>();
 
-        List<ResponseAllDayBoothDTO> responseOpenAllDayBoothDTOList = new ArrayList<>();
-        List<ResponseAllDayBoothDTO> responseCloseAllDayBoothDTOList = new ArrayList<>();
+        List<ResponseDayBoothsGetDTO> responseOpenAllDayBoothDTOList = new ArrayList<>();
+        List<ResponseDayBoothsGetDTO> responseCloseAllDayBoothDTOList = new ArrayList<>();
 
         // 주간 부스 전체 리스트로 가져오기
         for (DayBoothDAO dayBoothDAO : dayBoothDAOList) {
 
-            ResponseAllDayBoothDTO responseAllDayBoothDTO = createAllDayBoothDTOBean.exec(dayBoothDAO);
+            ResponseDayBoothsGetDTO responseDayBoothsGetDTO = createAllDayBoothDTOBean.exec(dayBoothDAO);
 
             if (dayBoothDAO.getIsOpen())
-                responseOpenAllDayBoothDTOList.add(responseAllDayBoothDTO);
+                responseOpenAllDayBoothDTOList.add(responseDayBoothsGetDTO);
             else
-                responseCloseAllDayBoothDTOList.add(responseAllDayBoothDTO);
+                responseCloseAllDayBoothDTOList.add(responseDayBoothsGetDTO);
 
         }
 
-        responseAllDayBoothDTOList.addAll(responseOpenAllDayBoothDTOList);
-        responseAllDayBoothDTOList.addAll(responseCloseAllDayBoothDTOList);
+        responseDayBoothsGetDTOList.addAll(responseOpenAllDayBoothDTOList);
+        responseDayBoothsGetDTOList.addAll(responseCloseAllDayBoothDTOList);
 
-        return responseAllDayBoothDTOList;
+        return responseDayBoothsGetDTOList;
     }
 }

@@ -1,7 +1,7 @@
 package com.DevTino.festino_main.booth.controller;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseAllDayBoothDTO;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothsGetDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothGetDTO;
 import com.DevTino.festino_main.booth.service.DayBoothService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,14 +29,14 @@ public class DayBoothController {
     @GetMapping("/{boothId}")
     public ResponseEntity<Map<String, Object>> getDayBooth(@PathVariable("boothId") UUID boothId){
 
-        ResponseDayBoothDTO responseDayBoothDTO = dayBoothService.getDayBooth(boothId);
+        ResponseDayBoothGetDTO responseDayBoothGetDTO = dayBoothService.getDayBooth(boothId);
 
-        boolean success = (responseDayBoothDTO == null) ? false : true;
+        boolean success = (responseDayBoothGetDTO == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "주간 부스 조회 성공" : "주간 부스 조회 실패");
-        requestMap.put("boothInfo", responseDayBoothDTO);
+        requestMap.put("boothInfo", responseDayBoothGetDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
@@ -44,14 +44,14 @@ public class DayBoothController {
     // 주간 부스 전체 조회
     @GetMapping("/all")
     public ResponseEntity<Map<String, Object>> getDayBooths(){
-        List<ResponseAllDayBoothDTO> responseAllDayBoothDTOList = dayBoothService.getDayBooths();
+        List<ResponseDayBoothsGetDTO> responseDayBoothsGetDTOList = dayBoothService.getDayBooths();
 
-        boolean success = (responseAllDayBoothDTOList == null) ? false : true;
+        boolean success = (responseDayBoothsGetDTOList == null) ? false : true;
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "전체 주간부스 조회 성공" : "전체 주간부스 조회 실패");
-        requestMap.put("boothList", responseAllDayBoothDTOList);
+        requestMap.put("boothList", responseDayBoothsGetDTOList);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
