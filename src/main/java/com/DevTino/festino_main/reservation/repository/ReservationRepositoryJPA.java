@@ -14,4 +14,6 @@ public interface ReservationRepositoryJPA extends JpaRepository<ReservationDAO, 
     List<ReservationDAO> findAllByBoothIdAndReservationTypeAndCreateAtLessThan(UUID boothId, ReservationEnum reservationType, LocalDateTime createAt);
 
     ReservationDAO findFirstByDateOrderByReservationNumDesc(Integer date);
+
+    List<ReservationDAO> findAllByBoothIdOrderByReservationNumAsc(UUID boothId);
 }
