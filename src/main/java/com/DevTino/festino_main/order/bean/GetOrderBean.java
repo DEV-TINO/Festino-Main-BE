@@ -22,7 +22,7 @@ public class GetOrderBean {
 
     // 주문 내역 조회
     public List<ResponseOrderGetDTO> exec(String userName, String phoneNum) {
-        List<OrderDAO> orderDAOList = getOrdersDAOBean.exec(userName, phoneNum);
+        List<OrderDAO> orderDAOList = getOrdersDAOBean.exec(phoneNum);
 
         return createResponseGetDTOBean.exec(orderDAOList);
     }

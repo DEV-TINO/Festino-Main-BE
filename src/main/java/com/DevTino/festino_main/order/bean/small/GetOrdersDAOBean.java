@@ -9,15 +9,16 @@ import java.util.List;
 
 @Component
 public class GetOrdersDAOBean {
+
     OrderRepositoryJPA orderRepositoryJPA;
 
     public GetOrdersDAOBean(OrderRepositoryJPA orderRepositoryJPA) {
         this.orderRepositoryJPA = orderRepositoryJPA;
     }
 
-    // 유저의 이름과 핸드폰 번호로 입금 완료된 주문 내역들을 조회
+    // 유저의 핸드폰 번호로 입금 완료된 주문 내역들을 조회
     @Transactional(readOnly = true)
-    public List<OrderDAO> exec(String userName, String phoneNum) {
-        return orderRepositoryJPA.findAllByUserNameAndPhoneNumOrderByCreateAtDesc(userName, phoneNum);
+    public List<OrderDAO> exec(String phoneNum) {
+        return orderRepositoryJPA.findAllByPhoneNumOrderByCreateAtDesc(phoneNum);
     }
 }
