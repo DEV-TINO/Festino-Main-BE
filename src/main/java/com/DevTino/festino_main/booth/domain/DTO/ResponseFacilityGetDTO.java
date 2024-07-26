@@ -13,4 +13,5 @@ public class ResponseFacilityGetDTO {
     Integer markerNum;
     String openTime;
     String closeTime;
+    String boothName;
 }
