@@ -13,6 +13,7 @@ public class CreateFacilityDTOBean {
                 .markerNum(facilityDAO.getMarkerNum())
                 .openTime(facilityDAO.getOpenTime())
                 .closeTime(facilityDAO.getCloseTime())
+                .boothName(facilityDAO.getBoothName())
                 .build();
     }
 }
