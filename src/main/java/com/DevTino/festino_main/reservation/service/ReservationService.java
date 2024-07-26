@@ -35,7 +35,7 @@ public class ReservationService {
     }
 
     // 전화번호 중복 조회
-    public boolean checkReservationPhoneNum(String phoneNum) {
+    public String checkReservationPhoneNum(String phoneNum) {
         return checkReservationPhoneNumBean.exec(phoneNum);
     }
 }

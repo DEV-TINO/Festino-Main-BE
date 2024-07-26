@@ -56,12 +56,13 @@ public class ReservationController {
     // 전화번호 중복 조회
     @GetMapping("/duplication")
     public ResponseEntity<Map<String, Object>> checkReservationPhoneNum(@RequestParam("phoneNum") String phoneNum) {
-        boolean result = reservationService.checkReservationPhoneNum(phoneNum);
+        String adminName = reservationService.checkReservationPhoneNum(phoneNum);
 
         // message, success 값 json 데이터로 반환
         Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", result);
-        requestMap.put("message", result ? "exist phone number": "doesn't exist phone number");
+        requestMap.put("success", adminName != null);
+        requestMap.put("adminName", adminName);
+        requestMap.put("message", adminName != null ? "exist phone number": "doesn't exist phone number");
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
