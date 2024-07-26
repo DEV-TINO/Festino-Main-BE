@@ -11,6 +11,7 @@ import com.DevTino.festino_main.reservation.bean.small.SaveReservationDAOBean;
 import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationSaveDTO;
 import com.DevTino.festino_main.reservation.domain.ReservationDAO;
+import com.DevTino.festino_main.reservation.domain.ReservationEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -44,8 +45,11 @@ public class SaveReservationBean {
         // 이전 예약 기록이 있을 경우 예약이 불가능
         // 예약은 전화번호, RELEASE 기준으로 함
         // 전화번호, RELEASE 가 같은 경우 기존 예약을 취소하고 진행함
-        if(getReservationByPhoneNumDAOBean.exec(requestReservationSaveDTO.getPhoneNum()) != null) {
-            return null;
+        ReservationDAO reservationDAO = getReservationByPhoneNumDAOBean.exec(requestReservationSaveDTO.getPhoneNum());
+
+        // 이미 있는 경우 덮어쓰기
+        if(reservationDAO != null) {
+            reservationDAO.setReservationType(ReservationEnum.CANCEL);
         }
 
         // 야간부스 전체 예약수 관리를 위해 야간부스 정보를 가져옴
