@@ -29,7 +29,7 @@ public class CheckReservationDAODateFieldBean {
         // 서버 시간 고려 9시간 더해줌
         LocalDateTime now = LocalDateTime.now().plusHours(9);
 
-        Integer date = 0;
+        int date = 0;
 
         if(now.isAfter(start11) && now.isBefore(end11)) {
             date = 1;

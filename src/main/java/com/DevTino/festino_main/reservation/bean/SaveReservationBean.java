@@ -4,6 +4,7 @@ import com.DevTino.festino_main.booth.bean.small.GetNightBoothDAOBean;
 import com.DevTino.festino_main.booth.bean.small.SaveNightBoothDAOBean;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import com.DevTino.festino_main.message.bean.SaveReservationSendMessageBean;
+import com.DevTino.festino_main.reservation.bean.small.CheckReservationDAODateFieldBean;
 import com.DevTino.festino_main.reservation.bean.small.CreateReservationDAOBean;
 import com.DevTino.festino_main.reservation.bean.small.GetReservationByPhoneNumDAOBean;
 import com.DevTino.festino_main.reservation.bean.small.SaveReservationDAOBean;
@@ -17,19 +18,22 @@ import java.io.IOException;
 
 @Component
 public class SaveReservationBean {
+
     GetReservationByPhoneNumDAOBean getReservationByPhoneNumDAOBean;
+    GetNightBoothDAOBean getNightBoothDAOBean;
     CreateReservationDAOBean createReservationDAOBean;
     SaveReservationDAOBean saveReservationDAOBean;
-    GetNightBoothDAOBean getNightBoothDAOBean;
+    CheckReservationDAODateFieldBean checkReservationDAODateFieldBean;
     SaveNightBoothDAOBean saveNightBoothDAOBean;
     SaveReservationSendMessageBean saveReservationSendMessageBean;
 
     @Autowired
-    public SaveReservationBean(GetReservationByPhoneNumDAOBean getReservationByPhoneNumDAOBean, CreateReservationDAOBean createReservationDAOBean, SaveReservationDAOBean saveReservationDAOBean, GetNightBoothDAOBean getNightBoothDAOBean, SaveNightBoothDAOBean saveNightBoothDAOBean, SaveReservationSendMessageBean saveReservationSendMessageBean) {
+    public SaveReservationBean(GetReservationByPhoneNumDAOBean getReservationByPhoneNumDAOBean, GetNightBoothDAOBean getNightBoothDAOBean, CreateReservationDAOBean createReservationDAOBean, SaveReservationDAOBean saveReservationDAOBean, CheckReservationDAODateFieldBean checkReservationDAODateFieldBean, SaveNightBoothDAOBean saveNightBoothDAOBean, SaveReservationSendMessageBean saveReservationSendMessageBean) {
         this.getReservationByPhoneNumDAOBean = getReservationByPhoneNumDAOBean;
+        this.getNightBoothDAOBean = getNightBoothDAOBean;
         this.createReservationDAOBean = createReservationDAOBean;
         this.saveReservationDAOBean = saveReservationDAOBean;
-        this.getNightBoothDAOBean = getNightBoothDAOBean;
+        this.checkReservationDAODateFieldBean = checkReservationDAODateFieldBean;
         this.saveNightBoothDAOBean = saveNightBoothDAOBean;
         this.saveReservationSendMessageBean = saveReservationSendMessageBean;
     }
@@ -44,11 +48,15 @@ public class SaveReservationBean {
             return null;
         }
 
+        // 야간부스 전체 예약수 관리를 위해 야간부스 정보를 가져옴
         NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(requestReservationSaveDTO.getBoothId());
         if (nightBoothDAO == null) return null;
 
+        // 예약 당일이 언제인지
+        Integer date = checkReservationDAODateFieldBean.exec(nightBoothDAO);
+
         // 예약을 등록한 뒤 reservationId 반환
-        ReservationDAO createReservationDAO = createReservationDAOBean.exec(nightBoothDAO, requestReservationSaveDTO);
+        ReservationDAO createReservationDAO = createReservationDAOBean.exec(date, requestReservationSaveDTO);
         if (createReservationDAO == null) return null;
 
         nightBoothDAO.setTotalReservationNum(nightBoothDAO.getTotalReservationNum() + 1);
