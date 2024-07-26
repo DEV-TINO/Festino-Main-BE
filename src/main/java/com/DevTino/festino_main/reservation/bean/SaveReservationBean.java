@@ -50,6 +50,12 @@ public class SaveReservationBean {
         // 이미 있는 경우 덮어쓰기
         if(reservationDAO != null) {
             reservationDAO.setReservationType(ReservationEnum.CANCEL);
+
+            NightBoothDAO oldNightBoothDAO = getNightBoothDAOBean.exec(reservationDAO.getBoothId());
+            oldNightBoothDAO.setTotalReservationNum(oldNightBoothDAO.getTotalReservationNum() - 1);
+
+            saveReservationDAOBean.exec(reservationDAO);
+            saveNightBoothDAOBean.exec(oldNightBoothDAO);
         }
 
         // 야간부스 전체 예약수 관리를 위해 야간부스 정보를 가져옴
