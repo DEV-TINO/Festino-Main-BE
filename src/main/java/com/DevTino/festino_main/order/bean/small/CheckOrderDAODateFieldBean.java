@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.order.bean.small;
 
+import com.DevTino.festino_main.DateTimeUtils;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +27,7 @@ public class CheckOrderDAODateFieldBean {
         LocalDateTime end12 = start12.plusHours(12);
         LocalDateTime end13 = start13.plusHours(12);
 
-        // 서버 시간 고려 9시간 더해줌
-        LocalDateTime now = LocalDateTime.now().plusHours(9);
+        LocalDateTime now = DateTimeUtils.nowZone();
 
         int date = 0;
 

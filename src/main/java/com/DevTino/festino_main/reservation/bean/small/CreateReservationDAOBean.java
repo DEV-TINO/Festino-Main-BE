@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.reservation.bean.small;
 
+import com.DevTino.festino_main.DateTimeUtils;
 import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.domain.ReservationDAO;
 import com.DevTino.festino_main.reservation.domain.ReservationEnum;
@@ -22,8 +23,8 @@ public class CreateReservationDAOBean {
                 .personCount(requestReservationSaveDTO.getPersonCount())
                 .date(date)
                 .reservationType(ReservationEnum.RESERVE)
-                .createAt(LocalDateTime.now())
-                .updateAt(LocalDateTime.now())
+                .createAt(DateTimeUtils.nowZone())
+                .updateAt(DateTimeUtils.nowZone())
                 .build();
     }
 }
