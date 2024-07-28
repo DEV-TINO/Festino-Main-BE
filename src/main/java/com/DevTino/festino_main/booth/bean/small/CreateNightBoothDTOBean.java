@@ -38,6 +38,7 @@ public class CreateNightBoothDTOBean {
                 .menuList(createMenusDTOBean.exec(menuDAOList))
                 .markerNum(nightBoothDAO.getMarkerNum())
                 .location(nightBoothDAO.getLocation())
+                .accountInfo(nightBoothDAO.getAccountInfo())
                 .build();
     }
 }

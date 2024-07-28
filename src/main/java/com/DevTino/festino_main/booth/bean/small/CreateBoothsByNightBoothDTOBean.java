@@ -19,6 +19,7 @@ public class CreateBoothsByNightBoothDTOBean {
                 .markerNum(nightBoothDAO.getMarkerNum())
                 .location(nightBoothDAO.getLocation())
                 .isOpen(nightBoothDAO.getIsOpen())
+                .accountInfo(nightBoothDAO.getAccountInfo())
                 .build();
     }
 }

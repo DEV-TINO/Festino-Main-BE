@@ -71,4 +71,17 @@ public class NightBoothController {
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
+
+    // 주문 시 계좌정보 조회
+    @GetMapping("/account")
+    public ResponseEntity<Map<String, Object>> getAccountInfo(@RequestParam("boothId") UUID boothId) {
+        Map<String, String> accountInfo = nightBoothService.getAccountInfo(boothId);
+
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("success", accountInfo != null);
+        requestMap.put("message", accountInfo != null ? "get account info success" : "get account info failure");
+        requestMap.put("accountInfo", accountInfo);
+
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+    }
 }
