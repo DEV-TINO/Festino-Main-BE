@@ -22,6 +22,6 @@ public class GetMenuDAOBean {
 
     // 메뉴 전체 리스트 반환
     public List<MenuDAO> exec(UUID boothId){
-        return menuRepositoryJPA.findALlByBoothId(boothId);
+        return menuRepositoryJPA.findALlByBoothIdOrderByMenuIndexAsc(boothId);
     }
 }
