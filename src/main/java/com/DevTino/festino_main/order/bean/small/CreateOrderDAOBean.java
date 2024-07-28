@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.order.bean.small;
 
+import com.DevTino.festino_main.DateTimeUtils;
 import com.DevTino.festino_main.order.domain.DTO.RequestOrderSaveDTO;
 import com.DevTino.festino_main.order.domain.OrderDAO;
 import com.DevTino.festino_main.order.domain.OrderType;
@@ -24,7 +25,7 @@ public class CreateOrderDAOBean {
                 .orderType(OrderType.COOKING)
                 .menuInfo(requestOrderSaveDTO.getMenuInfo())
                 .totalPrice(requestOrderSaveDTO.getTotalPrice())
-                .createAt(LocalDateTime.now())
+                .createAt(DateTimeUtils.nowZone())
                 .isCoupon(requestOrderSaveDTO.getIsCoupon())
                 .isDeposit(false)
                 .build();
