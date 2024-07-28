@@ -17,15 +17,14 @@ public class CheckOrderDAODateFieldBean {
 
         String openTime = nightBoothDAO.getOpenTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime open = LocalTime.parse(openTime, formatter);
+        LocalTime open = LocalTime.parse(openTime, formatter).minusHours(2);
 
         LocalDateTime start11 = LocalDateTime.of(LocalDate.of(2024, 9, 11), open);
         LocalDateTime start12 = LocalDateTime.of(LocalDate.of(2024, 9, 12), open);
         LocalDateTime start13 = LocalDateTime.of(LocalDate.of(2024, 9, 13), open);
 
-        LocalDateTime end11 = start11.plusHours(12);
-        LocalDateTime end12 = start12.plusHours(12);
-        LocalDateTime end13 = start13.plusHours(12);
+        LocalDateTime end11 = start11.plusHours(15);
+        LocalDateTime end12 = start12.plusHours(15);
 
         LocalDateTime now = DateTimeUtils.nowZone();
 
@@ -35,7 +34,7 @@ public class CheckOrderDAODateFieldBean {
             date = 1;
         } else if(now.isAfter(start12) && now.isBefore(end12)) {
             date = 2;
-        } else if(now.isAfter(start13) && now.isBefore(end13)) {
+        } else if(now.isAfter(start13)) {
             date = 3;
         }
 
