@@ -17,7 +17,7 @@ public class CheckReservationDAODateFieldBean {
 
         String openTime = nightBoothDAO.getOpenTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime open = LocalTime.parse(openTime, formatter);
+        LocalTime open = LocalTime.parse(openTime, formatter).minusHours(2);
 
         LocalDateTime start11 = LocalDateTime.of(LocalDate.of(2024, 9, 11), open);
         LocalDateTime start12 = LocalDateTime.of(LocalDate.of(2024, 9, 12), open);
@@ -25,7 +25,6 @@ public class CheckReservationDAODateFieldBean {
 
         LocalDateTime end11 = start11.plusHours(12);
         LocalDateTime end12 = start12.plusHours(12);
-        LocalDateTime end13 = start13.plusHours(12);
 
         LocalDateTime now = DateTimeUtils.nowZone();
 
@@ -35,7 +34,7 @@ public class CheckReservationDAODateFieldBean {
             date = 1;
         } else if(now.isAfter(start12) && now.isBefore(end12)) {
             date = 2;
-        } else if(now.isAfter(start13) && now.isBefore(end13)) {
+        } else if(now.isAfter(start13)) {
             date = 3;
         }
 
