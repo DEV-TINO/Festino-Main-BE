@@ -1,5 +1,7 @@
 package com.DevTino.festino_main.booth.domain.DTO;
 
+import com.DevTino.festino_main.booth.others.AccountInfoConverter;
+import jakarta.persistence.Convert;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,4 +21,7 @@ public class ResponseNightBoothsGetDTO {
     Integer markerNum;
     String location;
     Boolean isOpen;
+
+    @Convert(converter = AccountInfoConverter.class)
+    AccountInfo accountInfo;
 }

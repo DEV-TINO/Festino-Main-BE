@@ -1,6 +1,8 @@
 package com.DevTino.festino_main.booth.domain.DTO;
 
+import com.DevTino.festino_main.booth.others.AccountInfoConverter;
 import com.DevTino.festino_main.menu.domain.DTO.ResponseMenuGetDTO;
+import jakarta.persistence.Convert;
 import lombok.Builder;
 import lombok.Data;
 
@@ -25,4 +27,7 @@ public class ResponseNightBoothGetDTO {
     List<ResponseMenuGetDTO> menuList;
     Integer markerNum;
     String location;
+
+    @Convert(converter = AccountInfoConverter.class)
+    AccountInfo accountInfo;
 }

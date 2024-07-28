@@ -1,5 +1,7 @@
 package com.DevTino.festino_main.booth.domain.entity;
 
+import com.DevTino.festino_main.booth.domain.DTO.AccountInfo;
+import com.DevTino.festino_main.booth.others.AccountInfoConverter;
 import com.DevTino.festino_main.booth.others.StringConverter;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -41,4 +43,7 @@ public class NightBoothDAO {
 
     LocalDateTime createAt;
     LocalDateTime updateAt;
+
+    @Convert(converter = AccountInfoConverter.class)
+    AccountInfo accountInfo;
 }

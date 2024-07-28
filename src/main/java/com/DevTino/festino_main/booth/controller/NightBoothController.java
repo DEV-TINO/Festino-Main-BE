@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.booth.controller;
 
+import com.DevTino.festino_main.booth.domain.DTO.AccountInfo;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothsGetDTO;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothGetDTO;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseReservationNightBoothGetDTO;
@@ -68,6 +69,19 @@ public class NightBoothController {
         requestMap.put("success", success);
         requestMap.put("message", success ? "전체 야간부스 조회 성공" : "전체 야간부스 조회 실패");
         requestMap.put("boothList", responseNightBoothsGetDTOList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+    }
+
+    // 주문 시 계좌정보 조회
+    @GetMapping("/account")
+    public ResponseEntity<Map<String, Object>> getAccountInfo(@RequestParam("boothId") UUID boothId) {
+        AccountInfo accountInfo = nightBoothService.getAccountInfo(boothId);
+
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("success", accountInfo != null);
+        requestMap.put("message", accountInfo != null ? "get account info success" : "get account info failure");
+        requestMap.put("accountInfo", accountInfo);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }

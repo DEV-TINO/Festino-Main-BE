@@ -1,8 +1,10 @@
 package com.DevTino.festino_main.booth.service;
 
+import com.DevTino.festino_main.booth.bean.GetAccountInfoBean;
 import com.DevTino.festino_main.booth.bean.GetNightBoothBean;
 import com.DevTino.festino_main.booth.bean.GetNightBoothsBean;
 import com.DevTino.festino_main.booth.bean.GetReservationNightBoothsBean;
+import com.DevTino.festino_main.booth.domain.DTO.AccountInfo;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothsGetDTO;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothGetDTO;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseReservationNightBoothGetDTO;
@@ -18,12 +20,14 @@ public class NightBoothService {
     GetNightBoothBean getNightBoothBean;
     GetReservationNightBoothsBean getReservationNightBoothsBean;
     GetNightBoothsBean getNightBoothsBean;
+    GetAccountInfoBean getAccountInfoBean;
 
     @Autowired
-    public NightBoothService(GetNightBoothBean getNightBoothBean, GetReservationNightBoothsBean getReservationNightBoothsBean, GetNightBoothsBean getNightBoothsBean){
+    public NightBoothService(GetNightBoothBean getNightBoothBean, GetReservationNightBoothsBean getReservationNightBoothsBean, GetNightBoothsBean getNightBoothsBean, GetAccountInfoBean getAccountInfoBean){
         this.getNightBoothBean = getNightBoothBean;
         this.getReservationNightBoothsBean = getReservationNightBoothsBean;
         this.getNightBoothsBean = getNightBoothsBean;
+        this.getAccountInfoBean = getAccountInfoBean;
     }
 
     // 야간 부스 디테일 조회
@@ -40,4 +44,7 @@ public class NightBoothService {
     public List<ResponseNightBoothsGetDTO> getNightBooths(){
         return getNightBoothsBean.exec();
     }
+
+    // 계좌 정보 조회
+    public AccountInfo getAccountInfo(UUID boothId) { return getAccountInfoBean.exec(boothId); }
 }
