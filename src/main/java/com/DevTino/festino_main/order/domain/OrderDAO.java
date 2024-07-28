@@ -17,23 +17,21 @@ import java.util.UUID;
 @Builder
 public class OrderDAO {
     @Id
-    UUID orderId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Integer orderNum;
 
+    UUID orderId;
     UUID boothId;
     OrderType orderType;
     Integer tableNum;
     Integer date;
-    Integer orderNum;
     String userName;
     String phoneNum;
+    Integer totalPrice;
+    LocalDateTime createAt;
+    Boolean isCoupon;
+    Boolean isDeposit;
 
     @Convert(converter = StringListConverter.class)
     List<Map<String, Object>> menuInfo;
-
-    Integer totalPrice;
-
-    LocalDateTime createAt;
-
-    Boolean isCoupon;
-    Boolean isDeposit;
 }

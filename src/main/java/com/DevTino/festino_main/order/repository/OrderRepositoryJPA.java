@@ -8,6 +8,4 @@ import java.util.UUID;
 
 public interface OrderRepositoryJPA extends JpaRepository<OrderDAO, UUID> {
     List<OrderDAO> findAllByPhoneNumOrderByCreateAtDesc(String phoneNum);
-
-    OrderDAO findFirstByDateOrderByOrderNumDesc(Integer date);
 }
