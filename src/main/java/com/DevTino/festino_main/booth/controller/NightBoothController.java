@@ -1,6 +1,5 @@
 package com.DevTino.festino_main.booth.controller;
 
-import com.DevTino.festino_main.booth.domain.DTO.AccountInfo;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothsGetDTO;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothGetDTO;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseReservationNightBoothGetDTO;
@@ -76,7 +75,7 @@ public class NightBoothController {
     // 주문 시 계좌정보 조회
     @GetMapping("/account")
     public ResponseEntity<Map<String, Object>> getAccountInfo(@RequestParam("boothId") UUID boothId) {
-        AccountInfo accountInfo = nightBoothService.getAccountInfo(boothId);
+        Map<String, String> accountInfo = nightBoothService.getAccountInfo(boothId);
 
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", accountInfo != null);

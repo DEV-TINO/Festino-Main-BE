@@ -4,7 +4,6 @@ import com.DevTino.festino_main.booth.bean.GetAccountInfoBean;
 import com.DevTino.festino_main.booth.bean.GetNightBoothBean;
 import com.DevTino.festino_main.booth.bean.GetNightBoothsBean;
 import com.DevTino.festino_main.booth.bean.GetReservationNightBoothsBean;
-import com.DevTino.festino_main.booth.domain.DTO.AccountInfo;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothsGetDTO;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothGetDTO;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseReservationNightBoothGetDTO;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -46,5 +46,5 @@ public class NightBoothService {
     }
 
     // 계좌 정보 조회
-    public AccountInfo getAccountInfo(UUID boothId) { return getAccountInfoBean.exec(boothId); }
+    public Map<String, String> getAccountInfo(UUID boothId) { return getAccountInfoBean.exec(boothId); }
 }

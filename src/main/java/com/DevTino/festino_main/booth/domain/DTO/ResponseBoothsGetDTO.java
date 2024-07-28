@@ -5,6 +5,7 @@ import jakarta.persistence.Convert;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Data
@@ -23,5 +24,5 @@ public class ResponseBoothsGetDTO {
     Boolean isOpen;
 
     @Convert(converter = AccountInfoConverter.class)
-    AccountInfo accountInfo;
+    Map<String, String> accountInfo;
 }
