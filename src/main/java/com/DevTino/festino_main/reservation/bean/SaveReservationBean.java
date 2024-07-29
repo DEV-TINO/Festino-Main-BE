@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.reservation.bean;
 
+import com.DevTino.festino_main.DateTimeUtils;
 import com.DevTino.festino_main.booth.bean.small.GetNightBoothDAOBean;
 import com.DevTino.festino_main.booth.bean.small.SaveNightBoothDAOBean;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
@@ -50,6 +51,7 @@ public class SaveReservationBean {
         // 이미 있는 경우 덮어쓰기
         if(reservationDAO != null) {
             reservationDAO.setReservationType(ReservationEnum.CANCEL);
+            reservationDAO.setUpdateAt(DateTimeUtils.nowZone());
 
             NightBoothDAO oldNightBoothDAO = getNightBoothDAOBean.exec(reservationDAO.getBoothId());
             oldNightBoothDAO.setTotalReservationNum(oldNightBoothDAO.getTotalReservationNum() - 1);
