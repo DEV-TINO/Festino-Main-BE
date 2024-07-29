@@ -14,4 +14,5 @@ public class ResponseFacilityGetDTO {
     String openTime;
     String closeTime;
     String boothName;
+    String adminCategory;
 }
