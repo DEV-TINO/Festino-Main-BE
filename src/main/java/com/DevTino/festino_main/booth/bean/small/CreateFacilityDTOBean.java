@@ -14,6 +14,7 @@ public class CreateFacilityDTOBean {
                 .openTime(facilityDAO.getOpenTime())
                 .closeTime(facilityDAO.getCloseTime())
                 .boothName(facilityDAO.getBoothName())
+                .adminCategory(facilityDAO.getAdminCategory())
                 .build();
     }
 }
