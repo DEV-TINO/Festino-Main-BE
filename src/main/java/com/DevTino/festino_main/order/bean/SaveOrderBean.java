@@ -35,6 +35,9 @@ public class SaveOrderBean {
         NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(requestOrderSaveDTO.getBoothId());
         if (nightBoothDAO == null) return null;
 
+        // 부스가 닫혀 있거나 주문 불가할 경우 주문 등록 실패
+        if (!nightBoothDAO.getIsOpen() || !nightBoothDAO.getIsOrder()) return null;
+
         // 날짜 조회
         Integer date = checkOrderDAODateFieldBean.exec(nightBoothDAO);
 
