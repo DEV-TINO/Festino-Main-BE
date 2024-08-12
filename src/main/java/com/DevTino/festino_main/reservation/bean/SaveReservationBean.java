@@ -42,6 +42,9 @@ public class SaveReservationBean {
 
     // 예약 등록
     public ResponseReservationSaveDTO exec(RequestReservationSaveDTO requestReservationSaveDTO) throws IOException {
+        // 부스가 운영중인지, 예약가능한지 여부 확인하는 예외 처리
+        NightBoothDAO exceptionBoothDAO = getNightBoothDAOBean.exec(requestReservationSaveDTO.getBoothId(), true, true);
+//        if(exceptionBoothDAO == null) return null;
 
         // 이전 예약 기록이 있을 경우 예약이 불가능
         // 예약은 전화번호, RELEASE 기준으로 함
