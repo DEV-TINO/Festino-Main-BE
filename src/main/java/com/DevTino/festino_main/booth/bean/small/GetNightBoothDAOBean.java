@@ -25,8 +25,4 @@ public class GetNightBoothDAOBean {
     public NightBoothDAO exec(UUID boothId){
         return nightBoothRepositoryJPA.findById(boothId).orElse(null);
     }
-
-    public NightBoothDAO exec(UUID boothId, Boolean isOpen, Boolean isReservation) {
-        return nightBoothRepositoryJPA.findByBoothIdAndIsOpenAndIsReservation(boothId, isOpen, isReservation);
-    }
 }
