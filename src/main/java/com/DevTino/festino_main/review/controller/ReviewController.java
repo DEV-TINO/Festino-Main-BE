@@ -1,5 +1,7 @@
 package com.DevTino.festino_main.review.controller;
 
+import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothGetDTO;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothsGetDTO;
 import com.DevTino.festino_main.review.domain.DTO.RequestReviewSaveDTO;
 import com.DevTino.festino_main.review.domain.DTO.ResponseReviewGetDTO;
 import com.DevTino.festino_main.review.service.ReviewService;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -36,6 +39,21 @@ public class ReviewController {
         requestMap.put("success", success);
         requestMap.put("message", success ? "리뷰 조회 성공" : "리뷰 조회 실패");
         requestMap.put("boothInfo", responseReviewGetDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+    }
+
+    // 리뷰 전체 조회
+    @GetMapping("/all")
+    public ResponseEntity<Map<String, Object>> getReviews(){
+        List<ResponseReviewGetDTO> responseReviewGetDTOList = reviewService.getReviews();
+
+        boolean success = (responseReviewGetDTOList == null) ? false : true;
+
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("success", success);
+        requestMap.put("message", success ? "전체 리뷰 조회 성공" : "전체 리뷰 조회 실패");
+        requestMap.put("boothList", responseReviewGetDTOList);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
