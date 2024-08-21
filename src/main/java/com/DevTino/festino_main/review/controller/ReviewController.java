@@ -36,7 +36,7 @@ public class ReviewController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "리뷰 조회 성공" : "리뷰 조회 실패");
-        requestMap.put("boothInfo", responseReviewGetDTO);
+        requestMap.put("reviewInfo", responseReviewGetDTO);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
@@ -51,7 +51,7 @@ public class ReviewController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "전체 리뷰 조회 성공" : "전체 리뷰 조회 실패");
-        requestMap.put("boothList", responseReviewGetDTOList);
+        requestMap.put("reviewList", responseReviewGetDTOList);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
@@ -67,7 +67,7 @@ public class ReviewController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "리뷰 저장 성공" : "리뷰 저장 실패");
-        requestMap.put("showInfo", reviewId);
+        requestMap.put("reviewId", reviewId);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
