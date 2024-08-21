@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.booth.domain.DTO;
 
+import com.DevTino.festino_main.menu.domain.DTO.ResponseMenuGetDTO;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class ResponseDayBoothGetDTO {
     String closeTime;
     String boothIntro;
     List<String> boothImage;
+    List<ResponseMenuGetDTO> menuList;
     Integer markerNum;
     String location;
     Boolean isOpen;
