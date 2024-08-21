@@ -1,7 +1,5 @@
 package com.DevTino.festino_main.review.controller;
 
-import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothGetDTO;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseDayBoothsGetDTO;
 import com.DevTino.festino_main.review.domain.DTO.RequestReviewSaveDTO;
 import com.DevTino.festino_main.review.domain.DTO.ResponseReviewGetDTO;
 import com.DevTino.festino_main.review.service.ReviewService;

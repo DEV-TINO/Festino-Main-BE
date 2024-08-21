@@ -9,7 +9,6 @@ import java.util.UUID;
 
 @Component
 public class CreateReviewDAOBean {
-
     public ReviewDAO exec(RequestReviewSaveDTO requestReviewSaveDTO){
         return ReviewDAO.builder()
                 .reviewId(UUID.randomUUID())

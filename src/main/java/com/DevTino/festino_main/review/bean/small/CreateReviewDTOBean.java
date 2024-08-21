@@ -14,5 +14,4 @@ public class CreateReviewDTOBean {
                 .isAnonymous(reviewDAO.getIsAnonymous())
                 .build();
     }
-
 }

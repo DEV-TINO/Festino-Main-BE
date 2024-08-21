@@ -1,6 +1,5 @@
 package com.DevTino.festino_main.review.bean.small;
 
-import com.DevTino.festino_main.review.domain.DTO.ResponseReviewGetDTO;
 import com.DevTino.festino_main.review.domain.entitiy.ReviewDAO;
 import com.DevTino.festino_main.review.repository.ReviewRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ public class GetReviewsDAOBean {
         this.reviewRepositoryJPA = reviewRepositoryJPA;
     }
 
+    // 리뷰 전체 리스트로 가져오기
     public List<ReviewDAO> exec(){
         return reviewRepositoryJPA.findAll();
     }

@@ -18,6 +18,7 @@ public class CreateReviewsDTOBean {
         this.createReviewDTOBean = createReviewDTOBean;
     }
 
+    // 리뷰 전체 리스트로 가져오기
     public List<ResponseReviewGetDTO> exec(List<ReviewDAO> reviewDAOList){
 
         List<ResponseReviewGetDTO> responseReviewGetDTOList = new ArrayList<>();
@@ -31,5 +32,4 @@ public class CreateReviewsDTOBean {
 
         return responseReviewGetDTOList;
     }
-
 }

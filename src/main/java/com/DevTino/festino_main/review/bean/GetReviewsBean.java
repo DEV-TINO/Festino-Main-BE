@@ -21,11 +21,14 @@ public class GetReviewsBean {
         this.createReviewsDTOBean = createReviewsDTOBean;
     }
 
+    // 리뷰 전체 조회
     public List<ResponseReviewGetDTO> exec(){
 
+        // 리뷰 전체 리스트로 가져오기
         List<ReviewDAO> reviewDAOList = getReviewsDAOBean.exec();
         if (reviewDAOList == null) return null;
 
+        //
         return createReviewsDTOBean.exec(reviewDAOList);
     }
 }
