@@ -10,7 +10,5 @@ public class RequestReviewSaveDTO {
     UUID reviewId;
     String content;
     String email;
-    LocalDateTime createAt;
-    LocalDateTime uploadAt;
     Boolean isAnonymous;
 }
