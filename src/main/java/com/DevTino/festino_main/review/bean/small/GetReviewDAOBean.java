@@ -17,6 +17,7 @@ public class GetReviewDAOBean {
         this.reviewRepositoryJPA = reviewRepositoryJPA;
     }
 
+    // reviewId로 DAO 가져오기
     public ReviewDAO exec(UUID reviewId){
         return reviewRepositoryJPA.findById(reviewId).orElse(null);
     }
