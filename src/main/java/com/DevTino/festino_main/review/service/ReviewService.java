@@ -17,6 +17,7 @@ public class ReviewService {
         this.saveReviewBean = saveReviewBean;
     }
 
+    // 리뷰 저장
     public UUID saveReview(RequestReviewSaveDTO requestReviewSaveDTO){
         return saveReviewBean.exec(requestReviewSaveDTO);
     }

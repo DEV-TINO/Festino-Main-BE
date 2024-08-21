@@ -21,13 +21,17 @@ public class SaveReviewBean {
         this.saveReviewDAOBean = saveReviewDAOBean;
     }
 
+    // 리뷰 저장
     public UUID exec(RequestReviewSaveDTO requestReviewSaveDTO){
 
+        // 리뷰 DAO 생성
         ReviewDAO reviewDAO = createReviewDAOBean.exec(requestReviewSaveDTO);
         if (reviewDAO == null) return null;
 
+        // DAO 저장
         saveReviewDAOBean.exec(reviewDAO);
 
+        // reviewID 반환
         return reviewDAO.getReviewId();
     }
 }

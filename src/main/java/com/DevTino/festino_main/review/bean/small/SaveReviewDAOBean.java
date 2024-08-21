@@ -15,6 +15,7 @@ public class SaveReviewDAOBean {
         this.reviewRepositoryJPA = reviewRepositoryJPA;
     }
 
+    // 리뷰 DAO를 DB에 저장
     public void exec(ReviewDAO reviewDAO){
         reviewRepositoryJPA.save(reviewDAO);
     }
