@@ -1,5 +1,6 @@
-package com.DevTino.festino_main.order.domain;
+package com.DevTino.festino_main.order.domain.DTO;
 
+import com.DevTino.festino_main.order.domain.OrderType;
 import com.DevTino.festino_main.order.others.StringListConverter;
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-public class OrderDAO {
+public class OrderDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer orderNum;
