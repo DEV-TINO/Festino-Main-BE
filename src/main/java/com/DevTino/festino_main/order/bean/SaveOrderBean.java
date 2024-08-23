@@ -8,19 +8,27 @@ import com.DevTino.festino_main.order.bean.small.GetOrderBoothNameDAOBean;
 import com.DevTino.festino_main.order.bean.small.SaveOrderDAOBean;
 import com.DevTino.festino_main.order.domain.DTO.OrderDTO;
 import com.DevTino.festino_main.order.domain.DTO.RequestOrderSaveDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
 public class SaveOrderBean {
-
     GetNightBoothDAOBean getNightBoothDAOBean;
     CheckOrderDAODateFieldBean checkOrderDAODateFieldBean;
     CreateOrderDAOBean createOrderDAOBean;
     SaveOrderDAOBean saveOrderDAOBean;
     GetOrderBoothNameDAOBean getOrderBoothNameDAOBean;
 
+    @Autowired
+    public SaveOrderBean(GetNightBoothDAOBean getNightBoothDAOBean, CheckOrderDAODateFieldBean checkOrderDAODateFieldBean, CreateOrderDAOBean createOrderDAOBean, SaveOrderDAOBean saveOrderDAOBean, GetOrderBoothNameDAOBean getOrderBoothNameDAOBean) {
+        this.getNightBoothDAOBean = getNightBoothDAOBean;
+        this.checkOrderDAODateFieldBean = checkOrderDAODateFieldBean;
+        this.createOrderDAOBean = createOrderDAOBean;
+        this.saveOrderDAOBean = saveOrderDAOBean;
+        this.getOrderBoothNameDAOBean = getOrderBoothNameDAOBean;
+    }
 
     // 주문 등록
     public UUID exec(RequestOrderSaveDTO requestOrderSaveDTO) {
