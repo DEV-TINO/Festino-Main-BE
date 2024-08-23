@@ -1,14 +1,25 @@
 package com.DevTino.festino_main.order.bean.small;
 
+import com.DevTino.festino_main.order.domain.ComputerOrderDAO;
+import com.DevTino.festino_main.order.repository.ComputerOrderRepositoryJPA;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SaveOrderDAOBean {
+    ComputerOrderRepositoryJPA computerOrderRepositoryJPA;
+
+    @Autowired
+    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA) {
+        this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
+    }
 
     // 주문 등록
     public void exec(String adminName, Object orderDTO) {
         switch (adminName) {
             case "컴퓨터공학부":
+                ComputerOrderDAO computerOrder = (ComputerOrderDAO) orderDTO;
+                computerOrderRepositoryJPA.save(computerOrder);
                 break;
             case "게임공학과":
                 break;
