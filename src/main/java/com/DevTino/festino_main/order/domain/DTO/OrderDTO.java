@@ -112,4 +112,18 @@ public class OrderDTO {
                 .menuInfo(machineOrderDAO.getMenuInfo())
                 .build();
     }
+
+    public static OrderDTO fromElectronicsOrderDAO(ElectronicsOrderDAO electronicsOrderDAO) {
+        return OrderDTO.builder()
+                .orderId(electronicsOrderDAO.getOrderId())
+                .boothId(electronicsOrderDAO.getBoothId())
+                .userName(electronicsOrderDAO.getUserName())
+                .phoneNum(electronicsOrderDAO.getPhoneNum())
+                .totalPrice(electronicsOrderDAO.getTotalPrice())
+                .createAt(electronicsOrderDAO.getCreateAt())
+                .isCoupon(electronicsOrderDAO.getIsCoupon())
+                .isDeposit(electronicsOrderDAO.getIsDeposit())
+                .menuInfo(electronicsOrderDAO.getMenuInfo())
+                .build();
+    }
 }

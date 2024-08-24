@@ -17,14 +17,16 @@ public class GetOrdersDAOBean {
     NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA;
     DesignOrderRepositoryJPA designOrderRepositoryJPA;
     MachineOrderRepositoryJPA machineOrderRepositoryJPA;
+    ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA;
 
-    public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA, DesignOrderRepositoryJPA designOrderRepositoryJPA, MachineOrderRepositoryJPA machineOrderRepositoryJPA) {
+    public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA, DesignOrderRepositoryJPA designOrderRepositoryJPA, MachineOrderRepositoryJPA machineOrderRepositoryJPA, ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
         this.newMaterialOrderRepositoryJPA = newMaterialOrderRepositoryJPA;
         this.designOrderRepositoryJPA = designOrderRepositoryJPA;
         this.machineOrderRepositoryJPA = machineOrderRepositoryJPA;
+        this.electronicsOrderRepositoryJPA = electronicsOrderRepositoryJPA;
     }
 
     // 유저의 핸드폰 번호로 입금 완료된 주문 내역들을 조회
@@ -66,6 +68,12 @@ public class GetOrdersDAOBean {
         List<MachineOrderDAO> machineOrderDAOList = machineOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
         for(MachineOrderDAO machineOrderDAO : machineOrderDAOList) {
             orderDTOList.add(OrderDTO.fromMachineOrderDAO(machineOrderDAO));
+        }
+
+        // 전자공학부에서 조회
+        List<ElectronicsOrderDAO> electronicsOrderDAOList = electronicsOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
+        for(ElectronicsOrderDAO electronicsOrderDAO : electronicsOrderDAOList) {
+            orderDTOList.add(OrderDTO.fromElectronicsOrderDAO(electronicsOrderDAO));
         }
 
         return orderDTOList;
