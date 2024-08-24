@@ -4,9 +4,11 @@ import com.DevTino.festino_main.order.domain.ComputerOrderDAO;
 import com.DevTino.festino_main.order.domain.DTO.OrderDTO;
 import com.DevTino.festino_main.order.domain.GameOrderDAO;
 import com.DevTino.festino_main.order.domain.NanoOrderDAO;
+import com.DevTino.festino_main.order.domain.NewMaterialOrderDAO;
 import com.DevTino.festino_main.order.repository.ComputerOrderRepositoryJPA;
 import com.DevTino.festino_main.order.repository.GameOrderRepositoryJPA;
 import com.DevTino.festino_main.order.repository.NanoOrderRepositoryJPA;
+import com.DevTino.festino_main.order.repository.NewMaterialOrderRepositoryJPA;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +20,13 @@ public class GetOrdersDAOBean {
     ComputerOrderRepositoryJPA computerOrderRepositoryJPA;
     GameOrderRepositoryJPA gameOrderRepositoryJPA;
     NanoOrderRepositoryJPA nanoOrderRepositoryJPA;
+    NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA;
 
-    public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA) {
+    public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
+        this.newMaterialOrderRepositoryJPA = newMaterialOrderRepositoryJPA;
     }
 
     // 유저의 핸드폰 번호로 입금 완료된 주문 내역들을 조회
@@ -46,6 +50,12 @@ public class GetOrdersDAOBean {
         List<NanoOrderDAO> nanoOrderDAOList = nanoOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
         for(NanoOrderDAO nanoOrderDAO : nanoOrderDAOList) {
             orderDTOList.add(OrderDTO.fromNanoOrderDAO(nanoOrderDAO));
+        }
+
+        // 신소재공학과에서 조회
+        List<NewMaterialOrderDAO> newMaterialOrderDAOList = newMaterialOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
+        for(NewMaterialOrderDAO newMaterialOrderDAO : newMaterialOrderDAOList) {
+            orderDTOList.add(OrderDTO.fromNewMaterialOrderDAO(newMaterialOrderDAO));
         }
 
         return orderDTOList;

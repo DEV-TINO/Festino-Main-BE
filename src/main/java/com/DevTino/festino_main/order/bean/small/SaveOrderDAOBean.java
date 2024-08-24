@@ -4,9 +4,11 @@ import com.DevTino.festino_main.order.domain.ComputerOrderDAO;
 import com.DevTino.festino_main.order.domain.DTO.OrderDTO;
 import com.DevTino.festino_main.order.domain.GameOrderDAO;
 import com.DevTino.festino_main.order.domain.NanoOrderDAO;
+import com.DevTino.festino_main.order.domain.NewMaterialOrderDAO;
 import com.DevTino.festino_main.order.repository.ComputerOrderRepositoryJPA;
 import com.DevTino.festino_main.order.repository.GameOrderRepositoryJPA;
 import com.DevTino.festino_main.order.repository.NanoOrderRepositoryJPA;
+import com.DevTino.festino_main.order.repository.NewMaterialOrderRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,12 +17,14 @@ public class SaveOrderDAOBean {
     ComputerOrderRepositoryJPA computerOrderRepositoryJPA;
     GameOrderRepositoryJPA gameOrderRepositoryJPA;
     NanoOrderRepositoryJPA nanoOrderRepositoryJPA;
+    NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA;
 
     @Autowired
-    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA) {
+    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
+        this.newMaterialOrderRepositoryJPA = newMaterialOrderRepositoryJPA;
     }
 
     // 주문 등록
@@ -35,6 +39,8 @@ public class SaveOrderDAOBean {
                 gameOrderRepositoryJPA.save(gameOrderDAO);
                 break;
             case "신소재공학과":
+                NewMaterialOrderDAO newMaterialOrderDAO = NewMaterialOrderDAO.fromOrderDTO(orderDTO);
+                newMaterialOrderRepositoryJPA.save(newMaterialOrderDAO);
                 break;
             case "기계공학과":
                 break;

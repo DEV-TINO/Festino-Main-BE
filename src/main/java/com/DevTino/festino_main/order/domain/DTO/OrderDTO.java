@@ -1,9 +1,6 @@
 package com.DevTino.festino_main.order.domain.DTO;
 
-import com.DevTino.festino_main.order.domain.ComputerOrderDAO;
-import com.DevTino.festino_main.order.domain.GameOrderDAO;
-import com.DevTino.festino_main.order.domain.NanoOrderDAO;
-import com.DevTino.festino_main.order.domain.OrderType;
+import com.DevTino.festino_main.order.domain.*;
 import com.DevTino.festino_main.order.others.StringListConverter;
 import jakarta.persistence.*;
 import lombok.*;
@@ -71,6 +68,20 @@ public class OrderDTO {
                 .isCoupon(nanoOrderDAO.getIsCoupon())
                 .isDeposit(nanoOrderDAO.getIsDeposit())
                 .menuInfo(nanoOrderDAO.getMenuInfo())
+                .build();
+    }
+
+    public static OrderDTO fromNewMaterialOrderDAO(NewMaterialOrderDAO newMaterialOrderDAO) {
+        return OrderDTO.builder()
+                .orderId(newMaterialOrderDAO.getOrderId())
+                .boothId(newMaterialOrderDAO.getBoothId())
+                .userName(newMaterialOrderDAO.getUserName())
+                .phoneNum(newMaterialOrderDAO.getPhoneNum())
+                .totalPrice(newMaterialOrderDAO.getTotalPrice())
+                .createAt(newMaterialOrderDAO.getCreateAt())
+                .isCoupon(newMaterialOrderDAO.getIsCoupon())
+                .isDeposit(newMaterialOrderDAO.getIsDeposit())
+                .menuInfo(newMaterialOrderDAO.getMenuInfo())
                 .build();
     }
 }
