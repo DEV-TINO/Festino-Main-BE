@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.order.domain;
 
+import com.DevTino.festino_main.order.domain.DTO.OrderDTO;
 import com.DevTino.festino_main.order.others.StringListConverter;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,4 +35,18 @@ public class ComputerOrderDAO {
 
     @Convert(converter = StringListConverter.class)
     List<Map<String, Object>> menuInfo;
+
+    public static ComputerOrderDAO fromOrderDTO(OrderDTO orderDTO) {
+        return ComputerOrderDAO.builder()
+                .orderId(orderDTO.getOrderId())
+                .boothId(orderDTO.getBoothId())
+                .userName(orderDTO.getUserName())
+                .phoneNum(orderDTO.getPhoneNum())
+                .totalPrice(orderDTO.getTotalPrice())
+                .createAt(orderDTO.getCreateAt())
+                .isCoupon(orderDTO.getIsCoupon())
+                .isDeposit(orderDTO.getIsDeposit())
+                .menuInfo(orderDTO.getMenuInfo())
+                .build();
+    }
 }

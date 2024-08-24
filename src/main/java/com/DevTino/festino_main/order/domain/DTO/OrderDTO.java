@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.order.domain.DTO;
 
+import com.DevTino.festino_main.order.domain.ComputerOrderDAO;
 import com.DevTino.festino_main.order.domain.OrderType;
 import com.DevTino.festino_main.order.others.StringListConverter;
 import jakarta.persistence.*;
@@ -10,17 +11,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Builder
 public class OrderDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer orderNum;
-
     UUID orderId;
     UUID boothId;
     OrderType orderType;
@@ -35,4 +29,18 @@ public class OrderDTO {
 
     @Convert(converter = StringListConverter.class)
     List<Map<String, Object>> menuInfo;
+
+    public static OrderDTO fromComputerOrderDAO(ComputerOrderDAO computerOrderDAO) {
+        return OrderDTO.builder()
+                .orderId(computerOrderDAO.getOrderId())
+                .boothId(computerOrderDAO.getBoothId())
+                .userName(computerOrderDAO.getUserName())
+                .phoneNum(computerOrderDAO.getPhoneNum())
+                .totalPrice(computerOrderDAO.getTotalPrice())
+                .createAt(computerOrderDAO.getCreateAt())
+                .isCoupon(computerOrderDAO.getIsCoupon())
+                .isDeposit(computerOrderDAO.getIsDeposit())
+                .menuInfo(computerOrderDAO.getMenuInfo())
+                .build();
+    }
 }
