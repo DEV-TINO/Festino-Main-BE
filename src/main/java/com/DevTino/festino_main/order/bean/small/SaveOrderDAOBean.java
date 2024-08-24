@@ -13,14 +13,16 @@ public class SaveOrderDAOBean {
     NanoOrderRepositoryJPA nanoOrderRepositoryJPA;
     NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA;
     DesignOrderRepositoryJPA designOrderRepositoryJPA;
+    MachineOrderRepositoryJPA machineOrderRepositoryJPA;
 
     @Autowired
-    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA, DesignOrderRepositoryJPA designOrderRepositoryJPA) {
+    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA, DesignOrderRepositoryJPA designOrderRepositoryJPA, MachineOrderRepositoryJPA machineOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
         this.newMaterialOrderRepositoryJPA = newMaterialOrderRepositoryJPA;
         this.designOrderRepositoryJPA = designOrderRepositoryJPA;
+        this.machineOrderRepositoryJPA = machineOrderRepositoryJPA;
     }
 
     // 주문 등록
@@ -39,6 +41,8 @@ public class SaveOrderDAOBean {
                 newMaterialOrderRepositoryJPA.save(newMaterialOrderDAO);
                 break;
             case "기계공학과":
+                MachineOrderDAO machineOrderDAO = MachineOrderDAO.fromOrderDTO(orderDTO);
+                machineOrderRepositoryJPA.save(machineOrderDAO);
                 break;
             case "에너지전기공학과":
                 break;

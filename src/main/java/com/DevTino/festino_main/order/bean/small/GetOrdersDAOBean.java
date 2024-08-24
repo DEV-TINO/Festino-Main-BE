@@ -16,13 +16,15 @@ public class GetOrdersDAOBean {
     NanoOrderRepositoryJPA nanoOrderRepositoryJPA;
     NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA;
     DesignOrderRepositoryJPA designOrderRepositoryJPA;
+    MachineOrderRepositoryJPA machineOrderRepositoryJPA;
 
-    public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA, DesignOrderRepositoryJPA designOrderRepositoryJPA) {
+    public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA, DesignOrderRepositoryJPA designOrderRepositoryJPA, MachineOrderRepositoryJPA machineOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
         this.newMaterialOrderRepositoryJPA = newMaterialOrderRepositoryJPA;
         this.designOrderRepositoryJPA = designOrderRepositoryJPA;
+        this.machineOrderRepositoryJPA = machineOrderRepositoryJPA;
     }
 
     // 유저의 핸드폰 번호로 입금 완료된 주문 내역들을 조회
@@ -58,6 +60,12 @@ public class GetOrdersDAOBean {
         List<DesignOrderDAO> designOrderDAOList = designOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
         for(DesignOrderDAO designOrderDAO : designOrderDAOList) {
             orderDTOList.add(OrderDTO.fromDesignOrderDAO(designOrderDAO));
+        }
+
+        // 기계공학과에서 조회
+        List<MachineOrderDAO> machineOrderDAOList = machineOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
+        for(MachineOrderDAO machineOrderDAO : machineOrderDAOList) {
+            orderDTOList.add(OrderDTO.fromMachineOrderDAO(machineOrderDAO));
         }
 
         return orderDTOList;
