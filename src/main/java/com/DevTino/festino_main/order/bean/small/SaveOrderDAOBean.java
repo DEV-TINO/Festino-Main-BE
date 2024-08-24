@@ -3,8 +3,10 @@ package com.DevTino.festino_main.order.bean.small;
 import com.DevTino.festino_main.order.domain.ComputerOrderDAO;
 import com.DevTino.festino_main.order.domain.DTO.OrderDTO;
 import com.DevTino.festino_main.order.domain.GameOrderDAO;
+import com.DevTino.festino_main.order.domain.NanoOrderDAO;
 import com.DevTino.festino_main.order.repository.ComputerOrderRepositoryJPA;
 import com.DevTino.festino_main.order.repository.GameOrderRepositoryJPA;
+import com.DevTino.festino_main.order.repository.NanoOrderRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,11 +14,13 @@ import org.springframework.stereotype.Component;
 public class SaveOrderDAOBean {
     ComputerOrderRepositoryJPA computerOrderRepositoryJPA;
     GameOrderRepositoryJPA gameOrderRepositoryJPA;
+    NanoOrderRepositoryJPA nanoOrderRepositoryJPA;
 
     @Autowired
-    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA) {
+    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
+        this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
     }
 
     // 주문 등록
@@ -39,6 +43,8 @@ public class SaveOrderDAOBean {
             case "전자공학부":
                 break;
             case "나노반도체공학과":
+                NanoOrderDAO nanoOrderDAO = NanoOrderDAO.fromOrderDTO(orderDTO);
+                nanoOrderRepositoryJPA.save(nanoOrderDAO);
                 break;
             case "메카트로닉스공학부":
                 break;
