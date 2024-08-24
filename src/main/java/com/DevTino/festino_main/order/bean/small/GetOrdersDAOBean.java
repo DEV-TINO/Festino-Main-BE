@@ -22,6 +22,7 @@ public class GetOrdersDAOBean {
     MechatronicsOrderRepositoryJPA mechatronicsOrderRepositoryJPA;
     BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA;
     MachinedesignOrderRepositoryJPA machinedesignOrderRepositoryJPA;
+    BusinessOrderRepositoryJPA businessOrderRepositoryJPA;
 
     public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA,
                             GameOrderRepositoryJPA gameOrderRepositoryJPA,
@@ -33,7 +34,8 @@ public class GetOrdersDAOBean {
                             EnergyOrderRepositoryJPA energyOrderRepositoryJPA,
                             MechatronicsOrderRepositoryJPA mechatronicsOrderRepositoryJPA,
                             BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA,
-                            MachinedesignOrderRepositoryJPA machinedesignOrderRepositoryJPA) {
+                            MachinedesignOrderRepositoryJPA machinedesignOrderRepositoryJPA,
+                            BusinessOrderRepositoryJPA businessOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
@@ -45,6 +47,7 @@ public class GetOrdersDAOBean {
         this.mechatronicsOrderRepositoryJPA = mechatronicsOrderRepositoryJPA;
         this.biochemistryOrderRepositoryJPA = biochemistryOrderRepositoryJPA;
         this.machinedesignOrderRepositoryJPA = machinedesignOrderRepositoryJPA;
+        this.businessOrderRepositoryJPA = businessOrderRepositoryJPA;
     }
 
     // 유저의 핸드폰 번호로 입금 완료된 주문 내역들을 조회
@@ -116,6 +119,12 @@ public class GetOrdersDAOBean {
         List<MachinedesignOrderDAO> machinedesignOrderDAOList = machinedesignOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
         for (MachinedesignOrderDAO machinedesignOrderDAO : machinedesignOrderDAOList) {
             orderDTOList.add(OrderDTO.fromMachinedesignOrderDAO(machinedesignOrderDAO));
+        }
+
+        // 경영학부에서 조회
+        List<BusinessOrderDAO> businessOrderDAOList = businessOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
+        for (BusinessOrderDAO businessOrderDAO : businessOrderDAOList) {
+            orderDTOList.add(OrderDTO.fromBusinessOrderDAO(businessOrderDAO));
         }
 
         return orderDTOList;

@@ -182,4 +182,18 @@ public class OrderDTO {
                 .menuInfo(machinedesignOrderDAO.getMenuInfo())
                 .build();
     }
+
+    public static OrderDTO fromBusinessOrderDAO(BusinessOrderDAO businessOrderDAO) {
+        return OrderDTO.builder()
+                .orderId(businessOrderDAO.getOrderId())
+                .boothId(businessOrderDAO.getBoothId())
+                .userName(businessOrderDAO.getUserName())
+                .phoneNum(businessOrderDAO.getPhoneNum())
+                .totalPrice(businessOrderDAO.getTotalPrice())
+                .createAt(businessOrderDAO.getCreateAt())
+                .isCoupon(businessOrderDAO.getIsCoupon())
+                .isDeposit(businessOrderDAO.getIsDeposit())
+                .menuInfo(businessOrderDAO.getMenuInfo())
+                .build();
+    }
 }

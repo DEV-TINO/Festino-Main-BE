@@ -19,6 +19,7 @@ public class SaveOrderDAOBean {
     MechatronicsOrderRepositoryJPA mechatronicsOrderRepositoryJPA;
     BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA;
     MachinedesignOrderRepositoryJPA machinedesignOrderRepositoryJPA;
+    BusinessOrderRepositoryJPA businessOrderRepositoryJPA;
 
     @Autowired
     public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA,
@@ -31,7 +32,8 @@ public class SaveOrderDAOBean {
                             EnergyOrderRepositoryJPA energyOrderRepositoryJPA,
                             MechatronicsOrderRepositoryJPA mechatronicsOrderRepositoryJPA,
                             BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA,
-                            MachinedesignOrderRepositoryJPA machinedesignOrderRepositoryJPA) {
+                            MachinedesignOrderRepositoryJPA machinedesignOrderRepositoryJPA,
+                            BusinessOrderRepositoryJPA businessOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
@@ -43,6 +45,7 @@ public class SaveOrderDAOBean {
         this.mechatronicsOrderRepositoryJPA = mechatronicsOrderRepositoryJPA;
         this.biochemistryOrderRepositoryJPA = biochemistryOrderRepositoryJPA;
         this.machinedesignOrderRepositoryJPA = machinedesignOrderRepositoryJPA;
+        this.businessOrderRepositoryJPA = businessOrderRepositoryJPA;
     }
 
     // 주문 등록
@@ -89,6 +92,8 @@ public class SaveOrderDAOBean {
                 machinedesignOrderRepositoryJPA.save(machinedesignOrderDAO);
                 break;
             case "경영학부":
+                BusinessOrderDAO businessOrderDAO = BusinessOrderDAO.fromOrderDTO(orderDTO);
+                businessOrderRepositoryJPA.save(businessOrderDAO);
                 break;
             case "디자인공학부":
                 DesignOrderDAO designOrderDAO = DesignOrderDAO.fromOrderDTO(orderDTO);
