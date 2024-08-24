@@ -7,6 +7,7 @@ import com.DevTino.festino_main.order.domain.DTO.OrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -24,8 +25,8 @@ public class GetOrderBean {
     public List<ResponseOrderGetDTO> exec(String userName, String phoneNum) {
         List<OrderDTO> orderDTOList = getOrdersDAOBean.exec(userName, phoneNum);
 
-        // createAt을 기준으로 내림차순 정렬
-        orderDTOList.sort((o1, o2) -> o2.getCreateAt().compareTo(o1.getCreateAt()));
+        // createAt을 기준으로 오름차순 정렬
+        orderDTOList.sort(Comparator.comparing(OrderDTO::getCreateAt));
 
         return createResponseGetDTOBean.exec(orderDTOList);
     }
