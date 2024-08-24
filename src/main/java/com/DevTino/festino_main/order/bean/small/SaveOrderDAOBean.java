@@ -1,14 +1,8 @@
 package com.DevTino.festino_main.order.bean.small;
 
-import com.DevTino.festino_main.order.domain.ComputerOrderDAO;
+import com.DevTino.festino_main.order.domain.*;
 import com.DevTino.festino_main.order.domain.DTO.OrderDTO;
-import com.DevTino.festino_main.order.domain.GameOrderDAO;
-import com.DevTino.festino_main.order.domain.NanoOrderDAO;
-import com.DevTino.festino_main.order.domain.NewMaterialOrderDAO;
-import com.DevTino.festino_main.order.repository.ComputerOrderRepositoryJPA;
-import com.DevTino.festino_main.order.repository.GameOrderRepositoryJPA;
-import com.DevTino.festino_main.order.repository.NanoOrderRepositoryJPA;
-import com.DevTino.festino_main.order.repository.NewMaterialOrderRepositoryJPA;
+import com.DevTino.festino_main.order.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,13 +12,15 @@ public class SaveOrderDAOBean {
     GameOrderRepositoryJPA gameOrderRepositoryJPA;
     NanoOrderRepositoryJPA nanoOrderRepositoryJPA;
     NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA;
+    DesignOrderRepositoryJPA designOrderRepositoryJPA;
 
     @Autowired
-    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA) {
+    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA, DesignOrderRepositoryJPA designOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
         this.newMaterialOrderRepositoryJPA = newMaterialOrderRepositoryJPA;
+        this.designOrderRepositoryJPA = designOrderRepositoryJPA;
     }
 
     // 주문 등록
@@ -61,6 +57,8 @@ public class SaveOrderDAOBean {
             case "경영학부":
                 break;
             case "디자인공학부":
+                DesignOrderDAO designOrderDAO = DesignOrderDAO.fromOrderDTO(orderDTO);
+                designOrderRepositoryJPA.save(designOrderDAO);
                 break;
             default:
                 break;

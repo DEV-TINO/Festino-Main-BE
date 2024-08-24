@@ -1,14 +1,8 @@
 package com.DevTino.festino_main.order.bean.small;
 
-import com.DevTino.festino_main.order.domain.ComputerOrderDAO;
+import com.DevTino.festino_main.order.domain.*;
 import com.DevTino.festino_main.order.domain.DTO.OrderDTO;
-import com.DevTino.festino_main.order.domain.GameOrderDAO;
-import com.DevTino.festino_main.order.domain.NanoOrderDAO;
-import com.DevTino.festino_main.order.domain.NewMaterialOrderDAO;
-import com.DevTino.festino_main.order.repository.ComputerOrderRepositoryJPA;
-import com.DevTino.festino_main.order.repository.GameOrderRepositoryJPA;
-import com.DevTino.festino_main.order.repository.NanoOrderRepositoryJPA;
-import com.DevTino.festino_main.order.repository.NewMaterialOrderRepositoryJPA;
+import com.DevTino.festino_main.order.repository.*;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,12 +15,14 @@ public class GetOrdersDAOBean {
     GameOrderRepositoryJPA gameOrderRepositoryJPA;
     NanoOrderRepositoryJPA nanoOrderRepositoryJPA;
     NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA;
+    DesignOrderRepositoryJPA designOrderRepositoryJPA;
 
-    public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA) {
+    public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA, DesignOrderRepositoryJPA designOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
         this.newMaterialOrderRepositoryJPA = newMaterialOrderRepositoryJPA;
+        this.designOrderRepositoryJPA = designOrderRepositoryJPA;
     }
 
     // 유저의 핸드폰 번호로 입금 완료된 주문 내역들을 조회
@@ -56,6 +52,12 @@ public class GetOrdersDAOBean {
         List<NewMaterialOrderDAO> newMaterialOrderDAOList = newMaterialOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
         for(NewMaterialOrderDAO newMaterialOrderDAO : newMaterialOrderDAOList) {
             orderDTOList.add(OrderDTO.fromNewMaterialOrderDAO(newMaterialOrderDAO));
+        }
+
+        // 디자인공학부에서 조회
+        List<DesignOrderDAO> designOrderDAOList = designOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
+        for(DesignOrderDAO designOrderDAO : designOrderDAOList) {
+            orderDTOList.add(OrderDTO.fromDesignOrderDAO(designOrderDAO));
         }
 
         return orderDTOList;

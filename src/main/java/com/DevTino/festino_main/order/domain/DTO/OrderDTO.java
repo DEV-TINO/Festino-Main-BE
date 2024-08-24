@@ -84,4 +84,18 @@ public class OrderDTO {
                 .menuInfo(newMaterialOrderDAO.getMenuInfo())
                 .build();
     }
+
+    public static OrderDTO fromDesignOrderDAO(DesignOrderDAO designOrderDAO) {
+        return OrderDTO.builder()
+                .orderId(designOrderDAO.getOrderId())
+                .boothId(designOrderDAO.getBoothId())
+                .userName(designOrderDAO.getUserName())
+                .phoneNum(designOrderDAO.getPhoneNum())
+                .totalPrice(designOrderDAO.getTotalPrice())
+                .createAt(designOrderDAO.getCreateAt())
+                .isCoupon(designOrderDAO.getIsCoupon())
+                .isDeposit(designOrderDAO.getIsDeposit())
+                .menuInfo(designOrderDAO.getMenuInfo())
+                .build();
+    }
 }
