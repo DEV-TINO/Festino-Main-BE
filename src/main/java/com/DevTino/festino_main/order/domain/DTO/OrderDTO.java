@@ -86,7 +86,7 @@ public class OrderDTO {
                 .boothId(newMaterialOrderDAO.getBoothId())
                 .orderType(newMaterialOrderDAO.getOrderType())
                 .tableNum(newMaterialOrderDAO.getTableNum())
-                .date(ordernewMaterialOrderDAODTO.getDate())
+                .date(newMaterialOrderDAO.getDate())
                 .userName(newMaterialOrderDAO.getUserName())
                 .phoneNum(newMaterialOrderDAO.getPhoneNum())
                 .totalPrice(newMaterialOrderDAO.getTotalPrice())
