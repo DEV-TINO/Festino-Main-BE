@@ -19,6 +19,7 @@ public class GetOrdersDAOBean {
     MachineOrderRepositoryJPA machineOrderRepositoryJPA;
     ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA;
     EnergyOrderRepositoryJPA energyOrderRepositoryJPA;
+    MechatronicsOrderRepositoryJPA mechatronicsOrderRepositoryJPA;
 
     public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA,
                             GameOrderRepositoryJPA gameOrderRepositoryJPA,
@@ -27,7 +28,8 @@ public class GetOrdersDAOBean {
                             DesignOrderRepositoryJPA designOrderRepositoryJPA,
                             MachineOrderRepositoryJPA machineOrderRepositoryJPA,
                             ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA,
-                            EnergyOrderRepositoryJPA energyOrderRepositoryJPA) {
+                            EnergyOrderRepositoryJPA energyOrderRepositoryJPA,
+                            MechatronicsOrderRepositoryJPA mechatronicsOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
@@ -36,6 +38,7 @@ public class GetOrdersDAOBean {
         this.machineOrderRepositoryJPA = machineOrderRepositoryJPA;
         this.electronicsOrderRepositoryJPA = electronicsOrderRepositoryJPA;
         this.energyOrderRepositoryJPA = energyOrderRepositoryJPA;
+        this.mechatronicsOrderRepositoryJPA = mechatronicsOrderRepositoryJPA;
     }
 
     // 유저의 핸드폰 번호로 입금 완료된 주문 내역들을 조회
@@ -89,6 +92,12 @@ public class GetOrdersDAOBean {
         List<EnergyOrderDAO> energyOrderDAOList = energyOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
         for (EnergyOrderDAO energyOrderDAO : energyOrderDAOList) {
             orderDTOList.add(OrderDTO.fromEnergyOrderDAO(energyOrderDAO));
+        }
+
+        // 메카트로닉스공학부에서 조회
+        List<MechatronicsOrderDAO> mechatronicsOrderDAOList = mechatronicsOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
+        for (MechatronicsOrderDAO mechatronicsOrderDAO : mechatronicsOrderDAOList) {
+            orderDTOList.add(OrderDTO.fromMechatronicsOrderDAO(mechatronicsOrderDAO));
         }
 
         return orderDTOList;
