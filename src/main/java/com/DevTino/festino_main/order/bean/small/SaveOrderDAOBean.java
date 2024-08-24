@@ -2,17 +2,21 @@ package com.DevTino.festino_main.order.bean.small;
 
 import com.DevTino.festino_main.order.domain.ComputerOrderDAO;
 import com.DevTino.festino_main.order.domain.DTO.OrderDTO;
+import com.DevTino.festino_main.order.domain.GameOrderDAO;
 import com.DevTino.festino_main.order.repository.ComputerOrderRepositoryJPA;
+import com.DevTino.festino_main.order.repository.GameOrderRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SaveOrderDAOBean {
     ComputerOrderRepositoryJPA computerOrderRepositoryJPA;
+    GameOrderRepositoryJPA gameOrderRepositoryJPA;
 
     @Autowired
-    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA) {
+    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
+        this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
     }
 
     // 주문 등록
@@ -23,6 +27,8 @@ public class SaveOrderDAOBean {
                 computerOrderRepositoryJPA.save(computerOrderDAO);
                 break;
             case "게임공학과":
+                GameOrderDAO gameOrderDAO = GameOrderDAO.fromOrderDTO(orderDTO);
+                gameOrderRepositoryJPA.save(gameOrderDAO);
                 break;
             case "신소재공학과":
                 break;
