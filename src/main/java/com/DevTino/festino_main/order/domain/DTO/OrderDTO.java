@@ -168,4 +168,18 @@ public class OrderDTO {
                 .menuInfo(biochemistryOrderDAO.getMenuInfo())
                 .build();
     }
+
+    public static OrderDTO fromMachinedesignOrderDAO(MachinedesignOrderDAO machinedesignOrderDAO) {
+        return OrderDTO.builder()
+                .orderId(machinedesignOrderDAO.getOrderId())
+                .boothId(machinedesignOrderDAO.getBoothId())
+                .userName(machinedesignOrderDAO.getUserName())
+                .phoneNum(machinedesignOrderDAO.getPhoneNum())
+                .totalPrice(machinedesignOrderDAO.getTotalPrice())
+                .createAt(machinedesignOrderDAO.getCreateAt())
+                .isCoupon(machinedesignOrderDAO.getIsCoupon())
+                .isDeposit(machinedesignOrderDAO.getIsDeposit())
+                .menuInfo(machinedesignOrderDAO.getMenuInfo())
+                .build();
+    }
 }
