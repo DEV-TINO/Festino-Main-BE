@@ -15,9 +15,17 @@ public class SaveOrderDAOBean {
     DesignOrderRepositoryJPA designOrderRepositoryJPA;
     MachineOrderRepositoryJPA machineOrderRepositoryJPA;
     ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA;
+    EnergyOrderRepositoryJPA energyOrderRepositoryJPA;
 
     @Autowired
-    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA, GameOrderRepositoryJPA gameOrderRepositoryJPA, NanoOrderRepositoryJPA nanoOrderRepositoryJPA, NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA, DesignOrderRepositoryJPA designOrderRepositoryJPA, MachineOrderRepositoryJPA machineOrderRepositoryJPA, ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA) {
+    public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA,
+                            GameOrderRepositoryJPA gameOrderRepositoryJPA,
+                            NanoOrderRepositoryJPA nanoOrderRepositoryJPA,
+                            NewMaterialOrderRepositoryJPA newMaterialOrderRepositoryJPA,
+                            DesignOrderRepositoryJPA designOrderRepositoryJPA,
+                            MachineOrderRepositoryJPA machineOrderRepositoryJPA,
+                            ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA,
+                            EnergyOrderRepositoryJPA energyOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
@@ -25,6 +33,7 @@ public class SaveOrderDAOBean {
         this.designOrderRepositoryJPA = designOrderRepositoryJPA;
         this.machineOrderRepositoryJPA = machineOrderRepositoryJPA;
         this.electronicsOrderRepositoryJPA = electronicsOrderRepositoryJPA;
+        this.energyOrderRepositoryJPA = energyOrderRepositoryJPA;
     }
 
     // 주문 등록
@@ -47,6 +56,8 @@ public class SaveOrderDAOBean {
                 machineOrderRepositoryJPA.save(machineOrderDAO);
                 break;
             case "에너지전기공학과":
+                EnergyOrderDAO energyOrderDAO = EnergyOrderDAO.fromOrderDTO(orderDTO);
+                energyOrderRepositoryJPA.save(energyOrderDAO);
                 break;
             case "전자공학부":
                 ElectronicsOrderDAO electronicsOrderDAO = ElectronicsOrderDAO.fromOrderDTO(orderDTO);
