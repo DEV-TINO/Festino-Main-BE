@@ -126,4 +126,18 @@ public class OrderDTO {
                 .menuInfo(electronicsOrderDAO.getMenuInfo())
                 .build();
     }
+
+    public static OrderDTO fromEnergyOrderDAO(EnergyOrderDAO energyOrderDAO) {
+        return OrderDTO.builder()
+                .orderId(energyOrderDAO.getOrderId())
+                .boothId(energyOrderDAO.getBoothId())
+                .userName(energyOrderDAO.getUserName())
+                .phoneNum(energyOrderDAO.getPhoneNum())
+                .totalPrice(energyOrderDAO.getTotalPrice())
+                .createAt(energyOrderDAO.getCreateAt())
+                .isCoupon(energyOrderDAO.getIsCoupon())
+                .isDeposit(energyOrderDAO.getIsDeposit())
+                .menuInfo(energyOrderDAO.getMenuInfo())
+                .build();
+    }
 }
