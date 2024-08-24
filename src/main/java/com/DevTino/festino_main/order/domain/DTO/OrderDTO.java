@@ -154,4 +154,18 @@ public class OrderDTO {
                 .menuInfo(mechatronicsOrderDAO.getMenuInfo())
                 .build();
     }
+
+    public static OrderDTO fromBiochemistryOrderDAO(BiochemistryOrderDAO biochemistryOrderDAO) {
+        return OrderDTO.builder()
+                .orderId(biochemistryOrderDAO.getOrderId())
+                .boothId(biochemistryOrderDAO.getBoothId())
+                .userName(biochemistryOrderDAO.getUserName())
+                .phoneNum(biochemistryOrderDAO.getPhoneNum())
+                .totalPrice(biochemistryOrderDAO.getTotalPrice())
+                .createAt(biochemistryOrderDAO.getCreateAt())
+                .isCoupon(biochemistryOrderDAO.getIsCoupon())
+                .isDeposit(biochemistryOrderDAO.getIsDeposit())
+                .menuInfo(biochemistryOrderDAO.getMenuInfo())
+                .build();
+    }
 }

@@ -20,6 +20,7 @@ public class GetOrdersDAOBean {
     ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA;
     EnergyOrderRepositoryJPA energyOrderRepositoryJPA;
     MechatronicsOrderRepositoryJPA mechatronicsOrderRepositoryJPA;
+    BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA;
 
     public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA,
                             GameOrderRepositoryJPA gameOrderRepositoryJPA,
@@ -29,7 +30,8 @@ public class GetOrdersDAOBean {
                             MachineOrderRepositoryJPA machineOrderRepositoryJPA,
                             ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA,
                             EnergyOrderRepositoryJPA energyOrderRepositoryJPA,
-                            MechatronicsOrderRepositoryJPA mechatronicsOrderRepositoryJPA) {
+                            MechatronicsOrderRepositoryJPA mechatronicsOrderRepositoryJPA,
+                            BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
@@ -39,6 +41,7 @@ public class GetOrdersDAOBean {
         this.electronicsOrderRepositoryJPA = electronicsOrderRepositoryJPA;
         this.energyOrderRepositoryJPA = energyOrderRepositoryJPA;
         this.mechatronicsOrderRepositoryJPA = mechatronicsOrderRepositoryJPA;
+        this.biochemistryOrderRepositoryJPA = biochemistryOrderRepositoryJPA;
     }
 
     // 유저의 핸드폰 번호로 입금 완료된 주문 내역들을 조회
@@ -98,6 +101,12 @@ public class GetOrdersDAOBean {
         List<MechatronicsOrderDAO> mechatronicsOrderDAOList = mechatronicsOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
         for (MechatronicsOrderDAO mechatronicsOrderDAO : mechatronicsOrderDAOList) {
             orderDTOList.add(OrderDTO.fromMechatronicsOrderDAO(mechatronicsOrderDAO));
+        }
+
+        // 생명화학공학과에서 조회
+        List<BiochemistryOrderDAO> biochemistryOrderDAOList = biochemistryOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
+        for (BiochemistryOrderDAO biochemistryOrderDAO : biochemistryOrderDAOList) {
+            orderDTOList.add(OrderDTO.fromBiochemistryOrderDAO(biochemistryOrderDAO));
         }
 
         return orderDTOList;
