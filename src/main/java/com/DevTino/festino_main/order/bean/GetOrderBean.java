@@ -24,6 +24,9 @@ public class GetOrderBean {
     public List<ResponseOrderGetDTO> exec(String userName, String phoneNum) {
         List<OrderDTO> orderDTOList = getOrdersDAOBean.exec(userName, phoneNum);
 
+        // createAt을 기준으로 내림차순 정렬
+        orderDTOList.sort((o1, o2) -> o2.getCreateAt().compareTo(o1.getCreateAt()));
+
         return createResponseGetDTOBean.exec(orderDTOList);
     }
 }
