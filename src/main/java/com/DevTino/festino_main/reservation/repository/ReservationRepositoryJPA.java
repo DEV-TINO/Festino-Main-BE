@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ReservationRepositoryJPA extends JpaRepository<ReservationDAO, UUID> {
+    ReservationDAO findByUserNameAndPhoneNumAndReservationType(String userName, String phoneNum, ReservationEnum reservationType);
+
     ReservationDAO findByPhoneNumAndReservationType(String phoneNum, ReservationEnum reservationType);
 
     List<ReservationDAO> findAllByBoothIdOrderByReservationNumAsc(UUID boothId);

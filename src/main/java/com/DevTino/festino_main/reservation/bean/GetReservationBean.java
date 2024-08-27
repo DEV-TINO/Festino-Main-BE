@@ -26,10 +26,10 @@ public class GetReservationBean {
 
 
     // 예약 조회
-    public ResponseReservationGetDTO exec(String phoneNum) {
+    public ResponseReservationGetDTO exec(String userName, String phoneNum) {
 
         // 예약된 내역이 있는지 조회
-        ReservationDAO reservationDAO = getReservationByPhoneNumDAOBean.exec(phoneNum);
+        ReservationDAO reservationDAO = getReservationByPhoneNumDAOBean.exec(userName, phoneNum);
         if (reservationDAO == null) return null;
 
         // 부스에 해당하는 내역 전체 조회 후 인덱싱 매핑
