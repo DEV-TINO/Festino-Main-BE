@@ -3,10 +3,11 @@ package com.DevTino.festino_main.order.bean;
 import com.DevTino.festino_main.order.bean.small.CreateResponseGetDTOBean;
 import com.DevTino.festino_main.order.bean.small.GetOrdersDAOBean;
 import com.DevTino.festino_main.order.domain.DTO.ResponseOrderGetDTO;
-import com.DevTino.festino_main.order.domain.OrderDAO;
+import com.DevTino.festino_main.order.domain.DTO.OrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -22,8 +23,11 @@ public class GetOrderBean {
 
     // 주문 내역 조회
     public List<ResponseOrderGetDTO> exec(String userName, String phoneNum) {
-        List<OrderDAO> orderDAOList = getOrdersDAOBean.exec(phoneNum);
+        List<OrderDTO> orderDTOList = getOrdersDAOBean.exec(userName, phoneNum);
 
-        return createResponseGetDTOBean.exec(orderDAOList);
+        // createAt을 기준으로 오름차순 정렬
+        orderDTOList.sort(Comparator.comparing(OrderDTO::getCreateAt));
+
+        return createResponseGetDTOBean.exec(orderDTOList);
     }
 }
