@@ -31,6 +31,7 @@ public class OrderDTO {
 
     public static OrderDTO fromComputerOrderDAO(ComputerOrderDAO computerOrderDAO) {
         return OrderDTO.builder()
+                .orderNum(computerOrderDAO.getOrderNum())
                 .orderId(computerOrderDAO.getOrderId())
                 .boothId(computerOrderDAO.getBoothId())
                 .orderType(computerOrderDAO.getOrderType())
@@ -48,6 +49,7 @@ public class OrderDTO {
 
     public static OrderDTO fromGameOrderDAO(GameOrderDAO gameOrderDAO) {
         return OrderDTO.builder()
+                .orderNum(gameOrderDAO.getOrderNum())
                 .orderId(gameOrderDAO.getOrderId())
                 .boothId(gameOrderDAO.getBoothId())
                 .orderType(gameOrderDAO.getOrderType())
@@ -65,6 +67,7 @@ public class OrderDTO {
 
     public static OrderDTO fromNanoOrderDAO(NanoOrderDAO nanoOrderDAO) {
         return OrderDTO.builder()
+                .orderNum(nanoOrderDAO.getOrderNum())
                 .orderId(nanoOrderDAO.getOrderId())
                 .boothId(nanoOrderDAO.getBoothId())
                 .orderType(nanoOrderDAO.getOrderType())
@@ -82,6 +85,7 @@ public class OrderDTO {
 
     public static OrderDTO fromNewMaterialOrderDAO(NewMaterialOrderDAO newMaterialOrderDAO) {
         return OrderDTO.builder()
+                .orderNum(newMaterialOrderDAO.getOrderNum())
                 .orderId(newMaterialOrderDAO.getOrderId())
                 .boothId(newMaterialOrderDAO.getBoothId())
                 .orderType(newMaterialOrderDAO.getOrderType())
@@ -99,6 +103,7 @@ public class OrderDTO {
 
     public static OrderDTO fromDesignOrderDAO(DesignOrderDAO designOrderDAO) {
         return OrderDTO.builder()
+                .orderNum(designOrderDAO.getOrderNum())
                 .orderId(designOrderDAO.getOrderId())
                 .boothId(designOrderDAO.getBoothId())
                 .orderType(designOrderDAO.getOrderType())
@@ -116,6 +121,7 @@ public class OrderDTO {
 
     public static OrderDTO fromMachineOrderDAO(MachineOrderDAO machineOrderDAO) {
         return OrderDTO.builder()
+                .orderNum(machineOrderDAO.getOrderNum())
                 .orderId(machineOrderDAO.getOrderId())
                 .boothId(machineOrderDAO.getBoothId())
                 .orderType(machineOrderDAO.getOrderType())
@@ -133,6 +139,7 @@ public class OrderDTO {
 
     public static OrderDTO fromElectronicsOrderDAO(ElectronicsOrderDAO electronicsOrderDAO) {
         return OrderDTO.builder()
+                .orderNum(electronicsOrderDAO.getOrderNum())
                 .orderId(electronicsOrderDAO.getOrderId())
                 .boothId(electronicsOrderDAO.getBoothId())
                 .orderType(electronicsOrderDAO.getOrderType())
@@ -150,6 +157,7 @@ public class OrderDTO {
 
     public static OrderDTO fromEnergyOrderDAO(EnergyOrderDAO energyOrderDAO) {
         return OrderDTO.builder()
+                .orderNum(energyOrderDAO.getOrderNum())
                 .orderId(energyOrderDAO.getOrderId())
                 .boothId(energyOrderDAO.getBoothId())
                 .orderType(energyOrderDAO.getOrderType())
@@ -167,6 +175,7 @@ public class OrderDTO {
 
     public static OrderDTO fromMechatronicsOrderDAO(MechatronicsOrderDAO mechatronicsOrderDAO) {
         return OrderDTO.builder()
+                .orderNum(mechatronicsOrderDAO.getOrderNum())
                 .orderId(mechatronicsOrderDAO.getOrderId())
                 .boothId(mechatronicsOrderDAO.getBoothId())
                 .orderType(mechatronicsOrderDAO.getOrderType())
@@ -184,6 +193,7 @@ public class OrderDTO {
 
     public static OrderDTO fromBiochemistryOrderDAO(BiochemistryOrderDAO biochemistryOrderDAO) {
         return OrderDTO.builder()
+                .orderNum(biochemistryOrderDAO.getOrderNum())
                 .orderId(biochemistryOrderDAO.getOrderId())
                 .boothId(biochemistryOrderDAO.getBoothId())
                 .orderType(biochemistryOrderDAO.getOrderType())
@@ -201,6 +211,7 @@ public class OrderDTO {
 
     public static OrderDTO fromMachinedesignOrderDAO(MachinedesignOrderDAO machinedesignOrderDAO) {
         return OrderDTO.builder()
+                .orderNum(machinedesignOrderDAO.getOrderNum())
                 .orderId(machinedesignOrderDAO.getOrderId())
                 .boothId(machinedesignOrderDAO.getBoothId())
                 .orderType(machinedesignOrderDAO.getOrderType())
@@ -218,6 +229,7 @@ public class OrderDTO {
 
     public static OrderDTO fromBusinessOrderDAO(BusinessOrderDAO businessOrderDAO) {
         return OrderDTO.builder()
+                .orderNum(businessOrderDAO.getOrderNum())
                 .orderId(businessOrderDAO.getOrderId())
                 .boothId(businessOrderDAO.getBoothId())
                 .orderType(businessOrderDAO.getOrderType())

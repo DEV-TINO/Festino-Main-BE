@@ -13,7 +13,7 @@ import java.util.Map;
 @Builder
 public class ResponseOrderGetDTO {
     String adminName;
-    Integer tableNum;
+    String tableNum;
     LocalDateTime createAt;
 
     Integer date;

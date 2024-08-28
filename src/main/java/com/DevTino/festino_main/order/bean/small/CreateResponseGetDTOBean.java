@@ -5,6 +5,7 @@ import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import com.DevTino.festino_main.order.domain.DTO.ResponseOrderGetDTO;
 import com.DevTino.festino_main.order.domain.DTO.OrderDTO;
 import com.DevTino.festino_main.order.domain.OrderType;
+import com.DevTino.festino_main.order.domain.TableNumDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,10 +15,12 @@ import java.util.List;
 @Component
 public class CreateResponseGetDTOBean {
     GetNightBoothDAOBean getNightBoothDAOBean;
+    GetCustomTableNumDAOBean getCustomTableNumDAOBean;
 
     @Autowired
-    public CreateResponseGetDTOBean(GetNightBoothDAOBean getNightBoothDAOBean) {
+    public CreateResponseGetDTOBean(GetNightBoothDAOBean getNightBoothDAOBean, GetCustomTableNumDAOBean getCustomTableNumDAOBean) {
         this.getNightBoothDAOBean = getNightBoothDAOBean;
+        this.getCustomTableNumDAOBean = getCustomTableNumDAOBean;
     }
 
     // List<OrderDAO> -> List<ResponseOrderGetDTO> 변경
@@ -34,10 +37,14 @@ public class CreateResponseGetDTOBean {
             NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(orderDTO.getBoothId());
             if (nightBoothDAO == null) continue;
 
+            TableNumDAO tableNumDAO = getCustomTableNumDAOBean.exec(orderDTO.getTableNum(), orderDTO.getBoothId());
+            if (tableNumDAO == null) continue;
+            String tableNum = tableNumDAO.getCustomTableNum();
+
             responseOrderGetDTOList.add(ResponseOrderGetDTO.builder()
                             .adminName(nightBoothDAO.getAdminName())
                             .createAt(orderDTO.getCreateAt())
-                            .tableNum(orderDTO.getTableNum())
+                            .tableNum(tableNum)
                             .date(orderDTO.getDate())
                             .orderNum(orderDTO.getOrderNum())
                             .menuInfo(orderDTO.getMenuInfo())
