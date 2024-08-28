@@ -81,7 +81,7 @@ public class SaveReservationBean {
 
 
         // 메세지 전송
-        String check = saveReservationSendMessageBean.exec(createReservationDAO.getPhoneNum(), createReservationDAO.getUserName(), nightBoothDAO.getAdminName());
+        String check = saveReservationSendMessageBean.exec(requestReservationSaveDTO.getBoothId(), createReservationDAO.getPhoneNum(), createReservationDAO.getUserName());
 
         return ResponseReservationSaveDTO.builder()
                 .reservationId(createReservationDAO.getReservationId())
