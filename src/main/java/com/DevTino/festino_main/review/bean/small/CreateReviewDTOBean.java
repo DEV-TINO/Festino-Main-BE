@@ -11,7 +11,6 @@ public class CreateReviewDTOBean {
                 .reviewId(reviewDAO.getReviewId())
                 .email(reviewDAO.getEmail())
                 .content(reviewDAO.getContent())
-                .isAnonymous(reviewDAO.getIsAnonymous())
                 .build();
     }
 }

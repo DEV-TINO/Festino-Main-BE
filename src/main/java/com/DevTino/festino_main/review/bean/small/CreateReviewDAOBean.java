@@ -14,9 +14,6 @@ public class CreateReviewDAOBean {
                 .reviewId(UUID.randomUUID())
                 .content(requestReviewSaveDTO.getContent())
                 .email(requestReviewSaveDTO.getEmail())
-                .createAt(LocalDateTime.now())
-                .uploadAt(LocalDateTime.now())
-                .isAnonymous(requestReviewSaveDTO.getIsAnonymous())
                 .build();
     }
 }

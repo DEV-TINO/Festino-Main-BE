@@ -11,5 +11,4 @@ public class ResponseReviewGetDTO {
     UUID reviewId;
     String content;
     String email;
-    Boolean isAnonymous;
 }
