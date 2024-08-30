@@ -25,6 +25,7 @@ public class OrderDTO {
     LocalDateTime createAt;
     Boolean isCoupon;
     Boolean isDeposit;
+    Boolean isService;
 
     @Convert(converter = StringListConverter.class)
     List<Map<String, Object>> menuInfo;
@@ -43,6 +44,7 @@ public class OrderDTO {
                 .createAt(computerOrderDAO.getCreateAt())
                 .isCoupon(computerOrderDAO.getIsCoupon())
                 .isDeposit(computerOrderDAO.getIsDeposit())
+                .isService(computerOrderDAO.getIsService())
                 .menuInfo(computerOrderDAO.getMenuInfo())
                 .build();
     }
@@ -61,6 +63,7 @@ public class OrderDTO {
                 .createAt(gameOrderDAO.getCreateAt())
                 .isCoupon(gameOrderDAO.getIsCoupon())
                 .isDeposit(gameOrderDAO.getIsDeposit())
+                .isService(gameOrderDAO.getIsService())
                 .menuInfo(gameOrderDAO.getMenuInfo())
                 .build();
     }
@@ -79,6 +82,7 @@ public class OrderDTO {
                 .createAt(nanoOrderDAO.getCreateAt())
                 .isCoupon(nanoOrderDAO.getIsCoupon())
                 .isDeposit(nanoOrderDAO.getIsDeposit())
+                .isService(nanoOrderDAO.getIsService())
                 .menuInfo(nanoOrderDAO.getMenuInfo())
                 .build();
     }
@@ -97,6 +101,7 @@ public class OrderDTO {
                 .createAt(newMaterialOrderDAO.getCreateAt())
                 .isCoupon(newMaterialOrderDAO.getIsCoupon())
                 .isDeposit(newMaterialOrderDAO.getIsDeposit())
+                .isService(newMaterialOrderDAO.getIsService())
                 .menuInfo(newMaterialOrderDAO.getMenuInfo())
                 .build();
     }
@@ -115,6 +120,7 @@ public class OrderDTO {
                 .createAt(designOrderDAO.getCreateAt())
                 .isCoupon(designOrderDAO.getIsCoupon())
                 .isDeposit(designOrderDAO.getIsDeposit())
+                .isService(designOrderDAO.getIsService())
                 .menuInfo(designOrderDAO.getMenuInfo())
                 .build();
     }
@@ -133,6 +139,7 @@ public class OrderDTO {
                 .createAt(machineOrderDAO.getCreateAt())
                 .isCoupon(machineOrderDAO.getIsCoupon())
                 .isDeposit(machineOrderDAO.getIsDeposit())
+                .isService(machineOrderDAO.getIsService())
                 .menuInfo(machineOrderDAO.getMenuInfo())
                 .build();
     }
@@ -151,6 +158,7 @@ public class OrderDTO {
                 .createAt(electronicsOrderDAO.getCreateAt())
                 .isCoupon(electronicsOrderDAO.getIsCoupon())
                 .isDeposit(electronicsOrderDAO.getIsDeposit())
+                .isService(electronicsOrderDAO.getIsService())
                 .menuInfo(electronicsOrderDAO.getMenuInfo())
                 .build();
     }
@@ -169,6 +177,7 @@ public class OrderDTO {
                 .createAt(energyOrderDAO.getCreateAt())
                 .isCoupon(energyOrderDAO.getIsCoupon())
                 .isDeposit(energyOrderDAO.getIsDeposit())
+                .isService(energyOrderDAO.getIsService())
                 .menuInfo(energyOrderDAO.getMenuInfo())
                 .build();
     }
@@ -187,6 +196,7 @@ public class OrderDTO {
                 .createAt(mechatronicsOrderDAO.getCreateAt())
                 .isCoupon(mechatronicsOrderDAO.getIsCoupon())
                 .isDeposit(mechatronicsOrderDAO.getIsDeposit())
+                .isService(mechatronicsOrderDAO.getIsService())
                 .menuInfo(mechatronicsOrderDAO.getMenuInfo())
                 .build();
     }
@@ -205,6 +215,7 @@ public class OrderDTO {
                 .createAt(biochemistryOrderDAO.getCreateAt())
                 .isCoupon(biochemistryOrderDAO.getIsCoupon())
                 .isDeposit(biochemistryOrderDAO.getIsDeposit())
+                .isService(biochemistryOrderDAO.getIsService())
                 .menuInfo(biochemistryOrderDAO.getMenuInfo())
                 .build();
     }
@@ -223,6 +234,7 @@ public class OrderDTO {
                 .createAt(machinedesignOrderDAO.getCreateAt())
                 .isCoupon(machinedesignOrderDAO.getIsCoupon())
                 .isDeposit(machinedesignOrderDAO.getIsDeposit())
+                .isService(machinedesignOrderDAO.getIsService())
                 .menuInfo(machinedesignOrderDAO.getMenuInfo())
                 .build();
     }
@@ -241,6 +253,7 @@ public class OrderDTO {
                 .createAt(businessOrderDAO.getCreateAt())
                 .isCoupon(businessOrderDAO.getIsCoupon())
                 .isDeposit(businessOrderDAO.getIsDeposit())
+                .isService(businessOrderDAO.getIsService())
                 .menuInfo(businessOrderDAO.getMenuInfo())
                 .build();
     }
