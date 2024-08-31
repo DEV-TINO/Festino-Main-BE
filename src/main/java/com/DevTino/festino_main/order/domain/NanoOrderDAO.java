@@ -32,6 +32,7 @@ public class NanoOrderDAO {
     LocalDateTime createAt;
     Boolean isCoupon;
     Boolean isDeposit;
+    Boolean isService;
 
     @Convert(converter = StringListConverter.class)
     List<Map<String, Object>> menuInfo;
@@ -49,6 +50,7 @@ public class NanoOrderDAO {
                 .createAt(orderDTO.getCreateAt())
                 .isCoupon(orderDTO.getIsCoupon())
                 .isDeposit(orderDTO.getIsDeposit())
+                .isService(orderDTO.getIsService())
                 .menuInfo(orderDTO.getMenuInfo())
                 .build();
     }
