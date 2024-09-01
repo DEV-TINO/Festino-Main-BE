@@ -16,6 +16,12 @@ public class GetReservationByPhoneNumDAOBean {
         this.reservationRepositoryJPA = reservationRepositoryJPA;
     }
 
+    // 이름, 번호, 예약 여부로 예약 내역 확인
+    @Transactional(readOnly = true)
+    public ReservationDAO exec(String userName, String phoneNum) {
+        return reservationRepositoryJPA.findByUserNameAndPhoneNumAndReservationType(userName, phoneNum, ReservationEnum.RESERVE);
+    }
+
     // 번호, 예약 여부로 예약 내역 확인
     @Transactional(readOnly = true)
     public ReservationDAO exec(String phoneNum) {

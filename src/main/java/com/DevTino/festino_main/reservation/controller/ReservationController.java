@@ -42,7 +42,7 @@ public class ReservationController {
     // 예약 조회
     @GetMapping
     public ResponseEntity<Map<String, Object>> getReservation(@RequestParam("userName") String userName, @RequestParam("phoneNum") String phoneNum) {
-        ResponseReservationGetDTO responseReservationGetDTO = reservationService.getReservation(phoneNum);
+        ResponseReservationGetDTO responseReservationGetDTO = reservationService.getReservation(userName, phoneNum);
 
         // message, success, responseReservationGetDTO 값 json 데이터로 반환
         Map<String, Object> requestMap = new HashMap<>();
