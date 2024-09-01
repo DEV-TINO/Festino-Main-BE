@@ -1,6 +1,7 @@
 package com.DevTino.festino_main.order.bean;
 
 import com.DevTino.festino_main.order.bean.small.GetCustomTableNumDAOBean;
+import com.DevTino.festino_main.order.domain.TableNumDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,10 @@ public class GetCustomTableNumBean {
     }
 
     public String exec(Integer tableNumIndex, UUID boothId) {
-        return getCustomTableNumDAOBean.exec(tableNumIndex, boothId).getCustomTableNum();
+
+        TableNumDAO tableNumDAO = getCustomTableNumDAOBean.exec(tableNumIndex, boothId);
+        if(tableNumDAO == null) return null;
+
+        return tableNumDAO.getCustomTableNum();
     }
 }
