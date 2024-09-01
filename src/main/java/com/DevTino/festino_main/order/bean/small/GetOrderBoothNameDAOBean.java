@@ -18,10 +18,6 @@ public class GetOrderBoothNameDAOBean {
             case "5167a573-3a5f-4b40-ab9e-22c8fdf16c84" -> "에너지전기공학과";
             case "f0fe6e61-e530-4606-a003-cf224833b11b" -> "전자공학부";
             case "3d6eda5d-d9fd-427e-9335-61e70754f7fe" -> "나노반도체공학과";
-            case "4c0fdc4d-4a3d-4ba7-acc3-0d5d46d7f6f1" -> "메카트로닉스공학부";
-            case "a1084779-1d3b-4846-8bf7-64f2731f6bbb" -> "생명화학공학과";
-            case "95261985-752a-4c1f-9f4f-9d99d79af561" -> "기계설계공학부";
-            case "0b463039-6b58-4461-8ae4-d3c63de799a8" -> "경영학부";
             case "cc958624-20ae-4621-8ea1-d968886d8d6c" -> "디자인공학부";
             default -> "";
         };

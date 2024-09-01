@@ -16,10 +16,6 @@ public class SaveOrderDAOBean {
     MachineOrderRepositoryJPA machineOrderRepositoryJPA;
     ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA;
     EnergyOrderRepositoryJPA energyOrderRepositoryJPA;
-    MechatronicsOrderRepositoryJPA mechatronicsOrderRepositoryJPA;
-    BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA;
-    MachinedesignOrderRepositoryJPA machinedesignOrderRepositoryJPA;
-    BusinessOrderRepositoryJPA businessOrderRepositoryJPA;
 
     @Autowired
     public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA,
@@ -29,11 +25,7 @@ public class SaveOrderDAOBean {
                             DesignOrderRepositoryJPA designOrderRepositoryJPA,
                             MachineOrderRepositoryJPA machineOrderRepositoryJPA,
                             ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA,
-                            EnergyOrderRepositoryJPA energyOrderRepositoryJPA,
-                            MechatronicsOrderRepositoryJPA mechatronicsOrderRepositoryJPA,
-                            BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA,
-                            MachinedesignOrderRepositoryJPA machinedesignOrderRepositoryJPA,
-                            BusinessOrderRepositoryJPA businessOrderRepositoryJPA) {
+                            EnergyOrderRepositoryJPA energyOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
@@ -42,10 +34,6 @@ public class SaveOrderDAOBean {
         this.machineOrderRepositoryJPA = machineOrderRepositoryJPA;
         this.electronicsOrderRepositoryJPA = electronicsOrderRepositoryJPA;
         this.energyOrderRepositoryJPA = energyOrderRepositoryJPA;
-        this.mechatronicsOrderRepositoryJPA = mechatronicsOrderRepositoryJPA;
-        this.biochemistryOrderRepositoryJPA = biochemistryOrderRepositoryJPA;
-        this.machinedesignOrderRepositoryJPA = machinedesignOrderRepositoryJPA;
-        this.businessOrderRepositoryJPA = businessOrderRepositoryJPA;
     }
 
     // 주문 등록
@@ -78,22 +66,6 @@ public class SaveOrderDAOBean {
             case "나노반도체공학과":
                 NanoOrderDAO nanoOrderDAO = NanoOrderDAO.fromOrderDTO(orderDTO);
                 nanoOrderRepositoryJPA.save(nanoOrderDAO);
-                break;
-            case "메카트로닉스공학부":
-                MechatronicsOrderDAO mechatronicsOrderDAO = MechatronicsOrderDAO.fromOrderDTO(orderDTO);
-                mechatronicsOrderRepositoryJPA.save(mechatronicsOrderDAO);
-                break;
-            case "생명화학공학과":
-                BiochemistryOrderDAO biochemistryOrderDAO = BiochemistryOrderDAO.fromOrderDTO(orderDTO);
-                biochemistryOrderRepositoryJPA.save(biochemistryOrderDAO);
-                break;
-            case "기계설계공학부":
-                MachinedesignOrderDAO machinedesignOrderDAO = MachinedesignOrderDAO.fromOrderDTO(orderDTO);
-                machinedesignOrderRepositoryJPA.save(machinedesignOrderDAO);
-                break;
-            case "경영학부":
-                BusinessOrderDAO businessOrderDAO = BusinessOrderDAO.fromOrderDTO(orderDTO);
-                businessOrderRepositoryJPA.save(businessOrderDAO);
                 break;
             case "디자인공학부":
                 DesignOrderDAO designOrderDAO = DesignOrderDAO.fromOrderDTO(orderDTO);
