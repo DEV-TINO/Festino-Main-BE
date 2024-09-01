@@ -14,6 +14,7 @@ import java.util.Map;
 public class ResponseOrderGetDTO {
     String adminName;
     String tableNum;
+    String note;
     LocalDateTime createAt;
 
     Integer date;
