@@ -15,6 +15,7 @@ public class RequestOrderSaveDTO {
     Integer tableNum;
     String userName;
     String phoneNum;
+    String note;
 
     @Convert(converter = StringListConverter.class)
     List<Map<String, Object>> menuInfo;

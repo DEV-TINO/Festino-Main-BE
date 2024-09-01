@@ -45,6 +45,7 @@ public class CreateResponseGetDTOBean {
                             .adminName(nightBoothDAO.getAdminName())
                             .createAt(orderDTO.getCreateAt())
                             .tableNum(tableNum)
+                            .note(orderDTO.getNote())
                             .date(orderDTO.getDate())
                             .orderNum(orderDTO.getOrderNum())
                             .menuInfo(orderDTO.getMenuInfo())

@@ -20,6 +20,7 @@ public class CreateOrderDAOBean {
                 .tableNum(requestOrderSaveDTO.getTableNum())
                 .userName(requestOrderSaveDTO.getUserName())
                 .phoneNum(requestOrderSaveDTO.getPhoneNum())
+                .note(requestOrderSaveDTO.getNote())
                 .date(date)
                 .orderType(OrderType.COOKING)
                 .menuInfo(requestOrderSaveDTO.getMenuInfo())
