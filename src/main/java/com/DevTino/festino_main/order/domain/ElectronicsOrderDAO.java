@@ -28,6 +28,7 @@ public class ElectronicsOrderDAO {
     Integer date;
     String userName;
     String phoneNum;
+    String note;
     Integer totalPrice;
     LocalDateTime createAt;
     Boolean isCoupon;
@@ -45,6 +46,7 @@ public class ElectronicsOrderDAO {
                 .date(orderDTO.getDate())
                 .userName(orderDTO.getUserName())
                 .phoneNum(orderDTO.getPhoneNum())
+                .note(orderDTO.getNote())
                 .totalPrice(orderDTO.getTotalPrice())
                 .createAt(orderDTO.getCreateAt())
                 .isCoupon(orderDTO.getIsCoupon())
