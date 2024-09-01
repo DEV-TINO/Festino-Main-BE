@@ -6,7 +6,6 @@ import java.util.UUID;
 
 @Data
 public class RequestReviewSaveDTO {
-    UUID reviewId;
     String content;
     String email;
 }
