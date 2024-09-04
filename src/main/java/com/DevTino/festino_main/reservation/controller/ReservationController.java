@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.reservation.controller;
 
+import com.DevTino.festino_main.auth.AuthService;
 import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationGetDTO;
 import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationSaveDTO;
@@ -15,23 +16,33 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/main/reservation")
-@CrossOrigin(origins = "*")
 public class ReservationController {
 
     ReservationService reservationService;
+    AuthService authService;
 
     @Autowired
-    public ReservationController(ReservationService reservationService) {
+    public ReservationController(ReservationService reservationService, AuthService authService) {
         this.reservationService = reservationService;
+        this.authService = authService;
     }
 
     // 예약 등록
     @PostMapping
-    public ResponseEntity<Map<String, Object>> saveReservation(@RequestBody RequestReservationSaveDTO requestReservationSaveDTO) throws IOException {
+    public ResponseEntity<Map<String, Object>> saveReservation(@RequestHeader(value = "X-CSRF-Token") String token, @RequestBody RequestReservationSaveDTO requestReservationSaveDTO) throws IOException {
+        Map<String, Object> requestMap = new HashMap<>();
+
+        // 토큰 검증
+        if (token == null || !authService.isExpired(token)) {
+            requestMap.put("success", false);
+            requestMap.put("message", "Token is missing");
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(requestMap);
+        }
+
         ResponseReservationSaveDTO responseReservationSaveDTO = reservationService.saveReservation(requestReservationSaveDTO);
 
         // message, success, id 값 json 데이터로 반환
-        Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", responseReservationSaveDTO != null);
         requestMap.put("message", (responseReservationSaveDTO == null) ? "reservation failure": "reservation success");
         requestMap.put("reservationInfo", (responseReservationSaveDTO == null) ? "00000000-0000-0000-0000-000000000000" : responseReservationSaveDTO);
