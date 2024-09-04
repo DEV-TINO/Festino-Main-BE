@@ -23,7 +23,7 @@ public class AuthController {
     }
 
     // 고유 UUID 생성
-    @GetMapping("/init")
+    @PostMapping("/init")
     public ResponseEntity<Map<String, Object>> init(HttpServletResponse response) {
         String uuid = UUID.randomUUID().toString();
         Cookie cookie = new Cookie("UUID", uuid);
