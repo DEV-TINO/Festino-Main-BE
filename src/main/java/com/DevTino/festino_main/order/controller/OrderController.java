@@ -8,11 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.github.bucket4j.Bandwidth;
+import io.github.bucket4j.Bucket;
+import io.github.bucket4j.Refill;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/main")
@@ -20,16 +25,34 @@ public class OrderController {
     OrderService orderService;
     AuthService authService;
 
+    // Bucket을 캐시하여 동일한 키에 대해 같은 버킷을 사용하도록 설정
+    private final Map<String, Bucket> buckets = new ConcurrentHashMap<>();
+
     @Autowired
     public OrderController(OrderService orderService, AuthService authService) {
         this.orderService = orderService;
         this.authService = authService;
     }
 
+    // Order Rate Limiting: 1초에 3개 허용
+    private Bucket resolveOrderBucket() {
+        Bandwidth limit = Bandwidth.classic(3, Refill.intervally(3, Duration.ofSeconds(1)));
+        return buckets.computeIfAbsent("order", k -> Bucket.builder().addLimit(limit).build());
+    }
+
     // 주문 등록
     @PostMapping("/order")
     public ResponseEntity<Map<String, Object>> saveOrder(@RequestHeader(value = "X-CSRF-Token") String token, @RequestBody RequestOrderSaveDTO requestOrderSaveDTO) {
         Map<String, Object> requestMap = new HashMap<>();
+
+        Bucket orderBucket = resolveOrderBucket();
+
+        // Rate Limiting 체크
+        if (!orderBucket.tryConsume(1)) {
+            requestMap.put("success", false);
+            requestMap.put("message", "Too many requests, please try again later");
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(requestMap);
+        }
 
         // 토큰 검증
         if (token == null || !authService.isExpired(token)) {
