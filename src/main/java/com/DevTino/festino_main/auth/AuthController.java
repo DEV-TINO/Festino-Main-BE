@@ -39,7 +39,7 @@ public class AuthController {
     }
 
     // Token 생성
-    @GetMapping("/token")
+    @PostMapping("/token")
     public ResponseEntity<Map<String, Object>> getToken(HttpServletRequest request, HttpServletResponse response) {
         String userId = authService.getCookieValue(request, "UUID");
         Map<String, Object> requestMap = new HashMap<>();
