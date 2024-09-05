@@ -34,6 +34,17 @@ dependencies {
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 	implementation 'com.google.code.gson:gson:2.9.0'
+
+	// security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
+	// Rate Limiting
+	implementation 'com.bucket4j:bucket4j-core:8.3.0'
 }
 
 tasks.named('test') {
