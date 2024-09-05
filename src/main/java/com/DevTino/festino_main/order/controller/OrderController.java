@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -43,22 +42,9 @@ public class OrderController {
         return buckets.computeIfAbsent("order", k -> Bucket.builder().addLimit(limit).build());
     }
 
-    private String getTokenFromCookies(Cookie[] cookies, String tokenName) {
-        if(cookies != null) {
-            for(Cookie cookie : cookies) {
-                if(tokenName.equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
-    }
-
     // 주문 등록
     @PostMapping("/order")
     public ResponseEntity<Map<String, Object>> saveOrder(HttpServletRequest request, @RequestBody RequestOrderSaveDTO requestOrderSaveDTO) {
-        final String xCsrfToken = this.getTokenFromCookies(request.getCookies(), "X-CSRF-Token");
-
         Map<String, Object> requestMap = new HashMap<>();
 
         Bucket orderBucket = resolveOrderBucket();
@@ -70,8 +56,10 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(requestMap);
         }
 
+        String xCsrfToken = authService.getCookieValue(request, "X-CSRF-Token");
+
         // 토큰 검증
-        if (xCsrfToken == null || !authService.isExpired(xCsrfToken)) {
+        if (xCsrfToken == null || authService.isExpired(xCsrfToken)) {
             requestMap.put("success", false);
             requestMap.put("message", "Token is missing");
 

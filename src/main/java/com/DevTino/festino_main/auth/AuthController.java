@@ -27,7 +27,7 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> init(HttpServletResponse response) {
         String uuid = UUID.randomUUID().toString();
         Cookie cookie = new Cookie("UUID", uuid);
-        cookie.setHttpOnly(false);
+        cookie.setHttpOnly(true);
         cookie.setPath("/");
         response.addCookie(cookie);
 

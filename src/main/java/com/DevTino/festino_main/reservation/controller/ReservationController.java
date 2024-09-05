@@ -19,13 +19,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/main/reservation")
 public class ReservationController {
-
     ReservationService reservationService;
     AuthService authService;
 
@@ -44,19 +42,6 @@ public class ReservationController {
         return buckets.computeIfAbsent("reservation", k -> Bucket.builder().addLimit(limit).build());
     }
 
-
-    private String getTokenFromCookies(Cookie[] cookies, String tokenName) {
-        if(cookies != null) {
-            for(Cookie cookie : cookies) {
-                if(tokenName.equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
-    }
-
-
     // 예약 등록
     @PostMapping
     public ResponseEntity<Map<String, Object>> saveReservation(HttpServletRequest request, @RequestBody RequestReservationSaveDTO requestReservationSaveDTO) throws IOException {
@@ -73,10 +58,8 @@ public class ReservationController {
 
         String xCsrfToken = authService.getCookieValue(request, "X-CSRF-Token");
 
-        system.out.println("xCsrfToken: " + xCsrfToken);
-
         // 토큰 검증
-        if (xCsrfToken == null || !authService.isExpired(xCsrfToken)) {
+        if (xCsrfToken == null || authService.isExpired(xCsrfToken)) {
             requestMap.put("success", false);
             requestMap.put("message", "Token is missing");
 
