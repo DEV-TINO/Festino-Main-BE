@@ -55,7 +55,14 @@ public class AuthController {
         String token = authService.createAccessToken(userId);
 
         // HTTP 응답 헤더에 토큰 추가
-        response.setHeader("X-CSRF-Token", token);
+
+        Cookie cookie = new Cookie("X-CSRF-Token", token);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60);
+        response.addCookie(cookie);
+
+        // response.setHeader("X-CSRF-Token", token);
 
         requestMap.put("success", true);
         requestMap.put("message", "Token generated");
