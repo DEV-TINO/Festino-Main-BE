@@ -27,11 +27,16 @@ public class CreateResponseGetDTOBean {
     public List<ResponseOrderGetDTO> exec(List<OrderDTO> orderDTOList) {
         List<ResponseOrderGetDTO> responseOrderGetDTOList = new ArrayList<>();
 
+        // 0-입금대기, 1-조리중, 2-조리완료, 3-주문취소
         for(OrderDTO orderDTO : orderDTOList) {
             int orderType = orderDTO.getIsDeposit() ? 1 : 0;
 
-            if(orderType == 1 && orderDTO.getOrderType() != OrderType.COOKING) {
-                orderType = orderDTO.getOrderType() == OrderType.FINISH ? 2 : 3;
+            if(orderType == 0 && orderDTO.getOrderType() == OrderType.CANCEL) {
+                orderType = 3;
+            }
+
+            if(orderType == 1 && orderDTO.getOrderType() == OrderType.FINISH) {
+                orderType = 2;
             }
 
             NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(orderDTO.getBoothId());
