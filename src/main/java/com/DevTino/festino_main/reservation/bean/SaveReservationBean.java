@@ -69,6 +69,7 @@ public class SaveReservationBean {
 
         // 예약 당일이 언제인지
         Integer date = checkReservationDAODateFieldBean.exec(nightBoothDAO);
+        if(date == null) return null;
 
         // 예약을 등록한 뒤 reservationId 반환
         ReservationDAO createReservationDAO = createReservationDAOBean.exec(date, requestReservationSaveDTO);

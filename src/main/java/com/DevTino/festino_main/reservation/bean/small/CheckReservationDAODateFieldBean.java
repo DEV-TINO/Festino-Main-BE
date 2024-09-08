@@ -36,8 +36,9 @@ public class CheckReservationDAODateFieldBean {
             date = 2;
         } else if(now.isAfter(start13)) {
             date = 3;
+        } else {
+            return null;
         }
-
         return date;
     }
 }
