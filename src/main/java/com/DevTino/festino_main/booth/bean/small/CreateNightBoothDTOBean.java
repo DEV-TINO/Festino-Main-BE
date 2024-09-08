@@ -39,6 +39,7 @@ public class CreateNightBoothDTOBean {
                 .markerNum(nightBoothDAO.getMarkerNum())
                 .location(nightBoothDAO.getLocation())
                 .accountInfo(nightBoothDAO.getAccountInfo())
+                .instagram(nightBoothDAO.getInstagram())
                 .build();
     }
 }
