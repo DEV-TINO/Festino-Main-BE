@@ -15,4 +15,5 @@ public class ResponseFacilityGetDTO {
     String closeTime;
     String boothName;
     String adminCategory;
+    String instagram;
 }
