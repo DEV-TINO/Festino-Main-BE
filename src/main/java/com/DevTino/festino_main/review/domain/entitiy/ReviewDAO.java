@@ -19,4 +19,7 @@ public class ReviewDAO {
 
     String content;
     String email;
+
+    LocalDateTime createAt;
+    LocalDateTime uploadAt;
 }
