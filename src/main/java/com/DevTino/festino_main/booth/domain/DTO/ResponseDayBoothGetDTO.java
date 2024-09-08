@@ -22,4 +22,5 @@ public class ResponseDayBoothGetDTO {
     Integer markerNum;
     String location;
     Boolean isOpen;
+    String instagram;
 }

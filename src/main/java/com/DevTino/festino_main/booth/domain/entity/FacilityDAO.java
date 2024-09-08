@@ -23,6 +23,7 @@ public class FacilityDAO {
     String openTime;
     String closeTime;
     String boothIntro;
+    String instagram;
 
     String boothImage;
 

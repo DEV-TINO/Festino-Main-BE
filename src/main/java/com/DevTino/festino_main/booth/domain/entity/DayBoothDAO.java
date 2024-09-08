@@ -26,6 +26,7 @@ public class DayBoothDAO {
     String openTime;
     String closeTime;
     String boothIntro;
+    String instagram;
 
     @Convert(converter = StringConverter.class)
     List<String> boothImage;

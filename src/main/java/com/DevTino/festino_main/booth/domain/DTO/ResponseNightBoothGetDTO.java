@@ -28,6 +28,7 @@ public class ResponseNightBoothGetDTO {
     List<ResponseMenuGetDTO> menuList;
     Integer markerNum;
     String location;
+    String instagram;
 
     @Convert(converter = AccountInfoConverter.class)
     Map<String, String> accountInfo;
