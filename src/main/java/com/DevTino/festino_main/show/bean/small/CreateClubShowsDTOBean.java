@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.show.bean.small;
 
+import com.DevTino.festino_main.DateTimeUtils;
 import com.DevTino.festino_main.show.domain.DTO.ResponseClubShowsGetDTO;
 import com.DevTino.festino_main.show.domain.entity.ClubShowDAO;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class CreateClubShowsDTOBean {
         LocalDateTime showEnd = LocalDateTime.parse(clubShowDAO.getShowDate() + clubShowDAO.getShowEndTime() + zeroSec, DateTimeFormatter.ofPattern("yyyy/MM/ddHH:mm:ss"));
 
         // 공연 시작과 종료 시간 사이에 true로 반환
-        Boolean isShowing = LocalDateTime.now().isAfter(showStart) && LocalDateTime.now().isBefore(showEnd);
+        Boolean isShowing = DateTimeUtils.nowZone().isAfter(showStart) && DateTimeUtils.nowZone().isBefore(showEnd);
 
         return ResponseClubShowsGetDTO.builder()
                 .clubId(clubShowDAO.getClubId())
