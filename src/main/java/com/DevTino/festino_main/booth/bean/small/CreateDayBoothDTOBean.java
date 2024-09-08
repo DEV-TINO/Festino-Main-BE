@@ -34,6 +34,7 @@ public class CreateDayBoothDTOBean {
                 .markerNum(dayBoothDAO.getMarkerNum())
                 .location(dayBoothDAO.getLocation())
                 .isOpen(dayBoothDAO.getIsOpen())
+                .instagram(dayBoothDAO.getInstagram())
                 .build();
     }
 }
