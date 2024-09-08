@@ -28,7 +28,7 @@ public class CheckReservationDAODateFieldBean {
 
         LocalDateTime now = DateTimeUtils.nowZone();
 
-        int date = 0;
+        int date;
 
         if(now.isAfter(start11) && now.isBefore(end11)) {
             date = 1;
