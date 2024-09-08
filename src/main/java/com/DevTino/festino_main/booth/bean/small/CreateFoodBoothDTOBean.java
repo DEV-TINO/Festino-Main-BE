@@ -21,6 +21,7 @@ public class CreateFoodBoothDTOBean {
                 .markerNum(foodBoothDAO.getMarkerNum())
                 .location(foodBoothDAO.getLocation())
                 .isOpen(foodBoothDAO.getIsOpen())
+                .instagram(foodBoothDAO.getInstagram())
                 .build();
     }
 }

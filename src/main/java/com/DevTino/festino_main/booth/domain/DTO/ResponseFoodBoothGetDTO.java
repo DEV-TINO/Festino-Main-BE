@@ -20,4 +20,5 @@ public class ResponseFoodBoothGetDTO {
     Integer markerNum;
     String location;
     Boolean isOpen;
+    String instagram;
 }
