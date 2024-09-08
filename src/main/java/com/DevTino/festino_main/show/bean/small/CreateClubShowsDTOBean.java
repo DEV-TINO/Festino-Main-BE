@@ -35,6 +35,7 @@ public class CreateClubShowsDTOBean {
                 .clubDescription(clubShowDAO.getClubDescription())
                 .instagram(clubShowDAO.getInstagram())
                 .isShowing(isShowing)
+                .musicList(clubShowDAO.getMusicList())
                 .build();
     }
 
