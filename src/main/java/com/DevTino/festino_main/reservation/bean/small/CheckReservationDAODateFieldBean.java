@@ -28,11 +28,7 @@ public class CheckReservationDAODateFieldBean {
 
         LocalDateTime now = DateTimeUtils.nowZone();
 
-        // 배포시
-        // int date;
-
-        // test용
-        int date = 0;
+        int date;
 
         if(now.isAfter(start11) && now.isBefore(end11)) {
             date = 1;
@@ -40,9 +36,8 @@ public class CheckReservationDAODateFieldBean {
             date = 2;
         } else if(now.isAfter(start13)) {
             date = 3;
-//        } else {
-//            return null;
-//        }
+        } else {
+            return null;
         }
         return date;
     }
