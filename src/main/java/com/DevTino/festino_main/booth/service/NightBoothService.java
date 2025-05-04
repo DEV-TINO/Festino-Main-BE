@@ -1,10 +1,7 @@
 package com.DevTino.festino_main.booth.service;
 
 import com.DevTino.festino_main.booth.bean.*;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothTossPayGetDTO;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothsGetDTO;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothGetDTO;
-import com.DevTino.festino_main.booth.domain.DTO.ResponseReservationNightBoothGetDTO;
+import com.DevTino.festino_main.booth.domain.DTO.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +17,16 @@ public class NightBoothService {
     GetNightBoothsBean getNightBoothsBean;
     GetAccountInfoBean getAccountInfoBean;
     GetTossPayInfoBean getTossPayInfoBean;
+    GetKakaoPayInfoBean getKakaoPayInfoBean;
 
     @Autowired
-    public NightBoothService(GetNightBoothBean getNightBoothBean, GetReservationNightBoothsBean getReservationNightBoothsBean, GetNightBoothsBean getNightBoothsBean, GetAccountInfoBean getAccountInfoBean, GetTossPayInfoBean getTossPayInfoBean) {
+    public NightBoothService(GetNightBoothBean getNightBoothBean, GetReservationNightBoothsBean getReservationNightBoothsBean, GetNightBoothsBean getNightBoothsBean, GetAccountInfoBean getAccountInfoBean, GetTossPayInfoBean getTossPayInfoBean, GetKakaoPayInfoBean getKakaoPayInfoBean) {
         this.getNightBoothBean = getNightBoothBean;
         this.getReservationNightBoothsBean = getReservationNightBoothsBean;
         this.getNightBoothsBean = getNightBoothsBean;
         this.getAccountInfoBean = getAccountInfoBean;
         this.getTossPayInfoBean = getTossPayInfoBean;
+        this.getKakaoPayInfoBean = getKakaoPayInfoBean;
     }
 
     // 야간 부스 디테일 조회
@@ -51,5 +50,10 @@ public class NightBoothService {
     // 토스페이 조회
     public ResponseNightBoothTossPayGetDTO getTossPayInfo(UUID boothId) {
         return getTossPayInfoBean.exec(boothId);
+    }
+
+    // 카카오페이 조회
+    public ResponseNightBoothKakaoPayGetDTO getKakaoPayInfo(UUID boothId) {
+        return getKakaoPayInfoBean.exec(boothId);
     }
 }
