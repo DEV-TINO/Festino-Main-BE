@@ -45,7 +45,6 @@ public class RedisConfig {
             redisTemplate.setKeySerializer(new StringRedisSerializer());
             // value 값은 JSON 형태로 저장
             redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-            log.info("Redis Template 생성 성공");
             return redisTemplate;
         } catch (Exception e) {
             log.error("Redis Template 생성 실패", e);
