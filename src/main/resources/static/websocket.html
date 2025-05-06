@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>STOMP WebSocket 테스트 (Native WebSocket)</title>
+    <script src="https://cdn.jsdelivr.net/npm/stomp-websocket@2.3.4-next/lib/stomp.min.js"></script>
+</head>
+<body>
+    <h1>STOMP WebSocket 테스트</h1>
+    <button onclick="connect()">연결하기</button>
+    <button onclick="subscribe()">구독하기</button>
+    <div id="output"></div>
+
+    <script>
+        let stompClient = null;
+        
+        function connect() {
+            // 네이티브 WebSocket 사용
+            const socket = new WebSocket('ws://localhost:8080/ws');
+            stompClient = Stomp.over(socket);
+            
+            // 디버그 메시지 활성화
+            stompClient.debug = function(str) {
+                console.log(str);
+                document.getElementById('output').innerHTML += '<p><small>Debug: ' + str + '</small></p>';
+            };
+            
+            stompClient.connect({}, function(frame) {
+                document.getElementById('output').innerHTML += '<p>연결 성공: ' + frame + '</p>';
+            }, function(error) {
+                document.getElementById('output').innerHTML += '<p>연결 오류: ' + error + '</p>';
+            });
+        }
+        
+        function subscribe() {
+            if(stompClient && stompClient.connected) {
+                const boothId = '550e8400-e29b-41d4-a716-446655440000';
+                const tableNum = 3;
+                
+                stompClient.subscribe('/topic/' + boothId + '/' + tableNum, function(message) {
+                    document.getElementById('output').innerHTML += '<p>메시지 수신: ' + message.body + '</p>';
+                    console.log('수신 메시지:', message);
+                });
+                
+                document.getElementById('output').innerHTML += '<p>구독 요청 전송됨: /topic/' + boothId + '/' + tableNum + '</p>';
+            } else {
+                document.getElementById('output').innerHTML += '<p>연결되지 않음</p>';
+            }
+        }
+    </script>
+</body>
+</html>
