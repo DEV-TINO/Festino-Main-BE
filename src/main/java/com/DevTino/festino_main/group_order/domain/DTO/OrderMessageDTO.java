@@ -1,6 +1,5 @@
 package com.DevTino.festino_main.group_order.domain.DTO;
 
-import com.DevTino.festino_main.message.domain.ENUM.MessageType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderMessageDTO {
-    MessageType type;
+    Object type;
     UUID boothId;
     Integer tableNum;
 
