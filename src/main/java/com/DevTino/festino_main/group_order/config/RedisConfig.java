@@ -2,12 +2,15 @@ package com.DevTino.festino_main.group_order.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+@Configuration
 public class RedisConfig {
     @Value("${spring.redis.host}")
     private String redisHost;
@@ -18,7 +21,8 @@ public class RedisConfig {
     // RedisConnectionFactory는 redis 연결 설정
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(redisHost, redisPort);
+        RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration(redisHost, redisPort);
+        return new LettuceConnectionFactory(redisConfig);
     }
 
     // RedisTemplate은 key, value값의 직렬화 방식 설정

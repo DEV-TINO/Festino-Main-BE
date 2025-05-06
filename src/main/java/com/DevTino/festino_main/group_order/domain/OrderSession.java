@@ -1,10 +1,13 @@
 package com.DevTino.festino_main.group_order.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -17,20 +20,31 @@ import java.util.concurrent.ScheduledFuture;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@RedisHash("order")  // Redis 키 접두사 -> order:{boothId}:{tableNum} 형태로 키 저장
 public class OrderSession implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @Id  // Redis 키로 사용할 필드
+    private String id;
+
+    @Indexed  // 인덱싱을 위한 어노테이션
     UUID boothId;
+
+    @Indexed  // 인덱싱을 위한 어노테이션
     Integer tableNum;
+
     Integer memberCount = 0;
     Integer totalPrice = 0;
     Integer totalCount = 0;
     Map<UUID, Integer> menuCounts = new ConcurrentHashMap<>();
+
     @JsonIgnore  // Redis에 저장X (세션이 종료되기 1분 전에 알림을 보내는 작업을 하기 위한 필드)
     private transient ScheduledFuture<?> sessionEndTask;
+
     @JsonIgnore  // Redis에 저장X (세션을 완전히 종료하는 작업을 하기 위한 필드)
     private transient ScheduledFuture<?> preSessionEndTask;    // 세션 종료 전 알림 타이머 작업
+
     private long sessionCreatedAt; // 세션 생성 시간
     private long sessionExpiryTime; // 세션 만료 시간
 
@@ -38,6 +52,7 @@ public class OrderSession implements Serializable {
     public OrderSession(UUID boothId, Integer tableNum) {
         this.boothId = boothId;
         this.tableNum = tableNum;
+        this.id = boothId + ":" + tableNum;  // 복합 ID 생성
         this.sessionCreatedAt = System.currentTimeMillis();
         // 기본 만료 시간 설정 (10분 후)
         this.sessionExpiryTime = this.sessionCreatedAt + (10 * 60 * 1000);
