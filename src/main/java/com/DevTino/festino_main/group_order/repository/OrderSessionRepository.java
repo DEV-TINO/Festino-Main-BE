@@ -1,7 +1,10 @@
 package com.DevTino.festino_main.group_order.repository;
 
-import com.DevTino.festino_main.group_order.domain.OrderSession;
-import org.springframework.data.repository.CrudRepository;
+import com.DevTino.festino_main.group_order.domain.GroupOrderDAO;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrderSessionRepository extends CrudRepository<OrderSession, String> {
+import java.util.UUID;
+
+public interface OrderSessionRepository extends JpaRepository<GroupOrderDAO, String> {
+    GroupOrderDAO findByBoothIdAndTableNum(UUID boothId, Integer tableNum);
 }
