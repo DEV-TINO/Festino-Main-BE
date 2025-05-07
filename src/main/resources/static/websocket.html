@@ -1,52 +1,213 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>STOMP WebSocket 테스트 (Native WebSocket)</title>
-    <script src="https://cdn.jsdelivr.net/npm/stomp-websocket@2.3.4-next/lib/stomp.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>함께 주문 테스트</title>
+    <!-- STOMP 클라이언트 라이브러리만 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, button {
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f8f8;
+        }
+        pre {
+            background-color: #f0f0f0;
+            padding: 10px;
+            overflow-x: auto;
+            max-height: 300px;
+        }
+    </style>
 </head>
 <body>
-    <h1>STOMP WebSocket 테스트</h1>
-    <button onclick="connect()">연결하기</button>
-    <button onclick="subscribe()">구독하기</button>
-    <div id="output"></div>
+<h1>함께 주문 테스트</h1>
 
-    <script>
-        let stompClient = null;
-        
-        function connect() {
-            // 네이티브 WebSocket 사용
-            const socket = new WebSocket('ws://localhost:8080/ws');
-            stompClient = Stomp.over(socket);
-            
-            // 디버그 메시지 활성화
-            stompClient.debug = function(str) {
-                console.log(str);
-                document.getElementById('output').innerHTML += '<p><small>Debug: ' + str + '</small></p>';
-            };
-            
-            stompClient.connect({}, function(frame) {
-                document.getElementById('output').innerHTML += '<p>연결 성공: ' + frame + '</p>';
-            }, function(error) {
-                document.getElementById('output').innerHTML += '<p>연결 오류: ' + error + '</p>';
+<div class="form-group">
+    <label for="serverUrl">WebSocket 서버 URL</label>
+    <input type="text" id="serverUrl" value="ws://localhost:8080/ws" />
+</div>
+
+<div class="form-group">
+    <label for="boothId">부스 ID (UUID)</label>
+    <input type="text" id="boothId" value="" />
+    <button id="generateUuidBtn">UUID 생성</button>
+</div>
+
+<div class="form-group">
+    <label for="tableNum">테이블 번호</label>
+    <input type="number" id="tableNum" value="1" />
+</div>
+
+<button id="connectBtn">연결 및 구독</button>
+<button id="disconnectBtn" disabled>연결 끊기</button>
+
+<div id="status">상태: 연결 안됨</div>
+
+<div style="margin-top: 20px;">
+    <h3>메시지 로그</h3>
+    <pre id="messageLog"></pre>
+</div>
+
+<script>
+    // DOM 요소
+    const serverUrlInput = document.getElementById('serverUrl');
+    const boothIdInput = document.getElementById('boothId');
+    const tableNumInput = document.getElementById('tableNum');
+    const generateUuidBtn = document.getElementById('generateUuidBtn');
+    const connectBtn = document.getElementById('connectBtn');
+    const disconnectBtn = document.getElementById('disconnectBtn');
+    const statusDiv = document.getElementById('status');
+    const messageLogPre = document.getElementById('messageLog');
+
+    // 스톰프 클라이언트
+    let stompClient = null;
+
+    // 메시지 로그 추가 함수
+    function addMessageLog(message) {
+        const timestamp = new Date().toLocaleTimeString();
+        messageLogPre.innerHTML += `[${timestamp}] ${message}\n`;
+        messageLogPre.scrollTop = messageLogPre.scrollHeight;
+    }
+
+    // UUID 생성 함수
+    function generateUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.random() * 16 | 0;
+            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    // UUID 생성 버튼 이벤트
+    generateUuidBtn.addEventListener('click', function() {
+        boothIdInput.value = generateUUID();
+    });
+
+    // 연결 함수
+    function connect() {
+        const serverUrl = serverUrlInput.value;
+        const boothId = boothIdInput.value;
+        const tableNum = tableNumInput.value;
+
+        // 입력값 검증
+        if (!boothId || !tableNum) {
+            alert("부스 ID와 테이블 번호를 입력해주세요.");
+            return;
+        }
+
+        // UUID 형식 검증
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        if (!uuidRegex.test(boothId)) {
+            alert("올바른 UUID 형식이 아닙니다.");
+            return;
+        }
+
+        // 상태 업데이트
+        statusDiv.textContent = "상태: 연결 중...";
+        addMessageLog("WebSocket 연결 시도 중...");
+
+        try {
+            // STOMP 클라이언트 생성
+            stompClient = new StompJs.Client({
+                brokerURL: serverUrl,
+                debug: function(str) {
+                    addMessageLog("STOMP: " + str);
+                },
+                reconnectDelay: 5000,
+                heartbeatIncoming: 4000,
+                heartbeatOutgoing: 4000
             });
-        }
-        
-        function subscribe() {
-            if(stompClient && stompClient.connected) {
-                const boothId = '550e8400-e29b-41d4-a716-446655440000';
-                const tableNum = 3;
-                
-                stompClient.subscribe('/topic/' + boothId + '/' + tableNum, function(message) {
-                    document.getElementById('output').innerHTML += '<p>메시지 수신: ' + message.body + '</p>';
-                    console.log('수신 메시지:', message);
+
+            // 연결 성공 콜백
+            stompClient.onConnect = function(frame) {
+                statusDiv.textContent = "상태: 연결됨";
+                connectBtn.disabled = true;
+                disconnectBtn.disabled = false;
+                addMessageLog("WebSocket 연결 성공: " + frame.headers.version);
+
+                // 주제 구독
+                const topic = `/topic/${boothId}/${tableNum}`;
+                addMessageLog("구독 시도: " + topic);
+
+                stompClient.subscribe(topic, function(message) {
+                    // 메시지 수신 처리
+                    addMessageLog("메시지 수신: " + message.body);
+
+                    try {
+                        const data = JSON.parse(message.body);
+                        // 메시지 타입에 따른 출력
+                        if (data.type === "INIT") {
+                            addMessageLog("초기화 정보 수신: 멤버 수 = " + data.initInfo.memberCount);
+                        } else if (data.type === "MEMBERUPDATE") {
+                            addMessageLog("멤버 정보 업데이트: 멤버 수 = " + data.memberInfo.memberCount);
+                        }
+                    } catch (e) {
+                        addMessageLog("메시지 파싱 오류: " + e.message);
+                    }
                 });
-                
-                document.getElementById('output').innerHTML += '<p>구독 요청 전송됨: /topic/' + boothId + '/' + tableNum + '</p>';
-            } else {
-                document.getElementById('output').innerHTML += '<p>연결되지 않음</p>';
-            }
+            };
+
+            // 연결 오류 콜백
+            stompClient.onStompError = function(frame) {
+                statusDiv.textContent = "상태: 연결 오류";
+                addMessageLog("STOMP 오류: " + frame.headers.message);
+                addMessageLog("추가 상세정보: " + frame.body);
+            };
+
+            // 연결 시작
+            stompClient.activate();
+
+        } catch (e) {
+            addMessageLog("예외 발생: " + e.message);
+            statusDiv.textContent = "상태: 연결 오류";
         }
-    </script>
+    }
+
+    // 연결 해제 함수
+    function disconnect() {
+        if (stompClient !== null && stompClient.connected) {
+            addMessageLog("연결 종료 중...");
+
+            stompClient.deactivate();
+
+            statusDiv.textContent = "상태: 연결 안됨";
+            connectBtn.disabled = false;
+            disconnectBtn.disabled = true;
+            addMessageLog("WebSocket 연결 종료됨");
+        }
+    }
+
+    // 이벤트 리스너 등록
+    connectBtn.addEventListener('click', connect);
+    disconnectBtn.addEventListener('click', disconnect);
+
+    // 페이지 로드 시 UUID 자동 생성
+    window.addEventListener('load', function() {
+        boothIdInput.value = generateUUID();
+    });
+
+    // 페이지 언로드 시 연결 종료
+    window.addEventListener('beforeunload', function() {
+        disconnect();
+    });
+</script>
 </body>
 </html>
