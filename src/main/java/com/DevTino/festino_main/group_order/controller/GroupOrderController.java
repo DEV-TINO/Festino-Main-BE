@@ -34,6 +34,7 @@ public class GroupOrderController {
             }
             else if (AppMessageType.MENUSUB.name().equals(typeStr)) {
                 // 메뉴 감소 처리
+                groupOrderService.subMenu(request.getBoothId(), request.getTableNum(), request.getMenuInfo().getMenuId());
             }
             // 기타 타입 처리...
         } catch (Exception e) {
