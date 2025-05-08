@@ -8,5 +8,6 @@ public enum TopicMessageType {
     UNSUB,          // 구독취소
     STARTORDER,     // 주문시작
     PRESESSIONEND,  // 세션 종료 전
-    SESSIONEND      // 세션 종료
+    SESSIONEND,      // 세션 종료
+    ERROR           // 에러 메시지
 }

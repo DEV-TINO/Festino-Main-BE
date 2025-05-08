@@ -1,21 +1,54 @@
 package com.DevTino.festino_main.group_order.controller;
 
+import com.DevTino.festino_main.group_order.domain.DTO.OrderMessageDTO;
+import com.DevTino.festino_main.group_order.domain.ENUM.AppMessageType;
+import com.DevTino.festino_main.group_order.domain.ENUM.TopicMessageType;
 import com.DevTino.festino_main.group_order.service.GroupOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
 import java.util.UUID;
 
 @Slf4j
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class GroupOrderController {
 
     private final GroupOrderService groupOrderService;
+    private final SimpMessagingTemplate messagingTemplate;
+
+    @MessageMapping("/order")
+    public void processOrder(OrderMessageDTO request) {
+        try {
+            String typeStr = request.getType();
+
+            if (AppMessageType.MENUADD.name().equals(typeStr)) {
+                // 메뉴 추가 처리
+                groupOrderService.addMenu(request.getBoothId(), request.getTableNum(), request.getMenuInfo().getMenuId());
+            }
+            else if (AppMessageType.MENUSUB.name().equals(typeStr)) {
+                // 메뉴 감소 처리
+            }
+            // 기타 타입 처리...
+        } catch (Exception e) {
+            // 에러 메시지 생성
+            OrderMessageDTO errorMessage = OrderMessageDTO.builder()
+                    .type(TopicMessageType.ERROR.name()) // 문자열로 설정
+                    .boothId(request.getBoothId())
+                    .tableNum(request.getTableNum())
+                    .errorMessage("요청 처리 중 오류 발생: " + e.getMessage())
+                    .build();
+
+            // 에러 메시지 전송
+            messagingTemplate.convertAndSend("/topic/" + request.getBoothId() + "/" + request.getTableNum(), errorMessage);
+        }
+    }
 
     @EventListener
     public void handleSubscription(SessionSubscribeEvent event) {

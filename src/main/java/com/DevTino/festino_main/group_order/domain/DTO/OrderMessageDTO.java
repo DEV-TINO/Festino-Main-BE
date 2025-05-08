@@ -12,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderMessageDTO {
-    Object type;
+    String type;
     UUID boothId;
     Integer tableNum;
 
@@ -20,4 +20,5 @@ public class OrderMessageDTO {
     InitInfo initInfo;       // 초기화 정보 (INIT 타입)
     MenuInfo menuInfo;       // 메뉴 정보 (MENUUPDATE 타입)
     MemberInfo memberInfo;   // 멤버 정보 (MEMBERUPDATE 타입)
+    String errorMessage;     // 에러 메시지 추가 (ERROR 타입)
 }
