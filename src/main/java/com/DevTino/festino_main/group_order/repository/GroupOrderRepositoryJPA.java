@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface OrderSessionRepository extends JpaRepository<GroupOrderDAO, String> {
+public interface GroupOrderRepositoryJPA extends JpaRepository<GroupOrderDAO, String> {
     GroupOrderDAO findByBoothIdAndTableNum(UUID boothId, Integer tableNum);
 }
