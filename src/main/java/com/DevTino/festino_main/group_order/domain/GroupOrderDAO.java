@@ -26,12 +26,9 @@ public class GroupOrderDAO {
     Integer totalPrice = 0;
     Integer totalCount = 0;
 
-    @ElementCollection
-    @CollectionTable(name = "group_order_menu_counts",
-            joinColumns = @JoinColumn(name = "group_order_id"))
-    @MapKeyColumn(name = "menu_id")
-    @Column(name = "count")
-    private Map<UUID, Integer> menuCounts = new HashMap<>();
+    // 주문 메뉴 일대다 관계
+    @OneToMany(mappedBy = "groupOrderDAO", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GroupOrderMenuDAO> menuItems = new ArrayList<>();
 
     // 주문 세션 생성자
     public GroupOrderDAO(UUID boothId, Integer tableNum) {
@@ -52,17 +49,35 @@ public class GroupOrderDAO {
 
     // 메뉴 추가
     public void addMenu(UUID menuId, int price) {
-        int currentCount = menuCounts.getOrDefault(menuId, 0);
-        menuCounts.put(menuId, currentCount + 1);
+        // 기존 메뉴 항목 찾기
+        GroupOrderMenuDAO menuItem = findMenuItem(menuId);
+
+        if (menuItem != null) {
+            // 기존 메뉴 수량 증가
+            menuItem.increaseCount();
+        } else {
+            // 새 메뉴 항목 추가
+            menuItem = new GroupOrderMenuDAO(this, menuId, 1);
+            menuItems.add(menuItem);
+        }
+
+        // 전체 카운트 및 가격 업데이트
         this.totalCount++;
         this.totalPrice += price;
     }
 
     // 메뉴 감소
     public void subMenu(UUID menuId, int price) {
-        int currentCount = menuCounts.getOrDefault(menuId, 0);
-        if (currentCount > 0) {
-            menuCounts.put(menuId, currentCount - 1);
+        GroupOrderMenuDAO menuItem = findMenuItem(menuId);
+
+        if (menuItem != null && menuItem.getMenuCount() > 0) {
+            menuItem.decreaseCount();
+
+            // 수량이 0이면 항목 제거
+            if (menuItem.getMenuCount() == 0) {
+                menuItems.remove(menuItem);
+            }
+
             this.totalCount--;
             this.totalPrice -= price;
         }
@@ -70,6 +85,15 @@ public class GroupOrderDAO {
 
     // 메뉴 수량 조회
     public Integer getMenuCount(UUID menuId) {
-        return menuCounts.getOrDefault(menuId, 0);
+        GroupOrderMenuDAO menuItem = findMenuItem(menuId);
+        return menuItem != null ? menuItem.getMenuCount() : 0;
+    }
+
+    // 특정 메뉴 항목 찾기
+    private GroupOrderMenuDAO findMenuItem(UUID menuId) {
+        return menuItems.stream()
+                .filter(item -> item.getMenuId().equals(menuId))
+                .findFirst()
+                .orElse(null);
     }
 }
