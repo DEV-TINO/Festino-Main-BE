@@ -6,10 +6,11 @@ import com.DevTino.festino_main.group_order.domain.DTO.MenuInfo;
 import com.DevTino.festino_main.group_order.domain.DTO.OrderMessageDTO;
 import com.DevTino.festino_main.group_order.domain.ENUM.TopicMessageType;
 import com.DevTino.festino_main.group_order.domain.GroupOrderDAO;
-import com.DevTino.festino_main.group_order.repository.OrderSessionRepository;
+import com.DevTino.festino_main.group_order.repository.GroupOrderRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,16 +18,17 @@ import java.util.UUID;
 @Component
 public class JoinSessionBean {
 
-    private final OrderSessionRepository orderSessionRepository;
+    private final GroupOrderRepositoryJPA groupOrderRepositoryJPA;
     private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
-    public JoinSessionBean(OrderSessionRepository orderSessionRepository, SimpMessagingTemplate messagingTemplate) {
-        this.orderSessionRepository = orderSessionRepository;
+    public JoinSessionBean(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate) {
+        this.groupOrderRepositoryJPA = groupOrderRepositoryJPA;
         this.messagingTemplate = messagingTemplate;
     }
 
     // 주문 참여
+    @Transactional
     public void exec(UUID boothId, Integer tableNum, String webSocketSessionId) {
         // 세션 조회 또는 생성
         GroupOrderDAO session = getOrCreateSession(boothId, tableNum);
@@ -42,7 +44,7 @@ public class JoinSessionBean {
     // 세션 조회 또는 생성
     private GroupOrderDAO getOrCreateSession(UUID boothId, Integer tableNum) {
         String sessionId = boothId + ":" + tableNum;
-        GroupOrderDAO session = orderSessionRepository.findById(sessionId).orElse(null);
+        GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId).orElse(null);
 
         if (session != null) {
             // 기존 세션이 있는 경우
@@ -54,7 +56,7 @@ public class JoinSessionBean {
         }
 
         // DB에 세션 저장
-        orderSessionRepository.save(session);
+        groupOrderRepositoryJPA.save(session);
 
         // 세션 반환
         return session;
@@ -63,11 +65,11 @@ public class JoinSessionBean {
     // 초기화 메시지 전송 (해당 클라이언트에게만)
     private void sendInitMessage(String webSocketSessionId, GroupOrderDAO session) {
 
-        // 메뉴 목록 Map -> List 형태로
-        List<MenuInfo> menuInfoList = session.getMenuCounts().entrySet().stream()
-                .map(entry -> MenuInfo.builder()
-                        .menuId(entry.getKey())
-                        .menuCount(entry.getValue())
+        // 메뉴 목록 List로 변환
+        List<MenuInfo> menuInfoList = session.getMenuItems().stream()
+                .map(item -> MenuInfo.builder()
+                        .menuId(item.getMenuId())
+                        .menuCount(item.getMenuCount())
                         .build())
                 .toList();
 
@@ -83,7 +85,7 @@ public class JoinSessionBean {
 
         // 메시지 생성
         OrderMessageDTO initMessage = OrderMessageDTO.builder()
-                .type(TopicMessageType.INIT)
+                .type(String.valueOf(TopicMessageType.INIT))
                 .boothId(session.getBoothId())
                 .tableNum(session.getTableNum())
                 .initInfo(initInfo)
@@ -106,7 +108,7 @@ public class JoinSessionBean {
 
         // 메시지 생성
         OrderMessageDTO message = OrderMessageDTO.builder()
-                .type(TopicMessageType.MEMBERUPDATE)
+                .type(String.valueOf(TopicMessageType.MEMBERUPDATE))
                 .boothId(session.getBoothId())
                 .tableNum(session.getTableNum())
                 .memberInfo(memberInfo)
