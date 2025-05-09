@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.event.photo.controller;
 
+import com.DevTino.festino_main.event.photo.domain.dto.RequestPhotoDeleteDTO;
 import com.DevTino.festino_main.event.photo.domain.dto.RequestPhotoSaveDTO;
 import com.DevTino.festino_main.event.photo.service.PhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,20 @@ public class PhotoController {
         requestMap.put("reviewId", photoId);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+    }
+
+    // 사진 게시물 삭제
+    @DeleteMapping
+    public ResponseEntity<Map<String, Object>> deletePhoto(@RequestBody RequestPhotoDeleteDTO requestPhotoDeleteDTO) {
+
+        UUID photoId = photoService.deletePhoto(requestPhotoDeleteDTO);
+
+        boolean success = photoId != null;
+
+        Map<String, Object> responseMap = new HashMap<>();
+        responseMap.put("success", success);
+        responseMap.put("message", success ? "사진 게시물 삭제 성공" : "사진 게시물 삭제 실패");
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
     }
 }
