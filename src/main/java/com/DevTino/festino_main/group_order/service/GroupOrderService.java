@@ -1,9 +1,6 @@
 package com.DevTino.festino_main.group_order.service;
 
-import com.DevTino.festino_main.group_order.bean.JoinSessionBean;
-import com.DevTino.festino_main.group_order.bean.MenuAddBean;
-import com.DevTino.festino_main.group_order.bean.MenuSubBean;
-import com.DevTino.festino_main.group_order.bean.UnSubSessionBean;
+import com.DevTino.festino_main.group_order.bean.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +16,7 @@ public class GroupOrderService {
     private final MenuAddBean menuAddBean;
     private final MenuSubBean menuSubBean;
     private final UnSubSessionBean unsubSessionBean;
+    private final StartOrderBean startOrderBean;
 
     // 주문 세션 참여 - connect 시 호출됨
     public void joinOrderSession(UUID boothId, Integer tableNum, String sessionId) {
@@ -38,5 +36,10 @@ public class GroupOrderService {
     // 구독 취소
     public void unSubOrderSession(UUID boothId, Integer tableNum, String sessionId) {
         unsubSessionBean.exec(boothId, tableNum, sessionId);
+    }
+
+    // 주문 시작
+    public void startOrder(UUID boothId, Integer tableNum, String sessionId) {
+        startOrderBean.exec(boothId, tableNum, sessionId);
     }
 }

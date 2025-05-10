@@ -42,7 +42,12 @@ public class GroupOrderController {
                 String sessionId = headerAccessor.getSessionId();
                 groupOrderService.unSubOrderSession(request.getBoothId(), request.getTableNum(), sessionId);
             }
-            // 기타 타입 처리...
+            else if (AppMessageType.STARTORDER.name().equals(typeStr)) {
+                // 주문 시작
+                String sessionId = headerAccessor.getSessionId();
+                groupOrderService.startOrder(request.getBoothId(), request.getTableNum(), sessionId);
+            }
+
         } catch (Exception e) {
             // 에러 메시지 생성
             OrderMessageDTO errorMessage = OrderMessageDTO.builder()
