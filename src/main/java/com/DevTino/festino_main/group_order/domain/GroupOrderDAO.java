@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -26,6 +27,12 @@ public class GroupOrderDAO {
     Integer totalPrice = 0;
     Integer totalCount = 0;
 
+    // 세션 시작 시간
+    LocalDateTime startTime;
+
+    // 세션 만료 시간
+    LocalDateTime expiryTime;
+
     // 주문 메뉴 일대다 관계
     @OneToMany(mappedBy = "groupOrderDAO", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupOrderMenuDAO> menuItems = new ArrayList<>();
@@ -35,6 +42,8 @@ public class GroupOrderDAO {
         this.boothId = boothId;
         this.tableNum = tableNum;
         this.id = boothId + ":" + tableNum;  // 복합 ID 생성
+        this.startTime = LocalDateTime.now();
+        this.expiryTime = this.startTime.plusMinutes(10); // 10분 후 만료
     }
 
     // 참여 인원 증가

@@ -20,24 +20,36 @@ public class JoinSessionBean {
 
     private final GroupOrderRepositoryJPA groupOrderRepositoryJPA;
     private final SimpMessagingTemplate messagingTemplate;
+    private final SessionTimeOutManage sessionTimeOutManage;
 
     @Autowired
-    public JoinSessionBean(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate) {
+    public JoinSessionBean(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate, SessionTimeOutManage sessionTimeOutManage) {
         this.groupOrderRepositoryJPA = groupOrderRepositoryJPA;
         this.messagingTemplate = messagingTemplate;
+        this.sessionTimeOutManage = sessionTimeOutManage;
     }
+
 
     // 주문 참여
     @Transactional
     public void exec(UUID boothId, Integer tableNum, String webSocketSessionId) {
-        // 세션 조회 또는 생성
-        GroupOrderDAO session = getOrCreateSession(boothId, tableNum);
+        try {
+            // 세션 조회 또는 생성
+            GroupOrderDAO session = getOrCreateSession(boothId, tableNum);
 
-        // 초기화 메시지 발송 (해당 클라이언트에게만)
-        sendInitMessage(webSocketSessionId, session);
+            // 초기화 메시지 발송 (해당 클라이언트에게만)
+            sendInitMessage(webSocketSessionId, session);
 
-        // 멤버 업데이트 메시지 발송 (모든 클라이언트에게)
-        sendMemberUpdateMessage(session);
+            // 멤버 업데이트 메시지 발송 (모든 클라이언트에게)
+            sendMemberUpdateMessage(session);
+
+            // 세션이 새로 생성된 경우에만 타임아웃 스케줄링
+            // 참고: sessionTimeoutManager는 세션이 이미 있는 경우 타이머를 재설정하지 않음
+            sessionTimeOutManage.scheduleSessionTimeout(boothId, tableNum);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e; // 예외를 다시 던져서 글로벌 예외 처리기가 처리하도록 함
+        }
 
     }
 
@@ -57,6 +69,7 @@ public class JoinSessionBean {
 
         // DB에 세션 저장
         groupOrderRepositoryJPA.save(session);
+        groupOrderRepositoryJPA.flush();
 
         // 세션 반환
         return session;

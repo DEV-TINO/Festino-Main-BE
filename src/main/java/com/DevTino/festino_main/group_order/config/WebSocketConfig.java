@@ -2,6 +2,7 @@ package com.DevTino.festino_main.group_order.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -29,10 +30,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     }
 
     @Bean
+    @Primary // 여러 TaskScheduler 빈이 있을 경우 이 빈을 우선 사용
     public TaskScheduler taskScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setPoolSize(10);
-        scheduler.setThreadNamePrefix("ws-scheduler-");
+        scheduler.setPoolSize(10); // 스레드 풀 크기
+        scheduler.setThreadNamePrefix("scheduled-task-"); // 스레드 이름 접두사
+        scheduler.setDaemon(true); // 데몬 스레드로 설정
         scheduler.initialize();
         return scheduler;
     }

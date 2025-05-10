@@ -7,6 +7,7 @@ public enum TopicMessageType {
     MEMBERUPDATE,   // 멤버 수 변경
     UNSUB,          // 구독취소
     STARTORDER,     // 주문시작
+    TIMEUPDATE,     // 세션 1분마다 업데이트
     PRESESSIONEND,  // 세션 종료 전
     SESSIONEND,      // 세션 종료
     ERROR           // 에러 메시지
