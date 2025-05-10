@@ -4,6 +4,7 @@ import com.DevTino.festino_main.menu.bean.small.CreateMenusDTOBean;
 import com.DevTino.festino_main.menu.bean.small.GetMenuDAOBean;
 import com.DevTino.festino_main.menu.domain.DTO.ResponseMenuGetDTO;
 import com.DevTino.festino_main.menu.domain.entity.MenuDAO;
+import com.DevTino.festino_main.menu.domain.entity.MenuType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,24 @@ public class GetMenusBean {
         List<MenuDAO> menuDAOList = getMenuDAOBean.exec(boothId);
         if(menuDAOList.isEmpty()) return null;
 
+        return createMenusDTOBean.exec(menuDAOList);
+    }
+
+    // 카테고리 별 부스 메뉴 전체 조회
+    public List<ResponseMenuGetDTO> exec(UUID boothId, String menuType){
+
+        List<MenuDAO> menuDAOList;
+
+        // menuType에 맞춰 메뉴 가져오기
+        if ("all".equals(menuType)){
+            menuDAOList = getMenuDAOBean.exec(boothId);
+        } else {
+            MenuType type = MenuType.valueOf(menuType.toUpperCase());
+            menuDAOList = getMenuDAOBean.exec(boothId,type);
+        }
+        if(menuDAOList.isEmpty()) return null;
+
+        // 메뉴 DTO 리스트 반환
         return createMenusDTOBean.exec(menuDAOList);
     }
 }
