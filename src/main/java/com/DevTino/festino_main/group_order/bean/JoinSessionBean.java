@@ -69,6 +69,7 @@ public class JoinSessionBean {
 
         // DB에 세션 저장
         groupOrderRepositoryJPA.save(session);
+        // 트랜잭션이 아직 커밋되지 않았더라도 현재 변경사항을 즉시 DB에 반영
         groupOrderRepositoryJPA.flush();
 
         // 세션 반환
