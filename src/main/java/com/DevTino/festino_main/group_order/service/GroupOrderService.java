@@ -18,7 +18,7 @@ public class GroupOrderService {
     private final UnSubSessionBean unsubSessionBean;
     private final StartOrderBean startOrderBean;
 
-    // 주문 세션 참여 - connect 시 호출됨
+    // 주문 세션 참여 - subscirbe 시 호출됨
     public void joinOrderSession(UUID boothId, Integer tableNum, String sessionId) {
         joinSessionBean.exec(boothId, tableNum, sessionId);
     }
