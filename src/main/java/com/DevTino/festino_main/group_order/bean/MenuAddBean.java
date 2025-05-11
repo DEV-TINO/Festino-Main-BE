@@ -65,6 +65,8 @@ public class MenuAddBean {
         MenuInfo menuInfo = MenuInfo.builder()
                 .menuId(menuId)
                 .menuCount(session.getMenuCount(menuId))
+                .totalPrice(session.getTotalPrice())
+                .totalCount(session.getTotalCount())
                 .build();
 
         // 메시지 생성

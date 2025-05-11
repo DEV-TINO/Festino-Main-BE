@@ -589,6 +589,15 @@
         // 메뉴 정보 업데이트
         menus[data.payload.menuId] = data.payload.menuCount;
 
+        // 총 가격 및 수량 업데이트 (서버에서 제공한 값으로)
+        if (data.payload.totalPrice !== undefined) {
+            totalPriceSpan.textContent = data.payload.totalPrice;
+        }
+
+        if (data.payload.totalCount !== undefined) {
+            totalCountSpan.textContent = data.payload.totalCount;
+        }
+
         // 메뉴 목록 업데이트
         updateMenuList();
     }
@@ -675,7 +684,7 @@
 
         const menuIds = Object.keys(menus);
         let totalCount = 0;
-        
+
         if (menuIds.length === 0) {
             menuListDiv.innerHTML = '<div>주문한 메뉴가 없습니다.</div>';
             return;
@@ -684,7 +693,7 @@
         menuIds.forEach(menuId => {
             const count = menus[menuId];
             totalCount += count;
-            
+
             const item = document.createElement('div');
             item.className = 'menu-item';
 

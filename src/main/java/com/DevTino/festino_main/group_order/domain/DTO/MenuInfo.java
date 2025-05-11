@@ -14,4 +14,6 @@ import java.util.UUID;
 public class MenuInfo {
     UUID menuId;
     Integer menuCount;
+    Integer totalPrice;
+    Integer totalCount;
 }
