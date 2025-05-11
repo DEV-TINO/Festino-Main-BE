@@ -15,6 +15,7 @@ public class SaveRealTimeAnswerDAOBean {
         this.realTimeParticipantRepositoryJPA = realTimeParticipantRepositoryJPA;
     }
 
+    // 참여자 DAO 객체 저장
     public void exec(RealTimeParticipantDAO realTimeParticipantDAO){
         realTimeParticipantRepositoryJPA.save(realTimeParticipantDAO);
     }

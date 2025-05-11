@@ -22,8 +22,9 @@ public class CreateRealTimeQuestionDAOBean {
     }
 
     public RealTimeQuestionDAO exec(RequestRealTimeQuestionSaveDTO requestRealTimeQuestionSaveDTO){
-        long count  = realTimeRepositoryJPA.count();
 
+        // 문제 하나 생성할 때마다 해당 문제가 열리는 날짜 1일씩 증가
+        long count  = realTimeRepositoryJPA.count();
 
         // 실전용
 //        LocalDate baseDate = LocalDate.of(2025, 5, 26);
@@ -39,6 +40,7 @@ public class CreateRealTimeQuestionDAOBean {
         LocalDateTime startTime = targetDate.atTime(0, 1);
         LocalDateTime endTime = targetDate.atTime(23, 59);
 
+        // 현재시간을 받아서 해당 시간에 해당하는 문제 제공
         Boolean isOpen =
                 DateTimeUtils.nowZone().isAfter(startTime) && DateTimeUtils.nowZone().isBefore(endTime);
 

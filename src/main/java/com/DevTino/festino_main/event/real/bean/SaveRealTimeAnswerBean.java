@@ -28,11 +28,14 @@ public class SaveRealTimeAnswerBean {
 
     public UUID exec(RequestRealTimeAnswerSaveDTO requestRealTimeAnswerSaveDTO){
 
+        // DAO 객체 가져오기
         RealTimeParticipantDAO realTimeParticipantDAO = createRealTimeAnswerDAOBean.exec(requestRealTimeAnswerSaveDTO);
         if(realTimeParticipantDAO == null) return null;
 
+        // DAO 객체 저장
         saveRealTimeAnswerDAOBean.exec(realTimeParticipantDAO);
 
+        // PK 값 반환
         return realTimeParticipantDAO.getRealTimeParticipantId();
     }
 }

@@ -19,9 +19,11 @@ public class GetRealTimeQuestionBean {
     }
 
     public String exec(){
+        // isOpen이 true인 DAO 객체 가져오기
         RealTimeQuestionDAO realTimeQuestionDAO = getRealTimeDAOBean.exec();
         if (realTimeQuestionDAO == null) return null;
 
+        // PK값 반환
         return realTimeQuestionDAO.getQuestion();
     }
 }

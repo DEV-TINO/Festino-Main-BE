@@ -16,6 +16,7 @@ public class GetRealTimeAlreadyParticipantBean {
         this.checkRealTimeUserBean = checkRealTimeUserBean;
     }
 
+    // 참여 여부 가져오기
     public boolean exec(UUID mainUserId, UUID realTimeQuestionId){
         return checkRealTimeUserBean.exec(mainUserId, realTimeQuestionId);
     }

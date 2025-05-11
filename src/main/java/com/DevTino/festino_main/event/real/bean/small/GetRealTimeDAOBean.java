@@ -15,6 +15,7 @@ public class GetRealTimeDAOBean {
         this.realTimeRepositoryJPA = realTimeRepositoryJPA;
     }
 
+    // isOpen 트루인 DAO 값 가져오기
     public RealTimeQuestionDAO exec(){
         return realTimeRepositoryJPA.findByIsOpenTrue();
     }
