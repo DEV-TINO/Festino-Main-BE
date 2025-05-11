@@ -34,7 +34,7 @@ public class SessionTimeOutManage {
 
     private static final int SESSION_TIMEOUT_MINUTES = 10; // 세션 타임아웃 10분
     private static final int WARNING_BEFORE_EXPIRY_MINUTES = 1; // 경고는 만료 1분 전에
-    private static final int TIME_UPDATE_INTERVAL_SECONDS = 1; // 시간 업데이트 간격 (1분)
+    private static final int TIME_UPDATE_INTERVAL_SECONDS = 60; // 시간 업데이트 간격 (1분)
 
     @Autowired
     public SessionTimeOutManage(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate, TaskScheduler taskScheduler) {
