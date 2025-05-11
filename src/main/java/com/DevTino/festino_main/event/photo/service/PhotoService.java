@@ -1,6 +1,7 @@
 package com.DevTino.festino_main.event.photo.service;
 
 import com.DevTino.festino_main.event.photo.bean.DeletePhotoBean;
+import com.DevTino.festino_main.event.photo.bean.GetMainUserPhotosBean;
 import com.DevTino.festino_main.event.photo.bean.GetPhotosBean;
 import com.DevTino.festino_main.event.photo.bean.SavePhotoBean;
 import com.DevTino.festino_main.event.photo.domain.dto.RequestPhotoDeleteDTO;
@@ -16,12 +17,14 @@ import java.util.UUID;
 public class PhotoService {
 
     GetPhotosBean getPhotosBean;
+    GetMainUserPhotosBean getMainUserPhotosBean;
     SavePhotoBean savePhotoBean;
     DeletePhotoBean deletePhotoBean;
 
     @Autowired
-    public PhotoService(GetPhotosBean getPhotosBean, SavePhotoBean savePhotoBean, DeletePhotoBean deletePhotoBean) {
+    public PhotoService(GetPhotosBean getPhotosBean, GetMainUserPhotosBean getMainUserPhotosBean, SavePhotoBean savePhotoBean, DeletePhotoBean deletePhotoBean) {
         this.getPhotosBean = getPhotosBean;
+        this.getMainUserPhotosBean = getMainUserPhotosBean;
         this.savePhotoBean = savePhotoBean;
         this.deletePhotoBean = deletePhotoBean;
     }
@@ -29,6 +32,11 @@ public class PhotoService {
     // 사진 게시물 가져오기
     public List<ResponsePhotoGetDTO> getPhotos(String type) {
         return getPhotosBean.exec(type);
+    }
+
+    // 유저의 사진 게시물 가져오기
+    public List<ResponsePhotoGetDTO> getMainUserPhotos(UUID mainUserId, String type) {
+        return getMainUserPhotosBean.exec(mainUserId, type);
     }
 
     // 사진 게시물 등록

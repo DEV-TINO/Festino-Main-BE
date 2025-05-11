@@ -46,6 +46,27 @@ public class PhotoController {
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
 
+    // 유저 사진 게시물 전체 조회
+    @GetMapping("all/{type}/user/{mainUserId}")
+    public ResponseEntity<Map<String, Object>> getUserPhotos(@PathVariable("type") String type, @PathVariable("mainUserId") UUID mainUserId) {
+
+        // 사진 게시물 전체 조회 service 실행
+        List<ResponsePhotoGetDTO> responsePhotoGetDTOList = photoService.getMainUserPhotos(mainUserId, type);
+
+        // 사진 게시물 전체 조회 성공 여부 설정
+        boolean success = responsePhotoGetDTOList != null;
+
+        // Map 이용해서 메시지와 id 값 json 데이터로 변환
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("success", success);
+        requestMap.put("message", success ? "사진 게시물 조회 성공" : "사진 게시물 조회 시 DAO 검색 실패");
+        requestMap.put("photoInfo", responsePhotoGetDTOList);
+
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+    }
+
+
     // 사진 게시물 등록
     @PostMapping
     public ResponseEntity<Map<String, Object>> savePhoto(@RequestBody RequestPhotoSaveDTO requestPhotoSaveDTO) {
