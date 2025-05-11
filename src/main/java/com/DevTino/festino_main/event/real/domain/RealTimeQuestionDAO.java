@@ -19,8 +19,6 @@ public class RealTimeQuestionDAO {
 
     String question;
 
-    Boolean isOpen;
-
     LocalDateTime startTime;
     LocalDateTime endTime;
 

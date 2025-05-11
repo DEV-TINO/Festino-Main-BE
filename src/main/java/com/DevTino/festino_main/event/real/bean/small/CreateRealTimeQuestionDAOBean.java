@@ -40,15 +40,10 @@ public class CreateRealTimeQuestionDAOBean {
         LocalDateTime startTime = targetDate.atTime(0, 1);
         LocalDateTime endTime = targetDate.atTime(23, 59);
 
-        // 현재시간을 받아서 해당 시간에 해당하는 문제 제공
-        Boolean isOpen =
-                DateTimeUtils.nowZone().isAfter(startTime) && DateTimeUtils.nowZone().isBefore(endTime);
-
 
         return RealTimeQuestionDAO.builder()
                 .realTimeQuestionId(UUID.randomUUID())
                 .question(requestRealTimeQuestionSaveDTO.getQuestion())
-                .isOpen(isOpen)
                 .startTime(startTime)
                 .endTime(endTime)
                 .createAt(LocalDateTime.now())
