@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.group_order.controller;
 
+import com.DevTino.festino_main.group_order.domain.DTO.MenuInfo;
 import com.DevTino.festino_main.group_order.domain.DTO.OrderMessageDTO;
 import com.DevTino.festino_main.group_order.domain.ENUM.AppMessageType;
 import com.DevTino.festino_main.group_order.domain.ENUM.TopicMessageType;
@@ -14,6 +15,7 @@ import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Slf4j
@@ -28,14 +30,19 @@ public class GroupOrderController {
     public void processOrder(OrderMessageDTO request, SimpMessageHeaderAccessor headerAccessor) {
         try {
             String typeStr = request.getType();
-
             if (AppMessageType.MENUADD.name().equals(typeStr)) {
                 // 메뉴 추가
-                groupOrderService.addMenu(request.getBoothId(), request.getTableNum(), request.getMenuInfo().getMenuId());
+                // payload가 Map으로 변환됨
+                Map<String, Object> payload = (Map<String, Object>) request.getPayload();
+                UUID menuId = UUID.fromString(payload.get("menuId").toString());
+                groupOrderService.addMenu(request.getBoothId(), request.getTableNum(), menuId);
             }
             else if (AppMessageType.MENUSUB.name().equals(typeStr)) {
                 // 메뉴 감소
-                groupOrderService.subMenu(request.getBoothId(), request.getTableNum(), request.getMenuInfo().getMenuId());
+                // payload가 Map으로 변환됨
+                Map<String, Object> payload = (Map<String, Object>) request.getPayload();
+                UUID menuId = UUID.fromString(payload.get("menuId").toString());
+                groupOrderService.subMenu(request.getBoothId(), request.getTableNum(), menuId);
             }
             else if (AppMessageType.UNSUB.name().equals(typeStr)) {
                 // 구독 취소
@@ -54,7 +61,7 @@ public class GroupOrderController {
                     .type(TopicMessageType.ERROR.name()) // 문자열로 설정
                     .boothId(request.getBoothId())
                     .tableNum(request.getTableNum())
-                    .errorMessage("요청 처리 중 오류 발생: " + e.getMessage())
+                    .payload("요청 처리 중 오류 발생: " + e.getMessage())
                     .build();
 
             // 에러 메시지 전송

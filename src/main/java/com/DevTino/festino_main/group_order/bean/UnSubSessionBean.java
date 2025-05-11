@@ -72,8 +72,6 @@ public class UnSubSessionBean {
     // 모든 클라이언트에게 멤버 업데이트 메시지 전송
     private void sendMemberUpdateMessage(GroupOrderDAO session) {
         MemberInfo memberInfo = MemberInfo.builder()
-                .boothId(session.getBoothId())
-                .tableNum(session.getTableNum())
                 .memberCount(session.getMemberCount())
                 .build();
 
@@ -81,7 +79,7 @@ public class UnSubSessionBean {
                 .type(TopicMessageType.MEMBERUPDATE.name())
                 .boothId(session.getBoothId())
                 .tableNum(session.getTableNum())
-                .memberInfo(memberInfo)
+                .payload(memberInfo)
                 .build();
 
         String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();

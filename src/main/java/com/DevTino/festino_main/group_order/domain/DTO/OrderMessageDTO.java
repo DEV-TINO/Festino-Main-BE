@@ -11,15 +11,11 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderMessageDTO {
+public class OrderMessageDTO<T> {
     String type;
     UUID boothId;
     Integer tableNum;
 
-    // 메시지 타입에 따라 포함되는 정보 객체
-    InitInfo initInfo;       // 초기화 정보 (INIT 타입)
-    MenuInfo menuInfo;       // 메뉴 정보 (MENUUPDATE 타입)
-    MemberInfo memberInfo;   // 멤버 정보 (MEMBERUPDATE 타입)
-    TimeInfo timeInfo;       // 시간 정보 (TIMEUPDATE 타입)
-    String errorMessage;     // 에러 메시지 추가 (ERROR 타입)
+    // 메시지 타입에 따라 저장되는 객체 변환
+    T payload;
 }

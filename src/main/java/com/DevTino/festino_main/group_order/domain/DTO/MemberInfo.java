@@ -12,7 +12,5 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberInfo {
-    UUID boothId;
-    Integer tableNum;
     Integer memberCount;
 }

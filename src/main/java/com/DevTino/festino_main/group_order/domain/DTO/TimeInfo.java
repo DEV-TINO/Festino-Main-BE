@@ -12,7 +12,5 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TimeInfo {
-    UUID boothId;
-    Integer tableNum;
     Integer remainingMinutes;  // 남은 시간
 }

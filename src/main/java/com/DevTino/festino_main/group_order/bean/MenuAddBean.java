@@ -72,7 +72,7 @@ public class MenuAddBean {
                 .type(String.valueOf(TopicMessageType.MENUUPDATE))
                 .boothId(session.getBoothId())
                 .tableNum(session.getTableNum())
-                .menuInfo(menuInfo)
+                .payload(menuInfo)
                 .build();
 
         // 모든 구독자에게 메시지 전송

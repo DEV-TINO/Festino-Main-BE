@@ -13,8 +13,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InitInfo {
-    UUID boothId;
-    Integer tableNum;
     Integer memberCount;
     Integer totalPrice;
     Integer totalCount;

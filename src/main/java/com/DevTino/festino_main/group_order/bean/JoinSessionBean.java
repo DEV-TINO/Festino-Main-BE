@@ -89,8 +89,6 @@ public class JoinSessionBean {
 
         // 초기화 정보 생성
         InitInfo initInfo = InitInfo.builder()
-                .boothId(session.getBoothId())
-                .tableNum(session.getTableNum())
                 .memberCount(session.getMemberCount())
                 .totalPrice(session.getTotalPrice())
                 .totalCount(session.getTotalCount())
@@ -102,7 +100,7 @@ public class JoinSessionBean {
                 .type(String.valueOf(TopicMessageType.INIT))
                 .boothId(session.getBoothId())
                 .tableNum(session.getTableNum())
-                .initInfo(initInfo)
+                .payload(initInfo)
                 .build();
 
         // 특정 사용자에게 메시지 전송 (해당 클라이언트에게만)
@@ -115,8 +113,6 @@ public class JoinSessionBean {
 
         // 멤버 정보 생성
         MemberInfo memberInfo = MemberInfo.builder()
-                .boothId(session.getBoothId())
-                .tableNum(session.getTableNum())
                 .memberCount(session.getMemberCount())
                 .build();
 
@@ -125,7 +121,7 @@ public class JoinSessionBean {
                 .type(String.valueOf(TopicMessageType.MEMBERUPDATE))
                 .boothId(session.getBoothId())
                 .tableNum(session.getTableNum())
-                .memberInfo(memberInfo)
+                .payload(memberInfo)
                 .build();
 
         // 모든 구독자에게 메시지 전송

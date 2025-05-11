@@ -121,8 +121,6 @@ public class SessionTimeOutManage {
 
         // TimeInfo DTO 생성
         TimeInfo timeInfo = TimeInfo.builder()
-                .boothId(session.getBoothId())
-                .tableNum(session.getTableNum())
                 .remainingMinutes(remainingMinutes)
                 .build();
 
@@ -131,7 +129,7 @@ public class SessionTimeOutManage {
                 .type(TopicMessageType.TIMEUPDATE.name())
                 .boothId(session.getBoothId())
                 .tableNum(session.getTableNum())
-                .timeInfo(timeInfo)
+                .payload(timeInfo)
                 .build();
 
         // 모든 구독자에게 메시지 전송
