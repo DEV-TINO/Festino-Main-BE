@@ -1,6 +1,5 @@
 package com.DevTino.festino_main.group_order.controller;
 
-import com.DevTino.festino_main.group_order.domain.DTO.MenuInfo;
 import com.DevTino.festino_main.group_order.domain.DTO.OrderMessageDTO;
 import com.DevTino.festino_main.group_order.domain.ENUM.AppMessageType;
 import com.DevTino.festino_main.group_order.domain.ENUM.TopicMessageType;
