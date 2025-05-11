@@ -2,6 +2,8 @@ package com.DevTino.festino_main.event.real.controller;
 
 import com.DevTino.festino_main.event.real.domain.DTO.RequestRealTimeAnswerSaveDTO;
 import com.DevTino.festino_main.event.real.domain.DTO.RequestRealTimeQuestionSaveDTO;
+import com.DevTino.festino_main.event.real.domain.DTO.ResponseRealTimeQuestionGetDTO;
+import com.DevTino.festino_main.event.real.domain.DTO.ResponseRealTimeQuestionTargetTimeGetDTO;
 import com.DevTino.festino_main.event.real.service.RealTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,19 +28,19 @@ public class RealTimeController {
 
     // 문제 조회
     @GetMapping("/question")
-    ResponseEntity<Map<String, Object>> getRealTimeQuestion(){
+    public ResponseEntity<Map<String, Object>> getRealTimeQuestion() {
 
         // 질문 가져오기
-        String question = realTimeService.getRealTimeQuestion();
+        ResponseRealTimeQuestionGetDTO responseRealTimeQuestionGetDTO = realTimeService.getRealTimeQuestion();
 
         // 퀴즈 조회 성공 여부
-        boolean success = (question == null) ? false : true;
+        boolean success = (responseRealTimeQuestionGetDTO == null) ? false : true;
 
         // Map을 통해 메시지와 id 값 json 데이터로 변환
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
-        requestMap.put("message", success ? "문제 조회 성공": "문제 조회 실패");
-        requestMap.put("question", question);
+        requestMap.put("message", success ? "문제 조회 성공" : "문제 조회 실패");
+        requestMap.put("responseRealTimeQuestionGetDTO", responseRealTimeQuestionGetDTO);
 
         // status, body 설정해서 응답 리턴
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
@@ -47,7 +49,7 @@ public class RealTimeController {
 
     // 문제 생성
     @PostMapping("/question")
-    ResponseEntity<Map<String, Object>> saveRealTimeQuestion(@RequestBody RequestRealTimeQuestionSaveDTO requestRealTimeQuestionSaveDTO){
+    public ResponseEntity<Map<String, Object>> saveRealTimeQuestion(@RequestBody RequestRealTimeQuestionSaveDTO requestRealTimeQuestionSaveDTO){
 
         // PK값 받아오기
         UUID realTimeId = realTimeService.saveRealTimeQuestion(requestRealTimeQuestionSaveDTO);
@@ -68,7 +70,7 @@ public class RealTimeController {
 
     // 답안 저장
     @PostMapping("/answer")
-    ResponseEntity<Map<String, Object>> saveRealTimeAnswer(@RequestBody RequestRealTimeAnswerSaveDTO requestRealTimeAnswerSaveDTO){
+    public ResponseEntity<Map<String, Object>> saveRealTimeAnswer(@RequestBody RequestRealTimeAnswerSaveDTO requestRealTimeAnswerSaveDTO){
 
         // PK 값 가져오기
         UUID realTimeParticipantId = realTimeService.saveRealTimeAnswer(requestRealTimeAnswerSaveDTO);
@@ -89,7 +91,7 @@ public class RealTimeController {
 
     // 참여 여부 조회
     @GetMapping("/participated/mainUserId/{mainUserId}/realTimeQuestionId/{realTimeQuestionId}")
-    ResponseEntity<Map<String, Object>> getRealTimeAlreadyParticipated(@PathVariable("mainUserId") UUID mainUserId, @PathVariable("realTimeQuestionId") UUID realTimeQuestionId){
+    public ResponseEntity<Map<String, Object>> getRealTimeAlreadyParticipated(@PathVariable("mainUserId") UUID mainUserId, @PathVariable("realTimeQuestionId") UUID realTimeQuestionId){
 
         // 참여 여부 가져오기
         boolean alreadyParticipated = realTimeService.getRealTimeAlreadyParticipated(mainUserId, realTimeQuestionId);
@@ -102,4 +104,13 @@ public class RealTimeController {
         // status, body 설정해서 응답 리턴
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
+
+    // 문제 시간 조회
+    @GetMapping("/target/time")
+    public ResponseEntity<Map<String, Object>> getRealTimeQuestionTargetTime(@PathVariable("realTimeQuestionId") UUID realTimeQuestionId){
+
+        // DTO 가져오기
+        ResponseRealTimeQuestionTargetTimeGetDTO responseRealTimeQuestionTargetTimeGetDTO = realTimeService.get
+    }
+
 }

@@ -2,6 +2,7 @@ package com.DevTino.festino_main.event.real.bean;
 
 import com.DevTino.festino_main.event.real.bean.small.CreateRealTimeQuestionDTOBean;
 import com.DevTino.festino_main.event.real.bean.small.GetRealTimeDAOBean;
+import com.DevTino.festino_main.event.real.domain.DTO.ResponseRealTimeQuestionGetDTO;
 import com.DevTino.festino_main.event.real.domain.RealTimeQuestionDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,12 +19,12 @@ public class GetRealTimeQuestionBean {
         this.createRealTimeQuestionDTOBean = createRealTimeQuestionDTOBean;
     }
 
-    public String exec(){
+    public ResponseRealTimeQuestionGetDTO exec(){
         // isOpen이 true인 DAO 객체 가져오기
         RealTimeQuestionDAO realTimeQuestionDAO = getRealTimeDAOBean.exec();
         if (realTimeQuestionDAO == null) return null;
 
-        // PK값 반환
-        return realTimeQuestionDAO.getQuestion();
+        // DTO 생성 후 반환
+        return createRealTimeQuestionDTOBean.exec(realTimeQuestionDAO);
     }
 }

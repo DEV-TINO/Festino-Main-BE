@@ -8,8 +8,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class CreateRealTimeQuestionDTOBean {
 
+    // DTO 생성 후 반환
     public ResponseRealTimeQuestionGetDTO exec(RealTimeQuestionDAO realTimeQuestionDAO){
         return ResponseRealTimeQuestionGetDTO.builder()
+                .realTimeQuestionId(realTimeQuestionDAO.getRealTimeQuestionId())
                 .question(realTimeQuestionDAO.getQuestion())
                 .build();
     }
