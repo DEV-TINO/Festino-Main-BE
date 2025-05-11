@@ -4,11 +4,10 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @Builder
-public class ResponseRealTimeQuestionGetDTO {
-    UUID realTimeQuestionId;
-    String question;
+public class ResponseRealTimeQuestionNextTimeGetDTO {
+    LocalDateTime startTime;
+    LocalDateTime endTime;
 }

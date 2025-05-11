@@ -3,7 +3,7 @@ package com.DevTino.festino_main.event.real.controller;
 import com.DevTino.festino_main.event.real.domain.DTO.RequestRealTimeAnswerSaveDTO;
 import com.DevTino.festino_main.event.real.domain.DTO.RequestRealTimeQuestionSaveDTO;
 import com.DevTino.festino_main.event.real.domain.DTO.ResponseRealTimeQuestionGetDTO;
-import com.DevTino.festino_main.event.real.domain.DTO.ResponseRealTimeQuestionTargetTimeGetDTO;
+import com.DevTino.festino_main.event.real.domain.DTO.ResponseRealTimeQuestionNextTimeGetDTO;
 import com.DevTino.festino_main.event.real.service.RealTimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -106,11 +106,22 @@ public class RealTimeController {
     }
 
     // 문제 시간 조회
-    @GetMapping("/target/time")
-    public ResponseEntity<Map<String, Object>> getRealTimeQuestionTargetTime(@PathVariable("realTimeQuestionId") UUID realTimeQuestionId){
+    @GetMapping("/next/question")
+    public ResponseEntity<Map<String, Object>> getRealTimeQuestionNextTime() {
 
         // DTO 가져오기
-        ResponseRealTimeQuestionTargetTimeGetDTO responseRealTimeQuestionTargetTimeGetDTO = realTimeService.get
-    }
+        ResponseRealTimeQuestionNextTimeGetDTO responseRealTimeQuestionNextTimeGetDTO = realTimeService.getRealTimeQuestionNextTime();
 
+        // DTO 객체 존재 여부
+        boolean success = responseRealTimeQuestionNextTimeGetDTO != null;
+
+        // Map을 통해 메시지와 id 값 json 데이터로 변환
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("success", success);
+        requestMap.put("message", success ? "문제 시간 조회 성공" : "문제 시간 조회 실패");
+        requestMap.put("responseRealTimeQuestionNextTimeGetDTO", responseRealTimeQuestionNextTimeGetDTO);
+
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+    }
 }
