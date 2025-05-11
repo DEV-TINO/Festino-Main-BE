@@ -173,10 +173,17 @@ public class SessionTimeOutManage {
 
     // 세션 종료 전 경고 메시지 전송
     private void sendPreSessionEndMessage(GroupOrderDAO session) {
+        int remainingMinutes = getRemainingMinutes(session.getId());
+
+        TimeInfo timeInfo = TimeInfo.builder()
+                .remainingMinutes(remainingMinutes)
+                .build();
+
         OrderMessageDTO message = OrderMessageDTO.builder()
                 .type(TopicMessageType.PRESESSIONEND.name())
                 .boothId(session.getBoothId())
                 .tableNum(session.getTableNum())
+                .payload(timeInfo)
                 .build();
 
         String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
@@ -185,10 +192,17 @@ public class SessionTimeOutManage {
 
     // 세션 종료 메시지 전송
     private void sendSessionEndMessage(GroupOrderDAO session) {
+        int remainingMinutes = getRemainingMinutes(session.getId());
+
+        TimeInfo timeInfo = TimeInfo.builder()
+                .remainingMinutes(remainingMinutes)
+                .build();
+
         OrderMessageDTO message = OrderMessageDTO.builder()
                 .type(TopicMessageType.SESSIONEND.name())
                 .boothId(session.getBoothId())
                 .tableNum(session.getTableNum())
+                .payload(timeInfo)
                 .build();
 
         String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
