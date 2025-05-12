@@ -23,6 +23,22 @@ public class MainUserController {
         this.mainUserService = mainUserService;
     }
 
+    // 유저 로그인
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> getMainUser(@RequestParam("phone-num") String phoneNum, @RequestParam("main-user-name") String mainUserName) {
+
+        UUID mainUserId = mainUserService.getMainUser(phoneNum, mainUserName);
+
+        boolean success = mainUserId != null;
+
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("success", success);
+        requestMap.put("message", success ? "로그인 성공" : "로그인 실패");
+        requestMap.put("mainUserId", mainUserId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+    }
+
     // 사용자 정보 저장
     @PostMapping
     public ResponseEntity<Map<String, Object>> saveMainUser(@RequestBody RequestMainUserSaveDTO requestMainUserSaveDTO) {

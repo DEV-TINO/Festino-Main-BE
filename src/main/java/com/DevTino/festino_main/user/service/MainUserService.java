@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.user.service;
 
+import com.DevTino.festino_main.user.bean.GetMainUserBean;
 import com.DevTino.festino_main.user.bean.SaveMainUserBean;
 import com.DevTino.festino_main.user.bean.SendMessageMainUserAuthorizationBean;
 import com.DevTino.festino_main.user.domain.dto.RequestMainUserSaveDTO;
@@ -11,13 +12,20 @@ import java.util.UUID;
 @Service
 public class MainUserService {
 
+    GetMainUserBean getMainUserBean;
     SaveMainUserBean saveMainUserBean;
     SendMessageMainUserAuthorizationBean sendMessageMainUserAuthorizationBean;
 
     @Autowired
-    public MainUserService(SaveMainUserBean saveMainUserBean, SendMessageMainUserAuthorizationBean sendMessageMainUserAuthorizationBean) {
+    public MainUserService(GetMainUserBean getMainUserBean, SaveMainUserBean saveMainUserBean, SendMessageMainUserAuthorizationBean sendMessageMainUserAuthorizationBean) {
+        this.getMainUserBean = getMainUserBean;
         this.saveMainUserBean = saveMainUserBean;
         this.sendMessageMainUserAuthorizationBean = sendMessageMainUserAuthorizationBean;
+    }
+
+    // 유저 로그인
+    public UUID getMainUser(String phoneNum, String mainUserName) {
+        return getMainUserBean.exec(phoneNum, mainUserName);
     }
 
     // 사용자 정보 저장
