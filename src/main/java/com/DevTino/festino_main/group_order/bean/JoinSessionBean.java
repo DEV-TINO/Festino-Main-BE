@@ -32,13 +32,10 @@ public class JoinSessionBean {
 
     // 주문 참여
     @Transactional
-    public void exec(UUID boothId, Integer tableNum, String webSocketSessionId) {
+    public void exec(UUID boothId, Integer tableNum) {
         try {
             // 세션 조회 또는 생성
             GroupOrderDAO session = getOrCreateSession(boothId, tableNum);
-
-            // 초기화 메시지 발송 (해당 클라이언트에게만)
-            sendInitMessage(webSocketSessionId, session);
 
             // 멤버 업데이트 메시지 발송 (모든 클라이언트에게)
             sendMemberUpdateMessage(session);
@@ -74,38 +71,6 @@ public class JoinSessionBean {
 
         // 세션 반환
         return session;
-    }
-
-    // 초기화 메시지 전송 (해당 클라이언트에게만)
-    private void sendInitMessage(String webSocketSessionId, GroupOrderDAO session) {
-
-        // 메뉴 목록 List로 변환
-        List<MenuInfo> menuInfoList = session.getMenuItems().stream()
-                .map(item -> MenuInfo.builder()
-                        .menuId(item.getMenuId())
-                        .menuCount(item.getMenuCount())
-                        .build())
-                .toList();
-
-        // 초기화 정보 생성
-        InitInfo initInfo = InitInfo.builder()
-                .memberCount(session.getMemberCount())
-                .totalPrice(session.getTotalPrice())
-                .totalCount(session.getTotalCount())
-                .menuList(menuInfoList)
-                .build();
-
-        // 메시지 생성
-        OrderMessageDTO initMessage = OrderMessageDTO.builder()
-                .type(String.valueOf(TopicMessageType.INIT))
-                .boothId(session.getBoothId())
-                .tableNum(session.getTableNum())
-                .payload(initInfo)
-                .build();
-
-        // 특정 사용자에게 메시지 전송 (해당 클라이언트에게만)
-        String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
-        messagingTemplate.convertAndSendToUser(webSocketSessionId, destination, initMessage);
     }
 
     // 멤버 업데이트 메시지 전송 (모든 클라이언트에게)

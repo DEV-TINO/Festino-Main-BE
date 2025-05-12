@@ -510,12 +510,6 @@
         try {
             const data = JSON.parse(message.body);
 
-            // 특정 세션 대상 메시지인지 확인하고 필터링
-            if (data.targetSessionId && data.targetSessionId !== stompClient.sessionId) {
-                log(`다른 세션(${data.targetSessionId})을 위한 메시지, 무시합니다.`);
-                return;
-            }
-
             switch (data.type) {
                 case "INIT":
                     handleInitMessage(data);

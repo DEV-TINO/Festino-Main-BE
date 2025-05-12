@@ -74,16 +74,38 @@ public class GroupOrderController {
         String destination = headerAccessor.getDestination();
         String sessionId = headerAccessor.getSessionId();
 
+//        try {
+//            // 일반 구독 패턴 /topic/{boothId}/{tableNum}
+//            if (destination != null && (destination.startsWith("/topic/") || destination.startsWith("/user/"))) {
+//                String[] parts = destination.split("/");
+//                if (parts.length == 4) {
+//                    UUID boothId = UUID.fromString(parts[2]);
+//                    Integer tableNum = Integer.parseInt(parts[3]);
+//
+//                    // 주문 세션 참여 처리
+//                    groupOrderService.joinOrderSession(boothId, tableNum, sessionId);
+//                }
+//            }
+//        } catch (Exception e) {
+//            log.error("구독 처리 오류: {}", e.getMessage(), e);
+//        }
         try {
-            // 일반 구독 패턴 /topic/{boothId}/{tableNum}
-            if (destination != null && (destination.startsWith("/topic/") || destination.startsWith("/user/"))) {
+            if (destination != null) {
                 String[] parts = destination.split("/");
-                if (parts.length == 4) {
-                    UUID boothId = UUID.fromString(parts[2]);
-                    Integer tableNum = Integer.parseInt(parts[3]);
+                UUID boothId = null;
+                Integer tableNum = null;
 
-                    // 주문 세션 참여 처리
-                    groupOrderService.joinOrderSession(boothId, tableNum, sessionId);
+                // 일반 토픽 구독: /topic/{boothId}/{tableNum}
+                if (destination.startsWith("/topic/") && parts.length == 4) {
+                    boothId = UUID.fromString(parts[2]);
+                    tableNum = Integer.parseInt(parts[3]);
+                    groupOrderService.joinOrderSession(boothId, tableNum);
+                }
+                // 사용자별 토픽 구독: /user/{sessionId}/topic/{boothId}/{tableNum}
+                else if (destination.startsWith("/user/") && parts.length >= 6 && "topic".equals(parts[3])) {
+                    boothId = UUID.fromString(parts[4]);
+                    tableNum = Integer.parseInt(parts[5]);
+                    groupOrderService.sendInitMessage(boothId, tableNum, sessionId);
                 }
             }
         } catch (Exception e) {
