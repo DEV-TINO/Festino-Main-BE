@@ -57,10 +57,8 @@ public class SessionTimeOutManage {
                     endTasks.containsKey(sessionId) ||
                     timeUpdateTasks.containsKey(sessionId);
 
-            System.out.println("hasExistingTasks = " + hasExistingTasks);
             // 이미 태스크가 있으면(세션이 이미 설정되어 있으면) 아무것도 하지 않음
             if (hasExistingTasks) {
-                System.out.println("세션(" + sessionId + ")에 대한 타이머가 이미 존재합니다. 타이머 재설정 없음.");
                 return;
             }
 
