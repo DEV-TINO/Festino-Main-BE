@@ -18,11 +18,13 @@ import java.util.UUID;
 public class SendInitMessageBean {
     private final GroupOrderRepositoryJPA groupOrderRepositoryJPA;
     private final SimpMessagingTemplate messagingTemplate;
+    private final SessionTimeOutManage sessionTimeOutManage;
 
     @Autowired
-    public SendInitMessageBean(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate) {
+    public SendInitMessageBean(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate, SessionTimeOutManage sessionTimeOutManage) {
         this.groupOrderRepositoryJPA = groupOrderRepositoryJPA;
         this.messagingTemplate = messagingTemplate;
+        this.sessionTimeOutManage = sessionTimeOutManage;
     }
 
     // 초기화 메시지만 발송 (참여자 수 증가 없음)
@@ -53,12 +55,16 @@ public class SendInitMessageBean {
                         .build())
                 .toList();
 
+        // 남은 시간 계산 (sessionTimeOutManage를 주입받아야 함)
+        int remainingMinutes = sessionTimeOutManage.getRemainingMinutes(session.getId());
+
         // 초기화 정보 생성
         InitInfo initInfo = InitInfo.builder()
                 .memberCount(session.getMemberCount())
                 .totalPrice(session.getTotalPrice())
                 .totalCount(session.getTotalCount())
                 .menuList(menuInfoList)
+                .remainingMinutes(remainingMinutes)
                 .build();
 
         // 메시지 생성

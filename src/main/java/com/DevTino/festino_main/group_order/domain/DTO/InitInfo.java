@@ -15,5 +15,6 @@ public class InitInfo {
     Integer memberCount;
     Integer totalPrice;
     Integer totalCount;
+    Integer remainingMinutes;
     List<MenuInfo> menuList;
 }

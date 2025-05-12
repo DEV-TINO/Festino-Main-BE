@@ -170,6 +170,7 @@
     const memberCountSpan = document.getElementById('memberCount');
     const totalCountSpan = document.getElementById('totalCount');
     const totalPriceSpan = document.getElementById('totalPrice');
+    const timerElement = document.getElementById('session-timer');
 
     // 모달 요소
     const orderModal = document.getElementById('orderModal');
@@ -563,6 +564,7 @@
             }
 
             // UI 업데이트
+            timerElement.textContent = data.payload.remainingMinutes;
             memberCountSpan.textContent = data.payload.memberCount;
             totalCountSpan.textContent = data.payload.totalCount;
             totalPriceSpan.textContent = data.payload.totalPrice;
@@ -633,7 +635,6 @@
     // TIMEUPDATE 메시지 처리 함수 추가
     function handleTimeUpdateMessage(data) {
         // 타이머 요소 가져오기
-        const timerElement = document.getElementById('session-timer');
 
         // 요소가 존재하는지 확인 후 내용 설정
         if (timerElement) {
