@@ -46,22 +46,32 @@ public class SessionTimeOutManage {
     // 새 세션이 생성될 때 호출
     @Transactional
     public void scheduleSessionTimeout(UUID boothId, Integer tableNum) {
-        String sessionId = boothId + ":" + tableNum;
+        try {
+            String sessionId = boothId + ":" + tableNum;
 
-        // 기존 예약 태스크가 있으면 취소
-        cancelExistingTasks(sessionId);
+//            // 기존 예약 태스크가 있으면 취소
+//            cancelExistingTasks(sessionId);
 
-        // 세션 생성 시간 (지금) + 지정된 시간으로 만료 시간 계산
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime expiryTime = now.plusMinutes(SESSION_TIMEOUT_MINUTES);
-        LocalDateTime warningTime = now.plusMinutes(SESSION_TIMEOUT_MINUTES - WARNING_BEFORE_EXPIRY_MINUTES);
+            // 기존 태스크가 있는지 확인
+            boolean hasExistingTasks = warningTasks.containsKey(sessionId) ||
+                    endTasks.containsKey(sessionId) ||
+                    timeUpdateTasks.containsKey(sessionId);
 
-        // DB의 세션 정보 업데이트
-        GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId).orElse(null);
-        if (session != null) {
-            session.setStartTime(now);
-            session.setExpiryTime(expiryTime);
-            groupOrderRepositoryJPA.save(session);
+            System.out.println("hasExistingTasks = " + hasExistingTasks);
+            // 이미 태스크가 있으면(세션이 이미 설정되어 있으면) 아무것도 하지 않음
+            if (hasExistingTasks) {
+                System.out.println("세션(" + sessionId + ")에 대한 타이머가 이미 존재합니다. 타이머 재설정 없음.");
+                return;
+            }
+
+            // 세션 생성 시간 (지금) + 지정된 시간으로 만료 시간 계산
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime expiryTime = now.plusMinutes(SESSION_TIMEOUT_MINUTES);
+            LocalDateTime warningTime = now.plusMinutes(SESSION_TIMEOUT_MINUTES - WARNING_BEFORE_EXPIRY_MINUTES);
+
+            // DB의 세션 정보 업데이트
+            GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId)
+                    .orElseThrow(() -> new RuntimeException("Order session not found: " + sessionId));
 
             // 경고 메시지 태스크 예약
             Instant warningInstant = warningTime.atZone(ZoneId.systemDefault()).toInstant();
@@ -84,6 +94,11 @@ public class SessionTimeOutManage {
 
             // 첫 번째 시간 업데이트 메시지 즉시 전송
             sendTimeUpdateMessage(session);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 
