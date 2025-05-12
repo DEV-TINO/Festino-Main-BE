@@ -1,8 +1,6 @@
 package com.DevTino.festino_main.group_order.bean;
 
-import com.DevTino.festino_main.group_order.domain.DTO.InitInfo;
 import com.DevTino.festino_main.group_order.domain.DTO.MemberInfo;
-import com.DevTino.festino_main.group_order.domain.DTO.MenuInfo;
 import com.DevTino.festino_main.group_order.domain.DTO.OrderMessageDTO;
 import com.DevTino.festino_main.group_order.domain.ENUM.TopicMessageType;
 import com.DevTino.festino_main.group_order.domain.GroupOrderDAO;
@@ -12,7 +10,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Component

@@ -74,21 +74,6 @@ public class GroupOrderController {
         String destination = headerAccessor.getDestination();
         String sessionId = headerAccessor.getSessionId();
 
-//        try {
-//            // 일반 구독 패턴 /topic/{boothId}/{tableNum}
-//            if (destination != null && (destination.startsWith("/topic/") || destination.startsWith("/user/"))) {
-//                String[] parts = destination.split("/");
-//                if (parts.length == 4) {
-//                    UUID boothId = UUID.fromString(parts[2]);
-//                    Integer tableNum = Integer.parseInt(parts[3]);
-//
-//                    // 주문 세션 참여 처리
-//                    groupOrderService.joinOrderSession(boothId, tableNum, sessionId);
-//                }
-//            }
-//        } catch (Exception e) {
-//            log.error("구독 처리 오류: {}", e.getMessage(), e);
-//        }
         try {
             if (destination != null) {
                 String[] parts = destination.split("/");
