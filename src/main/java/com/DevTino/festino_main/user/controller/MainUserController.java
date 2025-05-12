@@ -38,4 +38,20 @@ public class MainUserController {
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
+
+    // 사용자 인증 번호 전송
+    @PostMapping("/authorization")
+    public ResponseEntity<Map<String, Object>> sendMessageMainUserAuthorization(@RequestBody RequestMainUserSaveDTO requestMainUserSaveDTO) {
+
+        UUID mainUserId = mainUserService.sendMessageMainUserAuthorization(requestMainUserSaveDTO);
+
+        boolean success = mainUserId != null;
+
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("success", success);
+        requestMap.put("message", success ? "인증번호 전송 성공" : "인증번호 전송 실패");
+        requestMap.put("mainUserId", mainUserId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+    }
 }
