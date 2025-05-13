@@ -30,6 +30,8 @@ public class SaveMainUserBean {
         // 인증코드 확인
         if (!mainUserDAO.getAuthorizationCode().equals(requestMainUserSaveDTO.getAuthorizationCode())) return null;
 
+        // 3분이 지나면 인증코드 만료
+
         // 인증코드 확인 후 인증 완료
         mainUserDAO.setAuthenticated(true);
 

@@ -42,6 +42,7 @@ public class WebSecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://localhost:3000", "https://festino.dev-tino.com"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList("access-token", "refresh-token"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
