@@ -38,21 +38,39 @@ public class SendMessageMainUserAuthorizationBean {
         // 인증코드 생성
         String authorizationCode = String.valueOf(100000 + secureRandom.nextInt(900000));
 
-        // 중복 제한
-        if (getMainUserDAOBean.exec(requestMainUserSaveDTO.getPhoneNum(), requestMainUserSaveDTO.getMainUserName())!= null) {
-            return null;
+        // 재요청
+        MainUserDAO oldMainUserDAO = getMainUserDAOBean.exec(requestMainUserSaveDTO.getPhoneNum(), requestMainUserSaveDTO.getMainUserName());
+        if (oldMainUserDAO != null) {
+
+            // 인증코드가 인증 안 된 경우
+            if (!oldMainUserDAO.isAuthenticated()){
+                // 인증코드 변경
+                oldMainUserDAO.setAuthorizationCode(authorizationCode);
+                saveMainUserDAOBean.exec(oldMainUserDAO);
+
+                // 인증코드 전송
+                String messageStatus = sendMessageBean.exec(requestMainUserSaveDTO.getPhoneNum(), authorizationCode);
+                if (messageStatus.equals("SEND_FAIL")) return null;
+
+                return oldMainUserDAO.getMainUserId();
+            }
+            else {
+                // 인증코드가 인증 된 경우
+                return null;
+            }
         }
+        else {
+            // 유저 저장
+            MainUserDAO mainUserDAO = createMainUserDAOBean.exec(requestMainUserSaveDTO, authorizationCode);
 
-        // 유저 저장
-        MainUserDAO mainUserDAO = createMainUserDAOBean.exec(requestMainUserSaveDTO, authorizationCode);
+            // DB에 저장
+            saveMainUserDAOBean.exec(mainUserDAO);
 
-        // DB에 저장
-        saveMainUserDAOBean.exec(mainUserDAO);
+            // 인증코드 전송
+            String messageStatus = sendMessageBean.exec(requestMainUserSaveDTO.getPhoneNum(), authorizationCode);
+            if (messageStatus.equals("SEND_FAIL")) return null;
 
-        // 인증코드 전송
-        String messageStatus = sendMessageBean.exec(requestMainUserSaveDTO.getPhoneNum(), authorizationCode);
-        if (messageStatus.equals("SEND_FAIL")) return null;
-
-        return mainUserDAO.getMainUserId();
+            return mainUserDAO.getMainUserId();
+        }
     }
 }
