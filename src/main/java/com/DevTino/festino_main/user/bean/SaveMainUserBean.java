@@ -27,6 +27,8 @@ public class SaveMainUserBean {
         MainUserDAO mainUserDAO = getMainUserDAOBean.exec(requestMainUserSaveDTO.getPhoneNum(), requestMainUserSaveDTO.getMainUserName());
         if (mainUserDAO == null) return null;
 
+        if (mainUserDAO.isAuthenticated()) return null;
+
         // 인증코드 확인
         if (!mainUserDAO.getAuthorizationCode().equals(requestMainUserSaveDTO.getAuthorizationCode())) return null;
 
