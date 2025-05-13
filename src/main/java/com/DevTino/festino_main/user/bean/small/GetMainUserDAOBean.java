@@ -17,6 +17,11 @@ public class GetMainUserDAOBean {
         this.mainUserRepositoryJPA = mainUserRepositoryJPA;
     }
 
+    public MainUserDAO exec(UUID mainUserId) {
+        // 사용자 정보가 있는지 조회
+        return mainUserRepositoryJPA.findByMainUserId(mainUserId);
+    }
+
     // 사용자 정보 조회
     public MainUserDAO exec(String phoneNum, String mainUserName) {
         // 사용자 정보가 있는지 조회

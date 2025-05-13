@@ -24,6 +24,8 @@ public class GetMainUserPhotosBean {
 
     public List<ResponsePhotoGetDTO> exec(UUID mainUserId, String type){
 
+        if (mainUserId == null || type == null) return null;
+
         // 사진 타입 별로 정렬해서 가져오기
         List<PhotoDAO> photoDAOList = getPhotosDAOBean.exec(type);
 

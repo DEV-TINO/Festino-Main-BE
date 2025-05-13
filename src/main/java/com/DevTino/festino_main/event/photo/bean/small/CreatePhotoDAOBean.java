@@ -12,6 +12,14 @@ public class CreatePhotoDAOBean {
 
     public PhotoDAO exec(String mainUserName, RequestPhotoSaveDTO requestPhotoSaveDTO) {
 
+        if (mainUserName.length() == 2) {
+            mainUserName = mainUserName.charAt(0) + "*";
+        } else if (mainUserName.length() >= 3) {
+            StringBuilder sb = new StringBuilder(mainUserName);
+            sb.setCharAt(mainUserName.length() - 2, '*');
+            mainUserName = sb.toString();
+        }
+
         return PhotoDAO.builder()
                 .photoId(UUID.randomUUID())
                 .mainUserId(requestPhotoSaveDTO.getMainUserId())
