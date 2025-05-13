@@ -29,6 +29,8 @@ public class NightBoothDAO {
     String closeTime;
     String boothIntro;
     String instagram;
+    String tossPay;
+    String kakaoPay;
 
     @Convert(converter = StringConverter.class)
     List<String> boothImage;
@@ -36,6 +38,8 @@ public class NightBoothDAO {
     Boolean isOpen;
     Boolean isOrder;
     Boolean isReservation;
+    Boolean isTossPay;
+    Boolean isKakaoPay;
 
     Integer totalReservationNum;
 

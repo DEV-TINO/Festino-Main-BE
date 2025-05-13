@@ -1,0 +1,34 @@
+package com.DevTino.festino_main.booth.bean;
+
+import com.DevTino.festino_main.booth.bean.small.CreateNightBoothKakaoPayDTOBean;
+import com.DevTino.festino_main.booth.bean.small.GetNightBoothDAOBean;
+import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothKakaoPayGetDTO;
+import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.UUID;
+
+@Component
+public class GetKakaoPayInfoBean {
+    GetNightBoothDAOBean getNightBoothDAOBean;
+    CreateNightBoothKakaoPayDTOBean createNightBoothKakaoPayDTOBean;
+
+    @Autowired
+    public GetKakaoPayInfoBean(GetNightBoothDAOBean getNightBoothDAOBean, CreateNightBoothKakaoPayDTOBean createNightBoothKakaoPayDTOBean) {
+        this.getNightBoothDAOBean = getNightBoothDAOBean;
+        this.createNightBoothKakaoPayDTOBean = createNightBoothKakaoPayDTOBean;
+    }
+
+    public ResponseNightBoothKakaoPayGetDTO exec(UUID boothId) {
+        // boothId를 통해 원하는 객체 찾기
+        NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(boothId);
+        if (nightBoothDAO == null) return null;
+
+        // isKakaoPay 여부를 통해 예외처리
+        if (!nightBoothDAO.getIsKakaoPay()) return null;
+
+        // 객체를 DTO로 변환해서 반환
+        return createNightBoothKakaoPayDTOBean.exec(nightBoothDAO);
+    }
+}
