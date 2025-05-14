@@ -86,10 +86,10 @@ public class GroupOrderController {
                     tableNum = Integer.parseInt(parts[3]);
                     groupOrderService.joinOrderSession(boothId, tableNum);
                 }
-                // 사용자별 토픽 구독: /user/{sessionId}/topic/{boothId}/{tableNum}
-                else if (destination.startsWith("/user/") && parts.length >= 6 && "topic".equals(parts[3])) {
-                    boothId = UUID.fromString(parts[4]);
-                    tableNum = Integer.parseInt(parts[5]);
+                // 사용자별 토픽 구독: /user/topic/{boothId}/{tableNum}
+                else if (destination.startsWith("/user/") && parts.length >= 5 && "topic".equals(parts[2])) {
+                    boothId = UUID.fromString(parts[3]);
+                    tableNum = Integer.parseInt(parts[4]);
                     groupOrderService.sendInitMessage(boothId, tableNum, sessionId);
                 }
             }

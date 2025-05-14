@@ -363,7 +363,7 @@
             });
 
             // 사용자별 토픽 구독 추가 (중요: 개인 메시지를 수신하기 위함)
-            const userTopic = `/user/${sessionId}/topic/${boothId}/${tableNum}`;
+            const userTopic = `/user/topic/${boothId}/${tableNum}`;
             log(`사용자별 토픽 구독: ${userTopic}`);
             stompClient.subscribe(userTopic, function(message) {
                 log(`사용자별 메시지 수신: ${message.body}`);

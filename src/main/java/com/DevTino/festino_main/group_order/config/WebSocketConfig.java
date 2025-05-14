@@ -23,7 +23,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         // 클라이언트로 메시지를 보낼 때 사용할 prefix
-        registry.enableSimpleBroker("/topic", "/queue", "/user");
+        registry.enableSimpleBroker("/topic", "/queue");
         // 사용자별 대상 메시징을 위한 prefix 설정
         registry.setUserDestinationPrefix("/user");
         // 클라이언트에서 서버로 메시지를 보낼 때 사용할 prefix
