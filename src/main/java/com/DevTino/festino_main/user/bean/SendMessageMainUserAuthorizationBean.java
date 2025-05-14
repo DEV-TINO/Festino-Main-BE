@@ -44,6 +44,7 @@ public class SendMessageMainUserAuthorizationBean {
 
             // 인증코드가 인증 안 된 경우
             if (!oldMainUserDAO.isAuthenticated()){
+                System.out.println("oldMainUserDAO = " + oldMainUserDAO);
                 // 인증코드 변경
                 oldMainUserDAO.setAuthorizationCode(authorizationCode);
                 saveMainUserDAOBean.exec(oldMainUserDAO);
@@ -51,6 +52,7 @@ public class SendMessageMainUserAuthorizationBean {
                 // 인증코드 전송
                 String messageStatus = sendMessageBean.exec(requestMainUserSaveDTO.getPhoneNum(), authorizationCode);
                 if (messageStatus.equals("SEND_FAIL")) return null;
+
 
                 return oldMainUserDAO.getMainUserId();
             }

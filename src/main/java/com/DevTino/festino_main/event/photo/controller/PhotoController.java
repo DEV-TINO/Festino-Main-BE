@@ -78,7 +78,7 @@ public class PhotoController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "사진 게시물 저장 성공" : "사진 게시물 저장 실패");
-        requestMap.put("reviewId", photoId);
+        requestMap.put("photoId", photoId);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
     }
