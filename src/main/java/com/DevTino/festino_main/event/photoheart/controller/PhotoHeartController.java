@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.event.photoheart.controller;
 
+import com.DevTino.festino_main.event.photoheart.domain.dto.RequestPhotoHeartDeleteDTO;
 import com.DevTino.festino_main.event.photoheart.domain.dto.RequestPhotoHeartSaveDTO;
 import com.DevTino.festino_main.event.photoheart.service.PhotoHeartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,21 @@ public class PhotoHeartController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "사진 게시물 좋아요 저장 성공" : "사진 게시물 좋아요 저장 실패");
+        requestMap.put("photoHeartId", photoHeartId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+    }
+
+    // 사진 좋아요 삭제
+    @DeleteMapping
+    public ResponseEntity<Map<String, Object>> deletePhotoHeart(@RequestBody RequestPhotoHeartDeleteDTO requestPhotoHeartDeleteDTO) {
+        UUID photoHeartId = photoHeartService.deletePhotoHeart(requestPhotoHeartDeleteDTO);
+
+        boolean success = photoHeartId != null;
+
+        Map<String, Object> requestMap = new HashMap<>();
+        requestMap.put("success", success);
+        requestMap.put("message", success ? "사진 게시물 좋아요 삭제 성공" : "사진 게시물 좋아요 삭제 실패");
         requestMap.put("photoHeartId", photoHeartId);
 
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
