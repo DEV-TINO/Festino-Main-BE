@@ -7,6 +7,7 @@ import com.DevTino.festino_main.event.photo.bean.SavePhotoBean;
 import com.DevTino.festino_main.event.photo.domain.dto.RequestPhotoDeleteDTO;
 import com.DevTino.festino_main.event.photo.domain.dto.RequestPhotoSaveDTO;
 import com.DevTino.festino_main.event.photo.domain.dto.ResponsePhotoGetDTO;
+import com.DevTino.festino_main.event.photo.domain.dto.ResponsePhotosGetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +31,12 @@ public class PhotoService {
     }
 
     // 사진 게시물 가져오기
-    public List<ResponsePhotoGetDTO> getPhotos(String type) {
-        return getPhotosBean.exec(type);
+    public ResponsePhotosGetDTO getPhotos(UUID mainUserId, String type) {
+        return getPhotosBean.exec(mainUserId, type);
     }
 
     // 유저의 사진 게시물 가져오기
-    public List<ResponsePhotoGetDTO> getMainUserPhotos(UUID mainUserId, String type) {
+    public ResponsePhotosGetDTO getMainUserPhotos(UUID mainUserId, String type) {
         return getMainUserPhotosBean.exec(mainUserId, type);
     }
 

@@ -11,6 +11,13 @@ public interface PhotoRepositoryJPA extends JpaRepository<PhotoDAO, UUID> {
     // 사진 타입 별로 정렬해서 가져오기
     List<PhotoDAO> findAllByOrderByCreateAtDesc();
 
+    // 사진 타입 별로 정렬해서 가져오기
     List<PhotoDAO> findAllByOrderByHeartCountDesc();
+
+    // 내 사진 타입 별로 정렬해서 가져오기
+    List<PhotoDAO> findAllByMainUserIdOrderByCreateAtDesc(UUID mainUserId);
+
+    // 내 사진 타입 별로 정렬해서 가져오기
+    List<PhotoDAO> findAllByMainUserIdOrderByHeartCountDesc(UUID mainUserId);
 
 }

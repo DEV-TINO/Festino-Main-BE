@@ -12,4 +12,5 @@ public class ResponsePhotoGetDTO {
     private String imageUrl;
     private Integer heartCount;
     private LocalDateTime createAt;
+    private boolean isHeart;
 }

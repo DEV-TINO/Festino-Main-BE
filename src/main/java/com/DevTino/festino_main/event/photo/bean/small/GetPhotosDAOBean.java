@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class GetPhotosDAOBean {
@@ -24,6 +25,18 @@ public class GetPhotosDAOBean {
             return photoRepositoryJPA.findAllByOrderByCreateAtDesc();
         } else if (type.equals("heart")) {
             return photoRepositoryJPA.findAllByOrderByHeartCountDesc();
+        } else {
+            return null;
+        }
+    }
+
+    // 사진 타입 별로 정렬해서 가져오기
+    public List<PhotoDAO> exec(UUID mainUserId, String type){
+        // 타입 판단
+        if (type.equals("new")) {
+            return photoRepositoryJPA.findAllByMainUserIdOrderByCreateAtDesc(mainUserId);
+        } else if (type.equals("heart")) {
+            return photoRepositoryJPA.findAllByMainUserIdOrderByHeartCountDesc(mainUserId);
         } else {
             return null;
         }
