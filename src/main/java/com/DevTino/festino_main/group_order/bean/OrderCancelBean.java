@@ -5,29 +5,25 @@ import com.DevTino.festino_main.group_order.domain.ENUM.TopicMessageType;
 import com.DevTino.festino_main.group_order.domain.GroupOrderDAO;
 import com.DevTino.festino_main.group_order.repository.GroupOrderRepositoryJPA;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class StartOrderBean {
-
+public class OrderCancelBean {
     private final GroupOrderRepositoryJPA groupOrderRepositoryJPA;
     private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
-    public StartOrderBean(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate) {
+    public OrderCancelBean(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate) {
         this.groupOrderRepositoryJPA = groupOrderRepositoryJPA;
         this.messagingTemplate = messagingTemplate;
     }
 
     @Transactional
-    public void exec(UUID boothId, Integer tableNum, String webSocketSessionId) {
+    public void exec(UUID boothId, Integer tableNum) {
         try {
             // 세션 ID 생성
             String sessionId = boothId + ":" + tableNum;
@@ -36,14 +32,14 @@ public class StartOrderBean {
             GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId)
                     .orElseThrow(() -> new RuntimeException("Order session not found: " + sessionId));
 
-            // 주문 진행 중 상태 설정 및 주문시작 버튼 누른 사용자 설정
-            session.startOrder(webSocketSessionId);
+            // 주문 상태 초기화
+            session.resetOrderStatus();
 
             // 세션 저장
             groupOrderRepositoryJPA.save(session);
 
-            // 주문 시작 메시지 전송 (해당 클라이언트 외 모두에게)
-            sendStartOrderMessage(session, webSocketSessionId);
+            // 주문 취소 메시지 전송 (모든 클라이언트에게)
+            sendOrderCancelMessage(session);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,27 +47,17 @@ public class StartOrderBean {
         }
     }
 
-    // 주문 시작 메시지 전송 (해당 클라이언트 외 모두에게)
-    private void sendStartOrderMessage(GroupOrderDAO session, String excludeSessionId) {
+    // 주문 취소 메시지 전송
+    private void sendOrderCancelMessage(GroupOrderDAO session) {
         // 메시지 생성
         OrderMessageDTO message = OrderMessageDTO.builder()
-                .type(TopicMessageType.STARTORDER.name())
+                .type(TopicMessageType.ORDERCANCEL.name())
                 .boothId(session.getBoothId())
                 .tableNum(session.getTableNum())
                 .build();
 
-        // 메시지 전송 (특정 세션 ID 제외)
+        // 모든 구독자에게 메시지 전송
         String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
-
-        // SimpMessagingTemplate에는 특정 세션을 제외하는 메서드 X
-        // 헤더에 제외할 세션 ID를 포함시켜 브로드캐스트
-        messagingTemplate.convertAndSend(destination, message,
-                excludeUser("excludeSessionId", excludeSessionId));
-    }
-
-    private MessageHeaders excludeUser(String key, String value) {
-        Map<String, Object> headers = new HashMap<>();
-        headers.put(key, value);
-        return new MessageHeaders(headers);
+        messagingTemplate.convertAndSend(destination, message);
     }
 }

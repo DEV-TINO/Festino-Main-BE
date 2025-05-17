@@ -29,6 +29,8 @@ public class GroupOrderController {
     public void processOrder(OrderMessageDTO request, SimpMessageHeaderAccessor headerAccessor) {
         try {
             String typeStr = request.getType();
+            String sessionId = headerAccessor.getSessionId();
+
             if (AppMessageType.MENUADD.name().equals(typeStr)) {
                 // 메뉴 추가
                 // payload가 Map으로 변환됨
@@ -45,13 +47,19 @@ public class GroupOrderController {
             }
             else if (AppMessageType.UNSUB.name().equals(typeStr)) {
                 // 구독 취소
-                String sessionId = headerAccessor.getSessionId();
                 groupOrderService.unSubOrderSession(request.getBoothId(), request.getTableNum(), sessionId);
             }
             else if (AppMessageType.STARTORDER.name().equals(typeStr)) {
                 // 주문 시작
-                String sessionId = headerAccessor.getSessionId();
                 groupOrderService.startOrder(request.getBoothId(), request.getTableNum(), sessionId);
+            }
+            else if (AppMessageType.ORDERDONE.name().equals(typeStr)) {
+                // 주문 완료
+                groupOrderService.completeOrder(request.getBoothId(), request.getTableNum());
+            }
+            else if (AppMessageType.ORDERCANCEL.name().equals(typeStr)) {
+                // 주문 취소
+                groupOrderService.cancelOrder(request.getBoothId(), request.getTableNum());
             }
 
         } catch (Exception e) {

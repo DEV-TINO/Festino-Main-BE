@@ -18,6 +18,8 @@ public class GroupOrderService {
     private final UnSubSessionBean unsubSessionBean;
     private final StartOrderBean startOrderBean;
     private final SendInitMessageBean sendInitMessageBean;
+    private final OrderDoneBean orderDoneBean;
+    private final OrderCancelBean orderCancelBean;
 
     // 주문 세션 참여 - 전체 클라이언트에게 전송용 - subscirbe 시 호출됨
     public void joinOrderSession(UUID boothId, Integer tableNum) {
@@ -47,5 +49,15 @@ public class GroupOrderService {
     // 주문 시작
     public void startOrder(UUID boothId, Integer tableNum, String sessionId) {
         startOrderBean.exec(boothId, tableNum, sessionId);
+    }
+
+    // 주문 완료
+    public void completeOrder(UUID boothId, Integer tableNum) {
+        orderDoneBean.exec(boothId, tableNum);
+    }
+
+    // 주문 취소
+    public void cancelOrder(UUID boothId, Integer tableNum) {
+        orderCancelBean.exec(boothId, tableNum);
     }
 }

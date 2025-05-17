@@ -6,4 +6,6 @@ public enum AppMessageType {
     MENUSUB,        // 메뉴 수량 감소
     STARTORDER,     // 주문 시작
     UNSUB,          // 구독 취소 요청
+    ORDERDONE,       // 주문 완료
+    ORDERCANCEL     // 주문 중 취소
 }

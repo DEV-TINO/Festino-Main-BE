@@ -38,6 +38,11 @@ public class MenuAddBean {
             GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId)
                     .orElseThrow(() -> new RuntimeException("Order session not found: " + sessionId));
 
+            // 주문 진행 중이고 요청자가 주문 시작자가 아니면 요청 거부
+            if (session.isOrderInProgress()) {
+                throw new RuntimeException("주문 진행 중에는 메뉴를 변경할 수 없습니다.");
+            }
+
             // 메뉴 조회
             MenuDAO menu = menuRepositoryJPA.findById(menuId)
                     .orElseThrow(() -> new RuntimeException("Menu not found: " + menuId));

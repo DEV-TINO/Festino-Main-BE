@@ -27,6 +27,9 @@ public class GroupOrderDAO {
     Integer totalPrice = 0;
     Integer totalCount = 0;
 
+    boolean orderInProgress = false;
+    String orderInitiatorId = null;
+
     // 세션 시작 시간
     LocalDateTime startTime;
 
@@ -104,5 +107,17 @@ public class GroupOrderDAO {
                 .filter(item -> item.getMenuId().equals(menuId))
                 .findFirst()
                 .orElse(null);
+    }
+
+    // 주문 시작 상태 설정
+    public void startOrder(String initiatorSessionId) {
+        this.orderInProgress = true;
+        this.orderInitiatorId = initiatorSessionId;
+    }
+
+    // 주문 상태 초기화
+    public void resetOrderStatus() {
+        this.orderInProgress = false;
+        this.orderInitiatorId = null;
     }
 }

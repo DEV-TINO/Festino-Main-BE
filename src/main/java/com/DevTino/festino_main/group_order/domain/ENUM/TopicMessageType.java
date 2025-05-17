@@ -10,5 +10,7 @@ public enum TopicMessageType {
     TIMEUPDATE,     // 세션 1분마다 업데이트
     PRESESSIONEND,  // 세션 종료 전
     SESSIONEND,      // 세션 종료
-    ERROR           // 에러 메시지
+    ERROR,           // 에러 메시지
+    ORDERDONE,      // 주문 완료
+    ORDERCANCEL     // 주문 중 취소
 }
