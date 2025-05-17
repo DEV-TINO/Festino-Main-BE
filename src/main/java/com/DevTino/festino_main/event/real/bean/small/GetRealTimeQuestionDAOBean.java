@@ -18,8 +18,14 @@ public class GetRealTimeQuestionDAOBean {
     }
 
     // 현재 시간이 startTime, endTime 안에 있는 DAO 가져오기
-    public RealTimeQuestionDAO exec(LocalDateTime now){
-        return realTimeRepositoryJPA.findTop1ByStartTimeLessThanEqualAndEndTimeGreaterThanEqualOrderByStartTimeAsc(now, now);
+    public RealTimeQuestionDAO exec(LocalDateTime todayStart, LocalDateTime todayEnd, LocalDateTime now){
+        RealTimeQuestionDAO realTimeQuestionDAO = realTimeRepositoryJPA.findTop1ByStartTimeBetweenAndStartTimeLessThanEqualAndEndTimeGreaterThanEqualOrderByStartTimeAsc(todayStart, todayEnd, now, now).orElse(null);
+
+        if (realTimeQuestionDAO != null){
+            return realTimeQuestionDAO;
+        } else {
+            return realTimeRepositoryJPA.findTop1ByStartTimeAfterOrderByStartTimeAsc(now).orElse(null);
+        }
     }
 
 //    public RealTimeQuestionDAO exec(LocalDateTime now){
