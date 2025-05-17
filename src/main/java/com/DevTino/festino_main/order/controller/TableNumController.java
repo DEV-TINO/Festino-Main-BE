@@ -1,13 +1,12 @@
 package com.DevTino.festino_main.order.controller;
 
+import com.DevTino.festino_main.ApiResponse;
 import com.DevTino.festino_main.order.service.TableNumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -24,15 +23,13 @@ public class TableNumController {
 
     // 테이블 번호 조회
     @GetMapping("")
-    public ResponseEntity<Map<String, Object>> getCustomTableNum(@RequestParam(value = "tableNumIndex") Integer tableNumIndex, @RequestParam(value = "boothId") UUID boothId) {
+    public ResponseEntity<ApiResponse<Object>> getCustomTableNum(@RequestParam(value = "tableNumIndex") Integer tableNumIndex, @RequestParam(value = "boothId") UUID boothId) {
         String customTableNum = tableNumService.getCustomTableNum(tableNumIndex, boothId);
 
-        // message, success, id 값 json 데이터로 반환
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", customTableNum != null);
-        requestMap.put("message", (customTableNum == null) ? "table num get fail": "table num get success");
-        requestMap.put("tableNum", (customTableNum == null) ? "" : customTableNum);
+        // Map 이용해서 반환값 json 데이터로 변환
+        ApiResponse<Object> response = new ApiResponse<>(true, "테이블 번호 조회 성공", customTableNum);
 
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

@@ -40,10 +40,8 @@ public class CreateResponseGetDTOBean {
             }
 
             NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(orderDTO.getBoothId());
-            if (nightBoothDAO == null) continue;
 
             TableNumDAO tableNumDAO = getCustomTableNumDAOBean.exec(orderDTO.getTableNum(), orderDTO.getBoothId());
-            if (tableNumDAO == null) continue;
             String tableNum = tableNumDAO.getCustomTableNum();
 
             responseOrderGetDTOList.add(ResponseOrderGetDTO.builder()

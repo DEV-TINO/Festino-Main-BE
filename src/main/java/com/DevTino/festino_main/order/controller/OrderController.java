@@ -1,6 +1,9 @@
 package com.DevTino.festino_main.order.controller;
 
+import com.DevTino.festino_main.ApiResponse;
 import com.DevTino.festino_main.auth.AuthService;
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import com.DevTino.festino_main.order.domain.DTO.RequestOrderSaveDTO;
 import com.DevTino.festino_main.order.domain.DTO.ResponseOrderGetDTO;
 import com.DevTino.festino_main.order.service.OrderService;
@@ -44,49 +47,40 @@ public class OrderController {
 
     // 주문 등록
     @PostMapping("/order")
-    public ResponseEntity<Map<String, Object>> saveOrder(HttpServletRequest request, @RequestBody RequestOrderSaveDTO requestOrderSaveDTO) {
-        Map<String, Object> requestMap = new HashMap<>();
+    public ResponseEntity<ApiResponse<Object>> saveOrder(HttpServletRequest request, @RequestBody RequestOrderSaveDTO requestOrderSaveDTO) {
 
         Bucket orderBucket = resolveOrderBucket();
 
         // Rate Limiting 체크
         if (!orderBucket.tryConsume(1)) {
-            requestMap.put("success", false);
-            requestMap.put("message", "Too many requests, please try again later");
-            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(requestMap);
+            throw new ServiceException(ExceptionEnum.ORDER_RATE_LIMIT_EXCEEDED);
         }
 
         String xCsrfToken = authService.getCookieValue(request, "X-CSRF-Token");
 
         // 토큰 검증
-        if (xCsrfToken == null || authService.isExpired(xCsrfToken)) {
-            requestMap.put("success", false);
-            requestMap.put("message", "Token is missing");
+        if (xCsrfToken == null) throw new ServiceException(ExceptionEnum.CSRF_TOKEN_MISSING);
+        if (authService.isExpired(xCsrfToken)) throw new ServiceException(ExceptionEnum.CSRF_TOKEN_EXPIRED);
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(requestMap);
-        }
-
+        // 주문 등록 service 실행
         UUID orderId = orderService.saveOrder(requestOrderSaveDTO);
 
-        // message, success, id 값 json 데이터로 반환
-        requestMap.put("success", orderId != null);
-        requestMap.put("message", (orderId == null) ? "order failure": "order success");
-        requestMap.put("orderId", (orderId == null) ? "00000000-0000-0000-0000-000000000000" : orderId);
+        // Map 이용해서 반환값 json 데이터로 변환
+        ApiResponse<Object> response = new ApiResponse<>(true, "주문 등록 성공", orderId);
 
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 주문 조회
     @GetMapping("/order")
-    public ResponseEntity<Map<String, Object>> getOrder(@RequestParam("userName") String userName, @RequestParam("phoneNum") String phoneNum) {
+    public ResponseEntity<ApiResponse<Object>> getOrder(@RequestParam("userName") String userName, @RequestParam("phoneNum") String phoneNum) {
         List<ResponseOrderGetDTO> responseOrderGetDTOList = orderService.getOrder(userName, phoneNum);
 
-        // message, success, bills 값 json 데이터로 반환
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", !responseOrderGetDTOList.isEmpty());
-        requestMap.put("message", responseOrderGetDTOList.isEmpty() ? "doesn't exist order history": "exist order history");
-        requestMap.put("bills", responseOrderGetDTOList.isEmpty() ? null : responseOrderGetDTOList);
+        // Map 이용해서 반환값 json 데이터로 변환
+        ApiResponse<Object> response = new ApiResponse<>(true, "주문 조회 성공", responseOrderGetDTOList);
 
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
