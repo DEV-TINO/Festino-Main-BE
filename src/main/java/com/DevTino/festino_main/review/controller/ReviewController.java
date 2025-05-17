@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.review.controller;
 
+import com.DevTino.festino_main.ApiResponse;
 import com.DevTino.festino_main.review.domain.DTO.RequestReviewSaveDTO;
 import com.DevTino.festino_main.review.domain.DTO.ResponseReviewGetDTO;
 import com.DevTino.festino_main.review.service.ReviewService;
@@ -8,9 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -27,49 +26,40 @@ public class ReviewController {
 
     // 리뷰 조회
     @GetMapping("/{reviewId}")
-    public ResponseEntity<Map<String, Object>> getReview(@PathVariable("reviewId") UUID reviewId){
+    public ResponseEntity<ApiResponse<Object>> getReview(@PathVariable("reviewId") UUID reviewId){
 
         ResponseReviewGetDTO responseReviewGetDTO = reviewService.getReview(reviewId);
 
-        boolean success = (responseReviewGetDTO == null) ? false : true;
+        // Map 이용해서 반환값 json 데이터로 변환
+        ApiResponse<Object> response = new ApiResponse<>(true, "리뷰 조회 성공", responseReviewGetDTO);
 
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "리뷰 조회 성공" : "리뷰 조회 실패");
-        requestMap.put("reviewInfo", responseReviewGetDTO);
-
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 리뷰 전체 조회
     @GetMapping("/all")
-    public ResponseEntity<Map<String, Object>> getReviews(){
+    public ResponseEntity<ApiResponse<Object>> getReviews(){
         List<ResponseReviewGetDTO> responseReviewGetDTOList = reviewService.getReviews();
 
-        boolean success = (responseReviewGetDTOList == null) ? false : true;
+        // Map 이용해서 반환값 json 데이터로 변환
+        ApiResponse<Object> response = new ApiResponse<>(true, "리뷰 전체 조회 성공", responseReviewGetDTOList);
 
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "전체 리뷰 조회 성공" : "전체 리뷰 조회 실패");
-        requestMap.put("reviewList", responseReviewGetDTOList);
-
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 리뷰 저장
     @PostMapping("")
-    public ResponseEntity<Map<String, Object>> saveReview(@RequestBody RequestReviewSaveDTO requestReviewSaveDTO){
+    public ResponseEntity<ApiResponse<Object>> saveReview(@RequestBody RequestReviewSaveDTO requestReviewSaveDTO){
 
         UUID reviewId = reviewService.saveReview(requestReviewSaveDTO);
 
-        boolean success = (reviewId == null) ? false : true;
+        // Map 이용해서 반환값 json 데이터로 변환
+        ApiResponse<Object> response = new ApiResponse<>(true, "리뷰 저장 성공", reviewId);
 
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "리뷰 저장 성공" : "리뷰 저장 실패");
-        requestMap.put("reviewId", reviewId);
-
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }
