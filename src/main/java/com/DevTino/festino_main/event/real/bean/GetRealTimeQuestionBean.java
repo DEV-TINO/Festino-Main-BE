@@ -32,7 +32,6 @@ public class GetRealTimeQuestionBean {
 
         // 현재 시간이 startTime, endTime 안에 있는 DAO 가져오기
         RealTimeQuestionDAO realTimeQuestionDAO = getRealTimeQuestionDAOBean.exec(todayStart, todayEnd, now);
-        if (realTimeQuestionDAO == null) return null;
 
         // DTO 생성 후 반환
         return createRealTimeQuestionDTOBean.exec(realTimeQuestionDAO);

@@ -25,7 +25,6 @@ public class GetTalentShowsBean {
     public List<ResponseTalentShowsGetDTO> exec(int day){
         // 동아리 타임 테이블 전체 리스트로 가져오기
         List<TalentShowDAO> talentShowDAOList = getTalentShowDAOBean.exec();
-        if (talentShowDAOList.isEmpty()) return null;
 
         // 날짜 별 동아리 타임 테이블 전체 리스트로 반환
         return createTalentShowsDTOBean.exec(talentShowDAOList, day);

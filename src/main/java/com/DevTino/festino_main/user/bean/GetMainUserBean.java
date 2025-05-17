@@ -23,9 +23,6 @@ public class GetMainUserBean {
         // 유저 조회
         MainUserDAO mainUserDAO = getMainUserDAOBean.exec(phoneNum, mainUserName);
 
-        // 유저가 존재하지 않으면 null 리턴
-        if (mainUserDAO == null) return null;
-
         return mainUserDAO.getMainUserId();
     }
 }

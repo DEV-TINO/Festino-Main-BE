@@ -1,5 +1,7 @@
 package com.DevTino.festino_main.order.bean.small;
 
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import com.DevTino.festino_main.order.domain.*;
 import com.DevTino.festino_main.order.domain.DTO.OrderDTO;
 import com.DevTino.festino_main.order.repository.*;
@@ -91,6 +93,7 @@ public class GetOrdersDAOBean {
             orderDTOList.add(OrderDTO.fromEnergyOrderDAO(energyOrderDAO));
         }
 
+        if (orderDTOList.isEmpty()) throw new ServiceException(ExceptionEnum.EMPTY_LIST);
         return orderDTOList;
     }
 }

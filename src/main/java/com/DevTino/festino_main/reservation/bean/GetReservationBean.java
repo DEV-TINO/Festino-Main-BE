@@ -30,7 +30,6 @@ public class GetReservationBean {
 
         // 예약된 내역이 있는지 조회
         ReservationDAO reservationDAO = getReservationByPhoneNumDAOBean.exec(userName, phoneNum);
-        if (reservationDAO == null) return null;
 
         // 부스에 해당하는 내역 전체 조회 후 인덱싱 매핑
         List<ReservationDAO> reservationDAOList = getReservationByBoothIdDAOBean.exec(reservationDAO.getBoothId());

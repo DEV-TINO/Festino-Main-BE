@@ -26,7 +26,6 @@ public class GetFoodBoothBean {
 
         // 푸드트럭 부스 디테일 dao 가져오기
         FoodBoothDAO foodBoothDAO = getFoodBoothDAOBean.exec(boothId);
-        if(foodBoothDAO == null) return null;
 
         // 가져온 dao를 dto로 변환
         return createFoodBoothDTOBean.exec(foodBoothDAO);

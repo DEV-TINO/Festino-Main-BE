@@ -26,7 +26,6 @@ public class SaveReviewBean {
 
         // 리뷰 DAO 생성
         ReviewDAO reviewDAO = createReviewDAOBean.exec(requestReviewSaveDTO);
-        if (reviewDAO == null) return null;
 
         // DAO 저장
         saveReviewDAOBean.exec(reviewDAO);

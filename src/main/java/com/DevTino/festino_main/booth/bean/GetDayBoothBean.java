@@ -31,7 +31,6 @@ public class GetDayBoothBean {
 
         // 주간 부스 디테일 dao 가져오기
         DayBoothDAO dayBoothDAO = getDayBoothDAOBean.exec(boothId);
-        if(dayBoothDAO == null) return null;
 
         List<MenuDAO> menuDAOList = getMenuDAOBean.exec(boothId);
 

@@ -4,6 +4,8 @@ import com.DevTino.festino_main.booth.bean.small.CreateNightBoothKakaoPayDTOBean
 import com.DevTino.festino_main.booth.bean.small.GetNightBoothDAOBean;
 import com.DevTino.festino_main.booth.domain.DTO.ResponseNightBoothKakaoPayGetDTO;
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,10 +25,9 @@ public class GetKakaoPayInfoBean {
     public ResponseNightBoothKakaoPayGetDTO exec(UUID boothId) {
         // boothId를 통해 원하는 객체 찾기
         NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(boothId);
-        if (nightBoothDAO == null) return null;
 
-        // isKakaoPay 여부를 통해 예외처리
-        if (!nightBoothDAO.getIsKakaoPay()) return null;
+        // 카카오페이 가능 여부 확인해 예외 처리
+        if (!nightBoothDAO.getIsKakaoPay()) throw new ServiceException(ExceptionEnum.KAKAOPAY_DISABLED);
 
         // 객체를 DTO로 변환해서 반환
         return createNightBoothKakaoPayDTOBean.exec(nightBoothDAO);

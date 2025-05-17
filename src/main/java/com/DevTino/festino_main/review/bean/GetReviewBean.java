@@ -26,7 +26,6 @@ public class GetReviewBean {
 
         // reviewId로 DAO 가져오기
         ReviewDAO reviewDAO = getReviewDAOBean.exec(reviewId);
-        if(reviewDAO == null) return null;
 
         // DTO 생성 후 반환
         return createReviewDTOBean.exec(reviewDAO);

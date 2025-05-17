@@ -25,7 +25,6 @@ public class GetClubShowsBean {
     public List<ResponseClubShowsGetDTO> exec(int day){
         // 동아리 타임 테이블 전체 리스트로 가져오기
         List<ClubShowDAO> clubShowDAOList = getClubShowDAOBean.exec();
-        if (clubShowDAOList.isEmpty()) return null;
 
         // 날짜 별 동아리 타임 테이블 전체 리스트로 반환
         return createClubShowsDTOBean.exec(clubShowDAOList, day);

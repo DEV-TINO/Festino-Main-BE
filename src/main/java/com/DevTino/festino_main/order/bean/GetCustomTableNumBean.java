@@ -20,7 +20,6 @@ public class GetCustomTableNumBean {
     public String exec(Integer tableNumIndex, UUID boothId) {
 
         TableNumDAO tableNumDAO = getCustomTableNumDAOBean.exec(tableNumIndex, boothId);
-        if(tableNumDAO == null) return null;
 
         return tableNumDAO.getCustomTableNum();
     }

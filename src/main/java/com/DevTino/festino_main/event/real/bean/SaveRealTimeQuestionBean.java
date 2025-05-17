@@ -25,7 +25,6 @@ public class SaveRealTimeQuestionBean {
 
         // 문제 DAO객체 생성
         RealTimeQuestionDAO realTimeQuestionDAO = createRealTimeQuestionDAOBean.exec(requestRealTimeQuestionSaveDTO);
-        if(realTimeQuestionDAO == null) return null;
 
         // DAO 객체 저장
         saveRealTimeQuestionDAOBean.exec(realTimeQuestionDAO);

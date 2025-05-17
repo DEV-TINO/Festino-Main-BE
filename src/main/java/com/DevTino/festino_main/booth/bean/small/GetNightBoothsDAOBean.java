@@ -2,6 +2,8 @@ package com.DevTino.festino_main.booth.bean.small;
 
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import com.DevTino.festino_main.booth.repository.NightBoothRepositoryJPA;
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,11 @@ public class GetNightBoothsDAOBean {
 
     // 야간 부스 리스트 가져오기
     public List<NightBoothDAO> exec(){
-        return nightBoothRepositoryJPA.findAllByOrderByCreateAtAsc();
+
+        List<NightBoothDAO> daoList = nightBoothRepositoryJPA.findAllByOrderByCreateAtAsc();
+        if (daoList.isEmpty()) throw new ServiceException(ExceptionEnum.EMPTY_LIST);
+
+        return daoList;
+
     }
 }

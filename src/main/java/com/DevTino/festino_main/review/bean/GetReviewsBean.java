@@ -26,7 +26,6 @@ public class GetReviewsBean {
 
         // 리뷰 전체 리스트로 가져오기
         List<ReviewDAO> reviewDAOList = getReviewsDAOBean.exec();
-        if (reviewDAOList == null) return null;
 
         //
         return createReviewsDTOBean.exec(reviewDAOList);

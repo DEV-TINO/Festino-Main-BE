@@ -8,6 +8,8 @@ import com.DevTino.festino_main.event.photoheart.bean.small.GetPhotoHeartDAOBean
 import com.DevTino.festino_main.event.photoheart.bean.small.SavePhotoHeartDAOBean;
 import com.DevTino.festino_main.event.photoheart.domain.dto.RequestPhotoHeartSaveDTO;
 import com.DevTino.festino_main.event.photoheart.domain.entity.PhotoHeartDAO;
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,16 +36,15 @@ public class SavePhotoHeartBean {
     // 사진 게시물 사진 저장
     public UUID exec(RequestPhotoHeartSaveDTO requestPhotoHeartSaveDTO) {
 
-        // 이미 좋아요되어있으면 null 반환
+        // 이미 좋아요 되어 있으면 예외 발생
         if (getPhotoHeartDAOBean.exec(requestPhotoHeartSaveDTO.getPhotoId(), requestPhotoHeartSaveDTO.getMainUserId()) != null)
-            return null;
+            throw new ServiceException(ExceptionEnum.ALREADY_PROCESSED);
 
         // 사진 게시물 객체 생성
         PhotoHeartDAO photoHeartDAO = createPhotoHeartDAOBean.exec(requestPhotoHeartSaveDTO);
 
         // photoId 통해 원하는 photoDAO 객체 찾기
         PhotoDAO photoDAO = getPhotoDAOBean.exec(requestPhotoHeartSaveDTO.getPhotoId());
-        if (photoDAO == null) return null;
 
         //찾은 photoDAO 객체 좋아요 추가
         photoDAO.setHeartCount(photoDAO.getHeartCount() + 1);

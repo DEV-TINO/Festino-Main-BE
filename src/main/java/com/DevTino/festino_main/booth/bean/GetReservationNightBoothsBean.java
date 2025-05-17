@@ -26,8 +26,6 @@ public class GetReservationNightBoothsBean {
 
         // 예약가능한 부스 전체 조회
         List<NightBoothDAO> nightBoothDAOList = getReservationNightBoothsDAOBean.exec(true);
-        if (nightBoothDAOList.isEmpty())
-            return null;
 
         return createReservationNightBoothsDTOBean.exec(nightBoothDAOList);
     }

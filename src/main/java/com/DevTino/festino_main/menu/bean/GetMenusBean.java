@@ -44,7 +44,6 @@ public class GetMenusBean {
             MenuType type = MenuType.valueOf(menuType.toUpperCase());
             menuDAOList = getMenuDAOBean.exec(boothId,type);
         }
-        if(menuDAOList.isEmpty()) return null;
 
         // 메뉴 DTO 리스트 반환
         return createMenusDTOBean.exec(menuDAOList);

@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.notice.controller;
 
+import com.DevTino.festino_main.ApiResponse;
 import com.DevTino.festino_main.notice.domain.DTO.ResponseNoticeGetDTO;
 import com.DevTino.festino_main.notice.domain.DTO.ResponseNoticesGetDTO;
 import com.DevTino.festino_main.notice.service.NoticeService;
@@ -8,9 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -27,47 +26,41 @@ public class NoticeController {
 
     // 공지 조회
     @GetMapping("/{noticeId}")
-    public ResponseEntity<Map<String, Object>> getNotice(@PathVariable("noticeId") UUID noticeId){
+    public ResponseEntity<ApiResponse<Object>> getNotice(@PathVariable("noticeId") UUID noticeId){
+
         ResponseNoticeGetDTO responseNoticeGetDTO = noticeService.getNotice(noticeId);
 
-        boolean success = (responseNoticeGetDTO == null) ? false : true;
+        // Map 이용해서 반환값 json 데이터로 변환
+        ApiResponse<Object> response = new ApiResponse<>(true, "공지 조회 성공", responseNoticeGetDTO);
 
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "공지 저장 성공" : "공지 저장 시 DAO 저장 실패");
-        requestMap.put("noticeInfo", responseNoticeGetDTO);
-
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 공지 전체 조회
     @GetMapping("/all")
-    public ResponseEntity<Map<String, Object>> getNotices(){
-        List<ResponseNoticesGetDTO> responseNoticesGetDTOList = noticeService.getNotices()  ;
+    public ResponseEntity<ApiResponse<Object>> getNotices(){
 
-        boolean success = (responseNoticesGetDTOList == null) ? false : true;
+        List<ResponseNoticesGetDTO> responseNoticesGetDTOList = noticeService.getNotices();
 
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "전체 공지 저장 성공" : "전체 공지 저장 시 DAO 저장 실패");
-        requestMap.put("noticesInfo", responseNoticesGetDTOList);
+        // Map 이용해서 반환값 json 데이터로 변환
+        ApiResponse<Object> response = new ApiResponse<>(true, "공지 전체 조회 성공", responseNoticesGetDTOList);
 
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 가장 최근 공지 조회 - pin
     @GetMapping("")
-    public ResponseEntity<Map<String, Object>> getRecentNotice(){
+    public ResponseEntity<ApiResponse<Object>> getRecentNotice(){
+
         ResponseNoticeGetDTO responseNoticeGetDTO = noticeService.getRecentNotice();
 
-        boolean success = (responseNoticeGetDTO == null) ? false : true;
+        // Map 이용해서 반환값 json 데이터로 변환
+        ApiResponse<Object> response = new ApiResponse<>(true, "가장 최근 공지 조회 - pin 성공", responseNoticeGetDTO);
 
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "최근 공지 1개 성공" : "최근 공지 1개 실패");
-        requestMap.put("noticeInfo", responseNoticeGetDTO);
-
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }
