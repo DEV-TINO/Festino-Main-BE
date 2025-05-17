@@ -36,12 +36,8 @@ public class DeletePhotoHeartBean {
         // photoId와 mainUserId로 해당 PhotoHeart(DAO) 찾기
         PhotoHeartDAO photoHeartDAO = getPhotoHeartDAOBean.exec(requestPhotoHeartDeleteDTO.getPhotoId(), requestPhotoHeartDeleteDTO.getMainUserId());
 
-        // 좋아요를 누른적 없으면 null값 반환
-        if (photoHeartDAO == null) return null;
-
         // commentId를 통해 원하는 comment 객체 찾기
         PhotoDAO photoDAO = getPhotoDAOBean.exec(photoHeartDAO.getPhotoId());
-        if (photoDAO == null)    return null;
 
         // 찾은 photoDAO 객체 좋아요 삭제
         photoDAO.setHeartCount(photoDAO.getHeartCount() - 1);

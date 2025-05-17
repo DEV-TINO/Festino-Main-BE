@@ -2,7 +2,6 @@ package com.DevTino.festino_main.event.photo.bean;
 
 import com.DevTino.festino_main.event.photo.bean.small.CreatePhotosDTOBean;
 import com.DevTino.festino_main.event.photo.bean.small.GetPhotosDAOBean;
-import com.DevTino.festino_main.event.photo.domain.dto.ResponsePhotoGetDTO;
 import com.DevTino.festino_main.event.photo.domain.dto.ResponsePhotosGetDTO;
 import com.DevTino.festino_main.event.photo.domain.entity.PhotoDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +24,8 @@ public class GetMainUserPhotosBean {
 
     public ResponsePhotosGetDTO exec(UUID mainUserId, String type){
 
-        if (mainUserId == null || type == null) return null;
-
         // 사진 타입 별로 정렬해서 가져오기
-        List<PhotoDAO> photoDAOList = getPhotosDAOBean.exec(type);
+        List<PhotoDAO> photoDAOList = getPhotosDAOBean.exec(mainUserId, type);
 
         // DAO -> DTO 변환
         return createPhotosDTOBean.exec(mainUserId, photoDAOList);

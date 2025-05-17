@@ -6,12 +6,10 @@ import com.DevTino.festino_main.event.photo.bean.GetPhotosBean;
 import com.DevTino.festino_main.event.photo.bean.SavePhotoBean;
 import com.DevTino.festino_main.event.photo.domain.dto.RequestPhotoDeleteDTO;
 import com.DevTino.festino_main.event.photo.domain.dto.RequestPhotoSaveDTO;
-import com.DevTino.festino_main.event.photo.domain.dto.ResponsePhotoGetDTO;
 import com.DevTino.festino_main.event.photo.domain.dto.ResponsePhotosGetDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service

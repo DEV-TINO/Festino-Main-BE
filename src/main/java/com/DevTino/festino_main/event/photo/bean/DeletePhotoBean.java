@@ -4,6 +4,8 @@ import com.DevTino.festino_main.event.photo.bean.small.DeletePhotoDAOBean;
 import com.DevTino.festino_main.event.photo.bean.small.GetPhotoDAOBean;
 import com.DevTino.festino_main.event.photo.domain.dto.RequestPhotoDeleteDTO;
 import com.DevTino.festino_main.event.photo.domain.entity.PhotoDAO;
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,10 +28,9 @@ public class DeletePhotoBean {
 
         // photo 존재여부 판단
         PhotoDAO photoDAO = getPhotoDAOBean.exec(requestPhotoDeleteDTO.getPhotoId());
-        if (photoDAO == null) return null; // 존재하지 않는 photoId
 
-        // user 일치여부 판단
-        if (!requestPhotoDeleteDTO.getMainUserId().equals(photoDAO.getMainUserId())) return null; // userId 불일치
+        // user 일치여부 판단, 일치하지 않을 경우 예외 발생
+        if (!requestPhotoDeleteDTO.getMainUserId().equals(photoDAO.getMainUserId())) throw new ServiceException(ExceptionEnum.MAIN_USERID_MISMATCH);
 
         // photo 삭제
         deletePhotoDAOBean.exec(photoDAO);

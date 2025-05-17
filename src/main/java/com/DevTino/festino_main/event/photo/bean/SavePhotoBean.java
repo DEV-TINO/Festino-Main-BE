@@ -29,11 +29,9 @@ public class SavePhotoBean {
 
         // 유저 정보 가져오기
         MainUserDAO mainUserDAO = getMainUserDAOBean.exec(requestPhotoSaveDTO.getMainUserId());
-        if (mainUserDAO == null) return null;
 
         // 포토 DAO 생성
         PhotoDAO photoDAO = createPhotoDAOBean.exec(mainUserDAO.getMainUserName(), requestPhotoSaveDTO);
-        if (photoDAO == null) return null;
 
         // DAO 저장
         savePhotoDAOBean.exec(photoDAO);
