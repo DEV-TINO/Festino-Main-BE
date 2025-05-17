@@ -33,6 +33,11 @@ public class GetMenuDAOBean {
 
     // 카테고리 별 메뉴 전체 리스트 반환
     public List<MenuDAO> exec(UUID boothId, MenuType menuType){
-        return menuRepositoryJPA.findAllByBoothIdAndMenuTypeOrderByMenuIndexAsc(boothId, menuType);
+
+        List<MenuDAO> daoList = menuRepositoryJPA.findAllByBoothIdAndMenuTypeOrderByMenuIndexAsc(boothId, menuType);
+        if (daoList.isEmpty()) throw new ServiceException(ExceptionEnum.EMPTY_LIST);
+
+        return daoList;
+
     }
 }
