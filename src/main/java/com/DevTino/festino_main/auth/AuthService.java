@@ -1,5 +1,7 @@
 package com.DevTino.festino_main.auth;
 
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import com.DevTino.festino_main.user.domain.entity.MainUserTokenDAO;
 import com.DevTino.festino_main.user.repository.MainUserTokenRepositoryJPA;
 import io.jsonwebtoken.Jwts;
@@ -61,15 +63,15 @@ public class AuthService {
     // 쿠키 찾기
     public String getCookieValue(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (name.equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
+        if (cookies == null) throw new ServiceException(ExceptionEnum.NO_COOKIES_PRESENT);
+
+        for (Cookie cookie : cookies) {
+            if (name.equals(cookie.getName())) {
+                return cookie.getValue();
             }
         }
 
-        return null;
+        throw new ServiceException(ExceptionEnum.COOKIE_NOT_FOUND_BY_NAME);
     }
 
     public String createRefreshToken(UUID userId) {

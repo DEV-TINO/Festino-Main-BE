@@ -18,6 +18,8 @@ public enum ExceptionEnum {
 //    PASSWORD_MISMATCH(HttpStatus.UNAUTHORIZED, "E009", "비밀번호가 일치하지 않습니다."),
     TOSSPAY_DISABLED(HttpStatus.FORBIDDEN, "E010", "토스페이가 비활성화된 상태입니다."),
     KAKAOPAY_DISABLED(HttpStatus.FORBIDDEN, "E011", "카카오페이가 비활성화된 상태입니다."),
+    NO_COOKIES_PRESENT(HttpStatus.BAD_REQUEST, "E012", "요청에 쿠키가 포함되어 있지 않습니다."),
+    COOKIE_NOT_FOUND_BY_NAME(HttpStatus.BAD_REQUEST, "A005", "요청에 해당 이름의 쿠키가 존재하지 않습니다."),
 
     // 공통 예외
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "E999", "서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
