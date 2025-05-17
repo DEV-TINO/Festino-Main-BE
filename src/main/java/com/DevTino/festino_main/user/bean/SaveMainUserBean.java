@@ -1,5 +1,7 @@
 package com.DevTino.festino_main.user.bean;
 
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import com.DevTino.festino_main.user.bean.small.GetMainUserDAOBean;
 import com.DevTino.festino_main.user.bean.small.SaveMainUserDAOBean;
 import com.DevTino.festino_main.user.domain.dto.RequestMainUserSaveDTO;
@@ -25,12 +27,11 @@ public class SaveMainUserBean {
 
         // 사용자 정보가 있는지 조회
         MainUserDAO mainUserDAO = getMainUserDAOBean.exec(requestMainUserSaveDTO.getPhoneNum(), requestMainUserSaveDTO.getMainUserName());
-        if (mainUserDAO == null) return null;
 
-        if (mainUserDAO.isAuthenticated()) return null;
+        if (mainUserDAO.isAuthenticated()) throw new ServiceException(ExceptionEnum.ALREADY_PROCESSED);
 
-        // 인증코드 확인
-        if (!mainUserDAO.getAuthorizationCode().equals(requestMainUserSaveDTO.getAuthorizationCode())) return null;
+        // 인증코드 확인, 다른 경우 예외 발생
+        if (!mainUserDAO.getAuthorizationCode().equals(requestMainUserSaveDTO.getAuthorizationCode())) throw new ServiceException(ExceptionEnum.AUTHCODE_MISMATCH);
 
         // 3분이 지나면 인증코드 만료
 

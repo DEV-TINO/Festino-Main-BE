@@ -32,6 +32,10 @@ public class GetMainUserDAOBean {
     // 사용자 정보 조회
     public MainUserDAO exec(String phoneNum, String mainUserName) {
         // 사용자 정보가 있는지 조회
-        return mainUserRepositoryJPA.findByPhoneNumAndMainUserName(phoneNum, mainUserName);
+        MainUserDAO dao = mainUserRepositoryJPA.findByPhoneNumAndMainUserName(phoneNum, mainUserName);
+        if (dao == null) throw new ServiceException(ExceptionEnum.ENTITY_NOT_FOUND);
+
+        return dao;
+
     }
 }
