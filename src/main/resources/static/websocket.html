@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>함께 주문 테스트</title>
+    <!-- STOMP 클라이언트 라이브러리 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .box { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+        .logs { height: 200px; overflow-y: scroll; background: #f5f5f5; padding: 10px; font-family: monospace; }
+        button { padding: 5px 10px; margin-right: 5px; cursor: pointer; }
+        .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 5px; margin: 5px 0; border-bottom: 1px solid #eee; }
+        .menu-count { font-weight: bold; margin: 0 10px; }
+        .menu-buttons { display: flex; align-items: center; }
+        .menu-btn { width: 30px; height: 30px; margin: 0 2px; }
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 500px;
+        }
+        .modal h3 {
+            margin-top: 0;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        .primary-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .secondary-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .menu-disabled {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+<h1>함께 주문 테스트</h1>
+
+<div class="box">
+    <h3>연결 설정</h3>
+    <div>
+        <label>서버 URL: <input type="text" id="serverUrl" value="ws://localhost:8080/ws"></label>
+    </div>
+    <div>
+        <label>부스 ID: <input type="text" id="boothId"></label>
+        <button id="generateBoothId">UUID 생성</button>
+    </div>
+    <div>
+        <label>테이블 번호: <input type="number" id="tableNum" value="1"></label>
+    </div>
+    <div>
+        <button id="connect">연결</button>
+        <button id="disconnect" disabled>연결 해제</button>
+    </div>
+</div>
+
+<div class="box" id="menuSection" style="display:none">
+    <h3>메뉴 관리</h3>
+    <div>
+        <label>메뉴 ID: <input type="text" id="menuId"></label>
+        <button id="generateMenuId">UUID 생성</button>
+    </div>
+    <div>
+        <button id="addMenu">메뉴 추가(+)</button>
+    </div>
+</div>
+
+<div class="box" id="menuListSection" style="display:none">
+    <h3>주문 목록</h3>
+    <div id="menuList"></div>
+    <div>
+        <p>참여자 수: <span id="memberCount">0</span>명</p>
+        <p>총 수량: <span id="totalCount">0</span>개</p>
+        <p>총 금액: <span id="totalPrice">0</span>원</p>
+        <p>세션 남은 시간: <span id="session-timer">10</span>분</p> <!-- 추가된 부분 -->
+    </div>
+    <div style="margin-top: 15px; text-align: center;">
+        <button id="startOrder" class="primary-btn">주문하기</button>
+    </div>
+</div>
+
+<div class="box">
+    <h3>로그</h3>
+    <div class="logs" id="logArea"></div>
+</div>
+
+<!-- 주문 진행 모달 -->
+<div class="modal-backdrop" id="orderModal">
+    <div class="modal">
+        <h3>주문 확인서</h3>
+        <p>총 <span id="modalTotalCount">0</span>개 메뉴, <span id="modalTotalPrice">0</span>원</p>
+        <div>
+            <p><strong>계좌번호:</strong> 123-456-789 (페스티노)</p>
+            <p>위 계좌로 금액을 송금한 후 입금완료 버튼을 눌러주세요.</p>
+        </div>
+        <div class="modal-buttons">
+            <button class="secondary-btn" id="cancelOrder">취소</button>
+            <button class="primary-btn" id="completePayment">입금완료</button>
+        </div>
+    </div>
+</div>
+
+<!-- 주문 진행 중 모달 (다른 참여자용) -->
+<div class="modal-backdrop" id="orderProgressModal">
+    <div class="modal">
+        <h3>주문 진행 중</h3>
+        <p>다른 참여자가 현재 주문 결제를 진행 중입니다.</p>
+        <p>잠시만 기다려주세요.</p>
+        <div class="modal-buttons">
+            <button class="primary-btn" id="confirmOrderProgress">확인</button>
+        </div>
+    </div>
+</div>
+
+<!-- 세션 종료 모달 -->
+<div class="modal-backdrop" id="sessionEndModal">
+    <div class="modal">
+        <h3>세션 종료</h3>
+        <p>세션이 종료되었습니다.</p>
+        <div class="modal-buttons">
+            <button class="primary-btn" id="confirmSessionEnd">확인</button>
+        </div>
+    </div>
+</div>
+
+<!-- 주문 완료 모달 (추가) -->
+<div class="modal-backdrop" id="orderDoneModal">
+    <div class="modal">
+        <h3>주문 완료</h3>
+        <p>주문이 성공적으로 완료되었습니다!</p>
+        <p>총 <span id="doneModalTotalCount">0</span>개 메뉴, <span id="doneModalTotalPrice">0</span>원이 주문되었습니다.</p>
+        <div class="modal-buttons">
+            <button class="primary-btn" id="confirmOrderDone">확인</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // DOM 요소
+    const serverUrlInput = document.getElementById('serverUrl');
+    const boothIdInput = document.getElementById('boothId');
+    const tableNumInput = document.getElementById('tableNum');
+    const menuIdInput = document.getElementById('menuId');
+    const connectBtn = document.getElementById('connect');
+    const disconnectBtn = document.getElementById('disconnect');
+    const generateBoothIdBtn = document.getElementById('generateBoothId');
+    const generateMenuIdBtn = document.getElementById('generateMenuId');
+    const addMenuBtn = document.getElementById('addMenu');
+    const startOrderBtn = document.getElementById('startOrder');
+    const logArea = document.getElementById('logArea');
+    const menuSection = document.getElementById('menuSection');
+    const menuListSection = document.getElementById('menuListSection');
+    const menuListDiv = document.getElementById('menuList');
+    const memberCountSpan = document.getElementById('memberCount');
+    const totalCountSpan = document.getElementById('totalCount');
+    const totalPriceSpan = document.getElementById('totalPrice');
+    const timerElement = document.getElementById('session-timer');
+
+    // 모달 요소
+    const orderModal = document.getElementById('orderModal');
+    const orderProgressModal = document.getElementById('orderProgressModal');
+    const sessionEndModal = document.getElementById('sessionEndModal');
+    const orderDoneModal = document.getElementById('orderDoneModal'); // 추가
+    const modalTotalCount = document.getElementById('modalTotalCount');
+    const modalTotalPrice = document.getElementById('modalTotalPrice');
+    const doneModalTotalCount = document.getElementById('doneModalTotalCount'); // 추가
+    const doneModalTotalPrice = document.getElementById('doneModalTotalPrice'); // 추가
+    const cancelOrderBtn = document.getElementById('cancelOrder');
+    const completePaymentBtn = document.getElementById('completePayment');
+    const confirmOrderProgressBtn = document.getElementById('confirmOrderProgress');
+    const confirmSessionEndBtn = document.getElementById('confirmSessionEnd');
+    const confirmOrderDoneBtn = document.getElementById('confirmOrderDone'); // 추가
+
+    // 메뉴 목록 (메뉴ID: 수량)
+    const menus = {};
+
+    // STOMP 클라이언트
+    let stompClient = null;
+
+    // 연결 여부 플래그
+    let isConnected = false;
+
+    // 주문 상태 변수 추가
+    let isOrderInProgress = false;
+    let isOrderInitiator = false;
+
+    // 로그 출력 함수
+    function log(message) {
+        const now = new Date().toLocaleTimeString();
+        logArea.innerHTML += `<div>[${now}] ${message}</div>`;
+        logArea.scrollTop = logArea.scrollHeight;
+    }
+
+    // UUID 생성 함수
+    function generateUUID() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            const r = Math.random() * 16 | 0;
+            const v = c === 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    // UUID 생성 버튼 이벤트
+    generateBoothIdBtn.addEventListener('click', function() {
+        boothIdInput.value = generateUUID();
+    });
+
+    generateMenuIdBtn.addEventListener('click', function() {
+        menuIdInput.value = generateUUID();
+    });
+
+    // 연결 버튼 이벤트
+    connectBtn.addEventListener('click', function() {
+        const serverUrl = serverUrlInput.value;
+        const boothId = boothIdInput.value;
+        const tableNum = tableNumInput.value;
+
+        if (!boothId) {
+            alert('부스 ID를 입력하세요.');
+            return;
+        }
+
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        if (!uuidRegex.test(boothId)) {
+            alert('올바른 형식의 UUID를 입력하세요.');
+            return;
+        }
+
+        if (!tableNum) {
+            alert('테이블 번호를 입력하세요.');
+            return;
+        }
+
+        connect(serverUrl, boothId, tableNum);
+    });
+
+    // 연결 해제 버튼 이벤트
+    disconnectBtn.addEventListener('click', function() {
+        sendUnsubMessage();
+        disconnect();
+    });
+
+    // 메뉴 추가 버튼 이벤트
+    addMenuBtn.addEventListener('click', function() {
+        const menuId = menuIdInput.value;
+
+        if (!menuId) {
+            alert('메뉴 ID를 입력하세요.');
+            return;
+        }
+
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        if (!uuidRegex.test(menuId)) {
+            alert('올바른 형식의 UUID를 입력하세요.');
+            return;
+        }
+
+        addMenu(menuId);
+    });
+
+    // 주문하기 버튼 이벤트
+    startOrderBtn.addEventListener('click', function() {
+        // 모달 정보 설정
+        modalTotalCount.textContent = totalCountSpan.textContent;
+        modalTotalPrice.textContent = totalPriceSpan.textContent;
+
+        // 먼저 주문 시작 메시지 전송
+        sendStartOrderMessage();
+
+        // 주문 상태 설정
+        isOrderInProgress = true;
+        isOrderInitiator = true;
+
+        // 주문 모달 표시 (주문 시작한 사용자에게만)
+        orderModal.style.display = 'flex';
+    });
+
+    // 모달 버튼 이벤트
+    cancelOrderBtn.addEventListener('click', function() {
+        orderModal.style.display = 'none';
+
+        // 주문 상태 초기화
+        isOrderInProgress = false;
+        isOrderInitiator = false;
+    });
+
+    completePaymentBtn.addEventListener('click', function() {
+        // 주문 완료 메시지 전송
+        sendOrderDoneMessage();
+
+        // 모달 닫기
+        orderModal.style.display = 'none';
+    });
+
+    cancelOrderBtn.addEventListener('click', function() {
+        // 주문 취소 메시지 전송
+        sendOrderCancelMessage();
+
+        // 모달 닫기
+        orderModal.style.display = 'none';
+    });
+
+    confirmOrderProgressBtn.addEventListener('click', function() {
+        orderProgressModal.style.display = 'none';
+
+        // 연결 종료 (다른 사용자가 주문 진행 중)
+        sendUnsubMessage();
+        disconnect();
+    });
+
+    confirmSessionEndBtn.addEventListener('click', function() {
+        sessionEndModal.style.display = 'none';
+        disconnect();
+    });
+
+    // 주문 완료 확인 버튼 이벤트 (추가)
+    confirmOrderDoneBtn.addEventListener('click', function() {
+        orderDoneModal.style.display = 'none';
+
+        // 연결 종료
+        sendUnsubMessage();
+        disconnect();
+    });
+
+    // 연결 함수
+    function connect(serverUrl, boothId, tableNum) {
+        log(`서버 연결 시도: ${serverUrl}`);
+        console.log(`서버 연결 시도: ${serverUrl}`);
+
+        // STOMP 클라이언트 생성
+        stompClient = new StompJs.Client({
+            brokerURL: serverUrl,
+            debug: function(str) {
+                console.log(str); // 디버그 정보는 콘솔에만 출력
+            },
+            reconnectDelay: 5000
+        });
+
+        // 연결 성공 콜백
+        stompClient.onConnect = function(frame) {
+            isConnected = true;
+            log('서버 연결 성공');
+
+            // 디버깅을 위해 전체 프레임과 헤더 출력
+            log(`연결 프레임: ${JSON.stringify(frame, null, 2)}`);
+
+            // 세션 ID 추출
+            let sessionId = null;
+            if (frame.headers) {
+                sessionId = frame.headers['user-name'];
+            }
+            if (!sessionId) {
+                sessionId = stompClient.connected ? stompClient.ws._transport.url.split('/')[stompClient.ws._transport.url.split('/').length - 2] : null;
+            }
+
+            stompClient.sessionId = sessionId;
+            log(`세션 ID: ${sessionId}`);
+
+            // 버튼 상태 변경
+            connectBtn.disabled = true;
+            disconnectBtn.disabled = false;
+
+            // 메뉴 관리 섹션 표시
+            menuSection.style.display = 'block';
+            menuListSection.style.display = 'block';
+
+            // 메뉴 ID 자동 생성
+            if (!menuIdInput.value) {
+                menuIdInput.value = generateUUID();
+            }
+
+            // 일반 토픽 구독 (모든 클라이언트용 메시지)
+            const topic = `/topic/${boothId}/${tableNum}`;
+            log(`토픽 구독: ${topic}`);
+            stompClient.subscribe(topic, function(message) {
+                handleMessage(message);
+            });
+
+            // 사용자별 토픽 구독 추가 (중요: 개인 메시지를 수신하기 위함)
+            const userTopic = `/user/topic/${boothId}/${tableNum}`;
+            log(`사용자별 토픽 구독: ${userTopic}`);
+            stompClient.subscribe(userTopic, function(message) {
+                log(`사용자별 메시지 수신: ${message.body}`);
+                handleMessage(message);
+            });
+
+            // 세션 참여 메시지는 구독 후 자동으로 서버에서 처리됨 (WebSocketEventListener 통해)
+        };
+
+        // 연결 오류 콜백
+        stompClient.onStompError = function(frame) {
+            log(`서버 연결 오류: ${frame.headers.message}`);
+        };
+
+        // 연결 시작
+        stompClient.activate();
+    }
+
+    // 구독 취소 메시지 전송
+    function sendUnsubMessage() {
+        if (stompClient && stompClient.connected) {
+            const boothId = boothIdInput.value;
+            const tableNum = tableNumInput.value;
+
+            // 메시지 생성
+            const message = {
+                type: "UNSUB",
+                boothId: boothId,
+                tableNum: parseInt(tableNum)
+            };
+
+            // 메시지 전송
+            stompClient.publish({
+                destination: '/app/order',
+                body: JSON.stringify(message)
+            });
+
+            log('구독 취소 메시지 전송');
+        }
+    }
+
+    // 주문 시작 메시지 전송
+    function sendStartOrderMessage() {
+        if (stompClient && stompClient.connected) {
+            const boothId = boothIdInput.value;
+            const tableNum = tableNumInput.value;
+
+            // 메시지 생성
+            const message = {
+                type: "STARTORDER",
+                boothId: boothId,
+                tableNum: parseInt(tableNum)
+            };
+
+            // 메시지 전송
+            stompClient.publish({
+                destination: '/app/order',
+                body: JSON.stringify(message)
+            });
+
+            log('주문 시작 메시지 전송');
+        }
+    }
+
+    // 주문 완료 메시지 전송 (추가)
+    function sendOrderDoneMessage() {
+        if (stompClient && stompClient.connected) {
+            const boothId = boothIdInput.value;
+            const tableNum = tableNumInput.value;
+
+            // 메시지 생성
+            const message = {
+                type: "ORDERDONE",
+                boothId: boothId,
+                tableNum: parseInt(tableNum)
+            };
+
+            // 메시지 전송
+            stompClient.publish({
+                destination: '/app/order',
+                body: JSON.stringify(message)
+            });
+
+            log('주문 완료 메시지 전송');
+        }
+    }
+
+    // 주문 취소 메시지 전송 함수 추가
+    function sendOrderCancelMessage() {
+        if (stompClient && stompClient.connected) {
+            const boothId = boothIdInput.value;
+            const tableNum = tableNumInput.value;
+
+            // 메시지 생성
+            const message = {
+                type: "ORDERCANCEL",
+                boothId: boothId,
+                tableNum: parseInt(tableNum)
+            };
+
+            // 메시지 전송
+            stompClient.publish({
+                destination: '/app/order',
+                body: JSON.stringify(message)
+            });
+
+            log('주문 취소 메시지 전송');
+        }
+    }
+
+    // 연결 해제 함수
+    function disconnect() {
+        if (stompClient && stompClient.connected) {
+            stompClient.deactivate();
+            isConnected = false;
+
+            log('서버 연결 해제');
+
+            // 주문 상태 초기화
+            isOrderInProgress = false;
+            isOrderInitiator = false;
+
+            // 버튼 상태 변경
+            connectBtn.disabled = false;
+            disconnectBtn.disabled = true;
+
+            // 메뉴 관리 섹션 숨김
+            menuSection.style.display = 'none';
+            menuListSection.style.display = 'none';
+
+            // 메뉴 목록 초기화
+            Object.keys(menus).forEach(key => delete menus[key]);
+            updateMenuList();
+        }
+    }
+
+    // 메뉴 추가 함수
+    function addMenu(menuId) {
+        if (stompClient && stompClient.connected) {
+            // 주문 진행 중이고 내가 주문자가 아니면 요청 차단
+            if (isOrderInProgress && !isOrderInitiator) {
+                alert("주문 진행 중에는 메뉴를 변경할 수 없습니다.");
+                return;
+            }
+
+            const boothId = boothIdInput.value;
+            const tableNum = tableNumInput.value;
+
+            // 메시지 생성
+            const message = {
+                type: "MENUADD",
+                boothId: boothId,
+                tableNum: parseInt(tableNum),
+                payload: {
+                    menuId: menuId,
+                    menuCount: 0 // 서버에서 증가됨
+                }
+            };
+
+            // 메시지 전송
+            stompClient.publish({
+                destination: '/app/order',
+                body: JSON.stringify(message)
+            });
+
+            log(`메뉴 추가 요청: 메뉴ID=${menuId}`);
+        }
+    }
+
+    // 메뉴 감소 함수
+    function subMenu(menuId) {
+        if (stompClient && stompClient.connected) {
+            // 주문 진행 중이고 내가 주문자가 아니면 요청 차단
+            if (isOrderInProgress && !isOrderInitiator) {
+                alert("주문 진행 중에는 메뉴를 변경할 수 없습니다.");
+                return;
+            }
+
+            const boothId = boothIdInput.value;
+            const tableNum = tableNumInput.value;
+
+            // 메시지 생성
+            const message = {
+                type: "MENUSUB",
+                boothId: boothId,
+                tableNum: parseInt(tableNum),
+                payload: {
+                    menuId: menuId,
+                    menuCount: 0 // 서버에서 감소됨
+                }
+            };
+
+            // 메시지 전송
+            stompClient.publish({
+                destination: '/app/order',
+                body: JSON.stringify(message)
+            });
+
+            log(`메뉴 감소 요청: 메뉴ID=${menuId}`);
+        }
+    }
+
+    // 메시지 처리 함수
+    function handleMessage(message) {
+        log(`메시지 수신: ${message.body}`);
+
+        try {
+            const data = JSON.parse(message.body);
+
+            switch (data.type) {
+                case "INIT":
+                    handleInitMessage(data);
+                    break;
+                case "MENUUPDATE":
+                    handleMenuUpdateMessage(data);
+                    break;
+                case "MEMBERUPDATE":
+                    handleMemberUpdateMessage(data);
+                    break;
+                case "UNSUB":
+                    handleUnsubMessage();
+                    break;
+                case "STARTORDER":
+                    handleStartOrderMessage(message); // 메시지 객체 전체 전달
+                    break;
+                case "TIMEUPDATE":
+                    handleTimeUpdateMessage(data);
+                    break;
+                case "PRESESSIONEND":
+                    handlePreSessionEndMessage();
+                    break;
+                case "SESSIONEND":
+                    handleSessionEndMessage();
+                    break;
+                case "ORDERDONE": // 추가
+                    handleOrderDoneMessage(data);
+                    break;
+                case "ORDERCANCEL":
+                    handleOrderCancelMessage();
+                    break;
+                case "ERROR":
+                    handleErrorMessage(data);
+                    break;
+
+                default:
+                    log(`알 수 없는 메시지 타입: ${data.type}`);
+            }
+        } catch (e) {
+            log(`메시지 처리 오류: ${e.message}`);
+        }
+    }
+
+    function handleInitMessage(data) {
+        try {
+            console.log("INIT 메시지 수신:", JSON.stringify(data)); // 콘솔에 로그 추가
+            log(`초기화 정보 수신: 참여자=${data.payload.memberCount}명, 총수량=${data.payload.totalCount}개, 총금액=${data.payload.totalPrice}원`);
+
+            // 메뉴 목록 초기화
+            Object.keys(menus).forEach(key => delete menus[key]);
+
+            // 메뉴 목록 설정
+            if (data.payload.menuList && data.payload.menuList.length > 0) {
+                data.payload.menuList.forEach(menu => {
+                    menus[menu.menuId] = menu.menuCount;
+                    console.log(`메뉴 추가: ${menu.menuId} - ${menu.menuCount}개`); // 메뉴 추가 로그
+                });
+            }
+
+            // UI 업데이트
+            timerElement.textContent = data.payload.remainingMinutes;
+            memberCountSpan.textContent = data.payload.memberCount;
+            totalCountSpan.textContent = data.payload.totalCount;
+            totalPriceSpan.textContent = data.payload.totalPrice;
+            console.log("UI 업데이트 완료"); // UI 업데이트 로그
+
+            // 메뉴 목록 업데이트
+            updateMenuList();
+        } catch (error) {
+            console.error("INIT 메시지 처리 오류:", error); // 오류 로그
+            log(`메시지 처리 오류: ${error.message}`);
+        }
+    }
+
+    // MENUUPDATE 메시지 처리
+    function handleMenuUpdateMessage(data) {
+        log(`메뉴 업데이트: 메뉴ID=${data.payload.menuId}, 수량=${data.payload.menuCount}`);
+
+        // 메뉴 정보 업데이트
+        menus[data.payload.menuId] = data.payload.menuCount;
+
+        // 총 가격 및 수량 업데이트 (서버에서 제공한 값으로)
+        if (data.payload.totalPrice !== undefined) {
+            totalPriceSpan.textContent = data.payload.totalPrice;
+        }
+
+        if (data.payload.totalCount !== undefined) {
+            totalCountSpan.textContent = data.payload.totalCount;
+        }
+
+        // 메뉴 목록 업데이트
+        updateMenuList();
+    }
+
+    // MEMBERUPDATE 메시지 처리
+    function handleMemberUpdateMessage(data) {
+        log(`참여자 업데이트: ${data.payload.memberCount}명`);
+        memberCountSpan.textContent = data.payload.memberCount;
+    }
+
+    // UNSUB 메시지 처리
+    function handleUnsubMessage() {
+        log('구독 취소 메시지 수신');
+        disconnect();
+    }
+
+    // STARTORDER 메시지 처리 (다른 클라이언트가 주문 시작)
+    function handleStartOrderMessage(message) {
+        log('주문 시작 메시지 수신');
+
+        // 메시지 헤더에서 excludeSessionId 확인
+        const headers = message.headers;
+        const excludeSessionId = headers.excludeSessionId;
+        const messageId = headers['message-id']; // 현재 세션의 메시지 ID
+
+        log(`excludeSessionId: ${excludeSessionId}, message-id: ${messageId}`);
+
+        // 주문 진행 중 상태 설정
+        isOrderInProgress = true;
+
+        // 제외할 세션 ID가 현재 세션의 ID와 동일한지 확인
+        // 메시지 ID의 앞부분(client-id)이 excludeSessionId와 일치하는지 확인
+        if (messageId && excludeSessionId && messageId.startsWith(excludeSessionId)) {
+            log('내가 시작한 주문입니다. 주문 진행 중 모달을 표시하지 않습니다.');
+            isOrderInitiator = true;
+            return; // 내가 시작한 주문이면 모달을 표시하지 않음
+        }
+
+        // 다른 사용자가 시작한 주문이면 모달 표시
+        log('다른 사용자가 주문 중입니다. 주문 진행 중 모달을 표시합니다.');
+        isOrderInitiator = false;
+
+        // 메뉴 버튼 비활성화
+        disableMenuButtons();
+
+        // 주문 진행 중 모달 표시
+        orderProgressModal.style.display = 'flex';
+    }
+
+// 주문 완료 메시지 처리 함수 (추가)
+    function handleOrderDoneMessage(data) {
+        log('주문 완료 메시지 수신');
+
+        // 주문 상태 초기화
+        isOrderInProgress = false;
+        isOrderInitiator = false;
+
+        // 총 정보 설정
+        doneModalTotalCount.textContent = totalCountSpan.textContent;
+        doneModalTotalPrice.textContent = totalPriceSpan.textContent;
+
+        // 진행 중이던 모달 닫기
+        if (orderModal.style.display === 'flex') {
+            orderModal.style.display = 'none';
+        }
+        if (orderProgressModal.style.display === 'flex') {
+            orderProgressModal.style.display = 'none';
+        }
+
+        // 주문 완료 모달 표시
+        orderDoneModal.style.display = 'flex';
+    }
+    // 주문 취소 메시지 처리 함수
+    function handleOrderCancelMessage() {
+        log('주문 취소 메시지 수신');
+
+        // 주문 상태 초기화
+        isOrderInProgress = false;
+        isOrderInitiator = false;
+
+        // 모달 닫기
+        if (orderModal.style.display === 'flex') {
+            orderModal.style.display = 'none';
+        }
+        if (orderProgressModal.style.display === 'flex') {
+            orderProgressModal.style.display = 'none';
+        }
+
+        // 메뉴 버튼 활성화
+        enableMenuButtons();
+
+        // 알림
+        alert('주문이 취소되었습니다.');
+    }
+
+    // 메뉴 버튼 활성화 함수
+    function enableMenuButtons() {
+        // 모든 메뉴 버튼 활성화
+        const menuButtons = document.querySelectorAll('.menu-btn');
+        menuButtons.forEach(btn => {
+            // 수량이 0인 - 버튼은 비활성화 유지
+            if (btn.textContent === '-') {
+                const countElement = btn.nextElementSibling;
+                if (countElement && parseInt(countElement.textContent) <= 0) {
+                    btn.disabled = true;
+                    btn.classList.add('disabled');
+                    return;
+                }
+            }
+
+            btn.disabled = false;
+            btn.classList.remove('disabled');
+        });
+
+        // 메뉴 항목에서 비활성화 스타일 제거
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.classList.remove('menu-disabled');
+        });
+
+        // 주문하기 버튼 활성화
+        startOrderBtn.disabled = false;
+        startOrderBtn.classList.remove('disabled');
+
+        // 메뉴 목록 업데이트
+        updateMenuList();
+    }
+
+
+    // TIMEUPDATE 메시지 처리 함수 추가
+    function handleTimeUpdateMessage(data) {
+        // 타이머 요소 가져오기
+        if (timerElement) {
+            timerElement.textContent = data.payload.remainingMinutes;
+
+            // 선택적: 시간이 얼마 남지 않았을 때 스타일 변경
+            if (data.payload.remainingMinutes <= 2) {
+                timerElement.classList.add('warning');
+            } else {
+                timerElement.classList.remove('warning');
+            }
+        } else {
+            // 요소가 없을 경우 콘솔에 로그 남기기
+            console.warn('타이머 표시 요소(#session-timer)를 찾을 수 없습니다.');
+        }
+    }
+
+    // PRESESSIONEND 메시지 처리
+    function handlePreSessionEndMessage() {
+        log('세션 종료 예정 메시지 수신');
+        alert('세션이 곧 종료됩니다. 주문을 완료해주세요.');
+    }
+
+    // SESSIONEND 메시지 처리
+    function handleSessionEndMessage() {
+        log('세션 종료 메시지 수신');
+
+        // 세션 종료 모달 표시
+        sessionEndModal.style.display = 'flex';
+    }
+
+    // ERROR 메시지 처리
+    function handleErrorMessage(data) {
+        log(`오류 메시지: ${data.payload}`);
+        alert(`오류: ${data.payload}`);
+    }
+
+    // 메뉴 버튼 비활성화 함수 (추가)
+    function disableMenuButtons() {
+        // 모든 메뉴 버튼 비활성화
+        const menuButtons = document.querySelectorAll('.menu-btn');
+        menuButtons.forEach(btn => {
+            btn.disabled = true;
+            btn.classList.add('disabled');
+        });
+
+        // 주문하기 버튼 비활성화
+        startOrderBtn.disabled = true;
+        startOrderBtn.classList.add('disabled');
+    }
+
+    // 메뉴 목록 업데이트
+    function updateMenuList() {
+        menuListDiv.innerHTML = '';
+
+        const menuIds = Object.keys(menus);
+        let totalCount = 0;
+
+        if (menuIds.length === 0) {
+            menuListDiv.innerHTML = '<div>주문한 메뉴가 없습니다.</div>';
+            return;
+        }
+
+        menuIds.forEach(menuId => {
+            const count = menus[menuId];
+            totalCount += count;
+
+            const item = document.createElement('div');
+            item.className = 'menu-item';
+
+            // 주문 진행 중이고 주문자가 아닌 경우 비활성화 클래스 추가
+            if (isOrderInProgress && !isOrderInitiator) {
+                item.classList.add('menu-disabled');
+            }
+
+            const shortId = menuId.split('-')[0]; // UUID의 첫 부분만 표시
+
+            item.innerHTML = `
+                <span>메뉴 ID: ${shortId}...</span>
+                <div class="menu-buttons">
+                    <button class="menu-btn" onclick="subMenu('${menuId}')" ${count <= 0 || (isOrderInProgress && !isOrderInitiator) ? 'disabled' : ''}>-</button>
+                    <span class="menu-count">${count}</span>
+                    <button class="menu-btn" onclick="addMenu('${menuId}')" ${isOrderInProgress && !isOrderInitiator ? 'disabled' : ''}>+</button>
+                </div>
+            `;
+
+            menuListDiv.appendChild(item);
+        });
+
+        // 총 수량 업데이트
+        totalCountSpan.textContent = totalCount;
+
+        // 주문하기 버튼 활성화/비활성화
+        startOrderBtn.disabled = isOrderInProgress && !isOrderInitiator;
+        if (startOrderBtn.disabled) {
+            startOrderBtn.classList.add('disabled');
+        } else {
+            startOrderBtn.classList.remove('disabled');
+        }
+    }
+
+    // 페이지 로드 시 UUID 자동 생성
+    window.addEventListener('load', function() {
+        boothIdInput.value = generateUUID();
+        menuIdInput.value = generateUUID();
+    });
+
+    // 페이지 닫기/뒤로 가기 이벤트
+    window.addEventListener('beforeunload', function(e) {
+        if (isConnected) {
+            // 구독 취소 메시지 전송
+            sendUnsubMessage();
+
+            // 모던 브라우저에서는 사용자 정의 메시지가 표시되지 않지만,
+            // 일부 브라우저에서는 이 메시지가 표시될 수 있습니다.
+            e.returnValue = '정말 페이지를 떠나시겠습니까? 주문이 취소됩니다.';
+            return e.returnValue;
+        }
+    });
+
+    // 전역 함수로 노출
+    window.addMenu = addMenu;
+    window.subMenu = subMenu;
+    window.sendUnsubMessage = sendUnsubMessage;
+</script>
+</body>
+</html>
