@@ -16,11 +16,13 @@ import java.util.UUID;
 public class UnSubSessionBean {
     private final GroupOrderRepositoryJPA groupOrderRepositoryJPA;
     private final SimpMessagingTemplate messagingTemplate;
+    private final SessionTimeOutManage sessionTimeOutManage;
 
     @Autowired
-    public UnSubSessionBean(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate) {
+    public UnSubSessionBean(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate, SessionTimeOutManage sessionTimeOutManage) {
         this.groupOrderRepositoryJPA = groupOrderRepositoryJPA;
         this.messagingTemplate = messagingTemplate;
+        this.sessionTimeOutManage = sessionTimeOutManage;
     }
 
     @Transactional
@@ -43,6 +45,8 @@ public class UnSubSessionBean {
             if (session.getMemberCount() <= 0) {
                 // 0명이면 세션 삭제
                 groupOrderRepositoryJPA.delete(session);
+                // 모든 타이머 태스크 취소
+                sessionTimeOutManage.cancelExistingTasks(sessionId);
             } else {
                 // 멤버가 있으면 세션 업데이트
                 groupOrderRepositoryJPA.save(session);

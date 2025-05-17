@@ -167,7 +167,7 @@ public class SessionTimeOutManage {
     }
 
     // 기존 예약 태스크 취소
-    private void cancelExistingTasks(String sessionId) {
+    public void cancelExistingTasks(String sessionId) {
         ScheduledFuture<?> warningTask = warningTasks.remove(sessionId);
         if (warningTask != null) {
             warningTask.cancel(false);
