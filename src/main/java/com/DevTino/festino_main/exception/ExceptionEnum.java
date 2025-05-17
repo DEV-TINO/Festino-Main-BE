@@ -24,6 +24,7 @@ public enum ExceptionEnum {
     ORDER_RATE_LIMIT_EXCEEDED(HttpStatus.TOO_MANY_REQUESTS, "E015", "요청 한도를 초과했습니다. 잠시 후 다시 시도해 주세요."),
     CSRF_TOKEN_MISSING(HttpStatus.BAD_REQUEST, "E016", "CSRF 토큰이 요청에 포함되어 있지 않습니다."),
     CSRF_TOKEN_EXPIRED(HttpStatus.BAD_REQUEST, "E017", "CSRF 토큰이 만료되었습니다."),
+    RESERVATION_DISABLED(HttpStatus.FORBIDDEN, "E007", "예약이 비활성화된 상태입니다."),
 
     // 공통 예외
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "E999", "서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");

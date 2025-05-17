@@ -23,10 +23,8 @@ public class CheckReservationPhoneNumBean {
     public String exec(String phoneNum) {
 
         ReservationDAO reservationDAO = getReservationByPhoneNumDAOBean.exec(phoneNum);
-        if (reservationDAO == null) return null;
 
         NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(reservationDAO.getBoothId());
-        if (nightBoothDAO == null) return null;
 
         return nightBoothDAO.getAdminName();
 

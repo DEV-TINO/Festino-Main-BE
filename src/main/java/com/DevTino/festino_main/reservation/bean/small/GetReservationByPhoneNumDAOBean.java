@@ -1,5 +1,7 @@
 package com.DevTino.festino_main.reservation.bean.small;
 
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import com.DevTino.festino_main.reservation.domain.ReservationDAO;
 import com.DevTino.festino_main.reservation.domain.ReservationEnum;
 import com.DevTino.festino_main.reservation.repository.ReservationRepositoryJPA;
@@ -19,12 +21,22 @@ public class GetReservationByPhoneNumDAOBean {
     // 이름, 번호, 예약 여부로 예약 내역 확인
     @Transactional(readOnly = true)
     public ReservationDAO exec(String userName, String phoneNum) {
-        return reservationRepositoryJPA.findByUserNameAndPhoneNumAndReservationType(userName, phoneNum, ReservationEnum.RESERVE);
+
+        ReservationDAO dao = reservationRepositoryJPA.findByUserNameAndPhoneNumAndReservationType(userName, phoneNum, ReservationEnum.RESERVE);
+        if (dao == null) throw new ServiceException(ExceptionEnum.ENTITY_NOT_FOUND);
+
+        return dao;
+
     }
 
     // 번호, 예약 여부로 예약 내역 확인
     @Transactional(readOnly = true)
     public ReservationDAO exec(String phoneNum) {
-        return reservationRepositoryJPA.findByPhoneNumAndReservationType(phoneNum, ReservationEnum.RESERVE);
+
+        ReservationDAO dao = reservationRepositoryJPA.findByPhoneNumAndReservationType(phoneNum, ReservationEnum.RESERVE);
+        if (dao == null) throw new ServiceException(ExceptionEnum.ENTITY_NOT_FOUND);
+
+        return dao;
+
     }
 }

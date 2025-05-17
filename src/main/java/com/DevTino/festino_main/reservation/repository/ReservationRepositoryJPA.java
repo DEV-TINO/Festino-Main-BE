@@ -13,4 +13,6 @@ public interface ReservationRepositoryJPA extends JpaRepository<ReservationDAO, 
     ReservationDAO findByPhoneNumAndReservationType(String phoneNum, ReservationEnum reservationType);
 
     List<ReservationDAO> findAllByBoothIdOrderByReservationNumAsc(UUID boothId);
+
+    boolean existsByPhoneNumAndReservationType(String phoneNum, ReservationEnum type);
 }

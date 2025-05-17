@@ -1,6 +1,9 @@
 package com.DevTino.festino_main.reservation.controller;
 
+import com.DevTino.festino_main.ApiResponse;
 import com.DevTino.festino_main.auth.AuthService;
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import com.DevTino.festino_main.reservation.domain.DTO.RequestReservationSaveDTO;
 import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationGetDTO;
 import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationSaveDTO;
@@ -15,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,64 +46,53 @@ public class ReservationController {
 
     // 예약 등록
     @PostMapping
-    public ResponseEntity<Map<String, Object>> saveReservation(HttpServletRequest request, @RequestBody RequestReservationSaveDTO requestReservationSaveDTO) throws IOException {
-        Map<String, Object> requestMap = new HashMap<>();
+    public ResponseEntity<ApiResponse<Object>> saveReservation(HttpServletRequest request, @RequestBody RequestReservationSaveDTO requestReservationSaveDTO) throws IOException {
 
         Bucket reservationBucket = resolveReservationBucket();
 
         // Rate Limiting 체크
         if (!reservationBucket.tryConsume(1)) {
-            requestMap.put("success", false);
-            requestMap.put("message", "Too many requests, please try again later");
-            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(requestMap);
+            throw new ServiceException(ExceptionEnum.ORDER_RATE_LIMIT_EXCEEDED);
         }
 
         String xCsrfToken = authService.getCookieValue(request, "X-CSRF-Token");
 
         // 토큰 검증
-        if (xCsrfToken == null || authService.isExpired(xCsrfToken)) {
-            requestMap.put("success", false);
-            requestMap.put("message", "Token is missing");
+        if (xCsrfToken == null) throw new ServiceException(ExceptionEnum.CSRF_TOKEN_MISSING);
+        if (authService.isExpired(xCsrfToken)) throw new ServiceException(ExceptionEnum.CSRF_TOKEN_EXPIRED);
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(requestMap);
-        }
-
+        // 예약 등록 service 실행
         ResponseReservationSaveDTO responseReservationSaveDTO = reservationService.saveReservation(requestReservationSaveDTO);
 
-        // message, success, id 값 json 데이터로 반환
-        requestMap.put("success", responseReservationSaveDTO != null);
-        requestMap.put("message", (responseReservationSaveDTO == null) ? "reservation failure": "reservation success");
-        requestMap.put("reservationInfo", (responseReservationSaveDTO == null) ? "00000000-0000-0000-0000-000000000000" : responseReservationSaveDTO);
+        // Map 이용해서 반환값 json 데이터로 변환
+        ApiResponse<Object> response = new ApiResponse<>(true, "예약 등록 성공", responseReservationSaveDTO);
 
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 예약 조회
     @GetMapping
-    public ResponseEntity<Map<String, Object>> getReservation(@RequestParam("userName") String userName, @RequestParam("phoneNum") String phoneNum) {
+    public ResponseEntity<ApiResponse<Object>> getReservation(@RequestParam("userName") String userName, @RequestParam("phoneNum") String phoneNum) {
         ResponseReservationGetDTO responseReservationGetDTO = reservationService.getReservation(userName, phoneNum);
 
-        // message, success, responseReservationGetDTO 값 json 데이터로 반환
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", responseReservationGetDTO != null);
-        requestMap.put("message", (responseReservationGetDTO == null) ? "doesn't exist reservation history": "exist reservation history");
-        requestMap.put("reservationInfo", responseReservationGetDTO);
+        // Map 이용해서 반환값 json 데이터로 변환
+        ApiResponse<Object> response = new ApiResponse<>(true, "예약 조회 성공", responseReservationGetDTO);
 
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // 전화번호 중복 조회
     @GetMapping("/duplication")
-    public ResponseEntity<Map<String, Object>> checkReservationPhoneNum(@RequestParam("phoneNum") String phoneNum) {
+    public ResponseEntity<ApiResponse<Object>> checkReservationPhoneNum(@RequestParam("phoneNum") String phoneNum) {
         String adminName = reservationService.checkReservationPhoneNum(phoneNum);
 
-        // message, success 값 json 데이터로 반환
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", adminName != null);
-        requestMap.put("adminName", adminName);
-        requestMap.put("message", adminName != null ? "exist phone number": "doesn't exist phone number");
+        // Map 이용해서 반환값 json 데이터로 변환
+        ApiResponse<Object> response = new ApiResponse<>(true, "전화번호 중복 조회 성공", adminName);
 
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        // status, body 설정해서 응답 리턴
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }
