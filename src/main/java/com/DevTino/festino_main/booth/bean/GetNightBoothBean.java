@@ -32,7 +32,6 @@ public class GetNightBoothBean {
 
         // 야간 부스 디테일 dao 가져오기
         NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(boothId);
-        if(nightBoothDAO == null) return null;
 
         // 전체 메뉴 리스트 중 CALLSERVICE가 아닌 메뉴 리스트 생성
         List<MenuDAO> menuDAOList = getMenuDAOBean.exec(boothId);

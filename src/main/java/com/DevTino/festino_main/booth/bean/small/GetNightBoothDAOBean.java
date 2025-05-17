@@ -2,6 +2,8 @@ package com.DevTino.festino_main.booth.bean.small;
 
 import com.DevTino.festino_main.booth.domain.entity.NightBoothDAO;
 import com.DevTino.festino_main.booth.repository.NightBoothRepositoryJPA;
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import jakarta.persistence.LockModeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Lock;
@@ -23,6 +25,11 @@ public class GetNightBoothDAOBean {
     @Transactional
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     public NightBoothDAO exec(UUID boothId){
-        return nightBoothRepositoryJPA.findById(boothId).orElse(null);
+
+        NightBoothDAO dao = nightBoothRepositoryJPA.findById(boothId).orElse(null);
+        if (dao == null) throw new ServiceException(ExceptionEnum.ENTITY_NOT_FOUND);
+
+        return dao;
+
     }
 }

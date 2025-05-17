@@ -20,7 +20,6 @@ public class GetAccountInfoBean {
     public Map<String, String> exec(UUID boothId) {
         NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(boothId);
 
-        if(nightBoothDAO == null) return null;
         return nightBoothDAO.getAccountInfo();
     }
 }
