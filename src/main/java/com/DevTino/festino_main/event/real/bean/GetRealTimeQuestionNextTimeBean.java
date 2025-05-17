@@ -27,7 +27,6 @@ public class GetRealTimeQuestionNextTimeBean {
 
         // 현재 시간에 맞춰 다음시간인 퀴즈 시작시간, 종료시간 가져오기
         RealTimeQuestionDAO realTimeQuestionDAO = getRealTimeQuestionDAOBean.exec(now);
-        if (realTimeQuestionDAO == null) return null;
 
         // 시작시간, 종료시간가 담긴 DTO 객체 반환
         return createRealTimeQuestionNextTimeDTOBean.exec(realTimeQuestionDAO);
