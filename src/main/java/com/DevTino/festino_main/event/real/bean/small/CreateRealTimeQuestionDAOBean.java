@@ -34,11 +34,11 @@ public class CreateRealTimeQuestionDAOBean {
 //        LocalDateTime endTime = targetDate.atTime(18, 10);
 
         // 테스트용
-        LocalDate baseDate = LocalDate.of(2025, 5, 11);
+        LocalDate baseDate = LocalDate.of(2025, 5, 17);
         LocalDate targetDate = baseDate.plusDays(count);
 
-        LocalDateTime startTime = targetDate.atTime(0, 1);
-        LocalDateTime endTime = targetDate.atTime(23, 59);
+        LocalDateTime startTime = targetDate.atTime(2, 0);
+        LocalDateTime endTime = targetDate.atTime(22, 0);
 
 
         return RealTimeQuestionDAO.builder()
