@@ -65,6 +65,7 @@ public class SendInitMessageBean {
                 .totalCount(session.getTotalCount())
                 .menuList(menuInfoList)
                 .remainingMinutes(remainingMinutes)
+                .orderInProgress(session.isOrderInProgress())
                 .build();
 
         // 메시지 생성
