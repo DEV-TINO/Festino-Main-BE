@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -58,6 +59,9 @@ public class SendInitMessageBean {
         // 남은 시간 계산 (sessionTimeOutManage를 주입받아야 함)
         int remainingMinutes = sessionTimeOutManage.getRemainingMinutes(session.getId());
 
+        // 주문 중인 사람 여부 판단
+        boolean orderInitiator = Objects.equals(session.getOrderInitiatorId(), webSocketSessionId);
+
         // 초기화 정보 생성
         InitInfo initInfo = InitInfo.builder()
                 .memberCount(session.getMemberCount())
@@ -66,7 +70,7 @@ public class SendInitMessageBean {
                 .menuList(menuInfoList)
                 .remainingMinutes(remainingMinutes)
                 .orderInProgress(session.isOrderInProgress())
-                .orderInitiatorId(session.getOrderInitiatorId())
+                .orderInitiator(orderInitiator)
                 .build();
 
         // 메시지 생성
