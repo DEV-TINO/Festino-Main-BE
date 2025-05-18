@@ -3,8 +3,7 @@ package com.DevTino.festino_main.event.photo.bean.small;
 import com.DevTino.festino_main.event.photo.domain.dto.ResponsePhotoGetDTO;
 import com.DevTino.festino_main.event.photo.domain.dto.ResponsePhotosGetDTO;
 import com.DevTino.festino_main.event.photo.domain.entity.PhotoDAO;
-import com.DevTino.festino_main.event.photoheart.bean.small.GetPhotoHeartDAOBean;
-import com.DevTino.festino_main.event.photoheart.domain.entity.PhotoHeartDAO;
+import com.DevTino.festino_main.event.photoheart.bean.small.CheckPhotoHeartDAOBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +13,11 @@ import java.util.UUID;
 @Component
 public class CreatePhotosDTOBean {
 
-    GetPhotoHeartDAOBean getPhotoHeartDAOBean;
+    CheckPhotoHeartDAOBean checkPhotoHeartDAOBean;
 
     @Autowired
-    public CreatePhotosDTOBean(GetPhotoHeartDAOBean getPhotoHeartDAOBean) {
-        this.getPhotoHeartDAOBean = getPhotoHeartDAOBean;
+    public CreatePhotosDTOBean(CheckPhotoHeartDAOBean checkPhotoHeartDAOBean) {
+        this.checkPhotoHeartDAOBean = checkPhotoHeartDAOBean;
     }
 
     // 전체 조회
@@ -34,8 +33,7 @@ public class CreatePhotosDTOBean {
                     responsePhotoGetDTO.setHeartCount(photoDAO.getHeartCount());
 
                     // 좋아요 여부 확인
-                    PhotoHeartDAO photoHeartDAO = getPhotoHeartDAOBean.exec(photoDAO.getPhotoId(), mainUserId);
-                    responsePhotoGetDTO.setHeart(photoHeartDAO != null);
+                    responsePhotoGetDTO.setHeart(checkPhotoHeartDAOBean.exec(photoDAO.getPhotoId(), mainUserId));
 
                     return responsePhotoGetDTO;
                 })

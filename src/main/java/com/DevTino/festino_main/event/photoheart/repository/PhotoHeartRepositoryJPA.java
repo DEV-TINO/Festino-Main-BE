@@ -8,4 +8,6 @@ import java.util.UUID;
 public interface PhotoHeartRepositoryJPA extends JpaRepository<PhotoHeartDAO, UUID> {
 
     PhotoHeartDAO findByPhotoIdAndMainUserId(UUID photoId, UUID mainUserId);
+    boolean existsByPhotoIdAndMainUserId(UUID photoId, UUID mainUserId);
+
 }
