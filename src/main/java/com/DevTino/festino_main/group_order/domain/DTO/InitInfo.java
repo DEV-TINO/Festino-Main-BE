@@ -17,5 +17,6 @@ public class InitInfo {
     Integer totalCount;
     Integer remainingMinutes;
     Boolean orderInProgress;
+    String orderInitiatorId;
     List<MenuInfo> menuList;
 }
