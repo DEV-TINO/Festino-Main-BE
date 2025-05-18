@@ -36,7 +36,7 @@ public class ImageController {
         Map<String, Object> requestMap = new HashMap<>();
         requestMap.put("success", success);
         requestMap.put("message", success ? "이미지 저장 성공" : "이미지 저장 실패");
-        requestMap.put("imageUrl", imageUrl);
+        requestMap.put("data", imageUrl);
 
         // status, body 설정해서 응답 리턴
         return ResponseEntity.status(HttpStatus.OK).body(requestMap);
