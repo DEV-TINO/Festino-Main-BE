@@ -25,8 +25,8 @@ public class PhotoController {
     }
 
     // 사진 게시물 전체 조회
-    @GetMapping("all/{type}/user/{mainUserId}") // type : new, heart
-    public ResponseEntity<ApiResponse<Object>> getPhotos(@PathVariable("mainUserId") UUID mainUserId, @PathVariable("type") String type) {
+    @GetMapping("all/{type}") // type : new, heart
+    public ResponseEntity<ApiResponse<Object>> getPhotos(@RequestParam(value = "main-user-id", required = false) UUID mainUserId, @PathVariable("type") String type) {
 
         // 사진 게시물 전체 조회 service 실행
         ResponsePhotosGetDTO responsePhotosGetDTO = photoService.getPhotos(mainUserId, type);
