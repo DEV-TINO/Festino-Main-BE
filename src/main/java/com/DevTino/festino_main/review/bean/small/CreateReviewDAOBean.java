@@ -13,8 +13,15 @@ public class CreateReviewDAOBean {
     public ReviewDAO exec(RequestReviewSaveDTO requestReviewSaveDTO){
         return ReviewDAO.builder()
                 .reviewId(UUID.randomUUID())
-                .content(requestReviewSaveDTO.getContent())
-                .email(requestReviewSaveDTO.getEmail())
+                .rating(requestReviewSaveDTO.getRating())
+                .goodFunc(requestReviewSaveDTO.getGoodFunc())
+                .badFunc(requestReviewSaveDTO.getBadFunc())
+                .reason(requestReviewSaveDTO.getReason())
+                .reuse(requestReviewSaveDTO.getReuse())
+                .feedback(requestReviewSaveDTO.getFeedback())
+                .name(requestReviewSaveDTO.getName())
+                .phoneNum(requestReviewSaveDTO.getPhoneNum())
+                .studentNum(requestReviewSaveDTO.getStudentNum())
                 .createAt(DateTimeUtils.nowZone())
                 .uploadAt(DateTimeUtils.nowZone())
                 .build();

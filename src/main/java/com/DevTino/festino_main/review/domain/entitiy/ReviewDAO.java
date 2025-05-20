@@ -17,8 +17,15 @@ public class ReviewDAO {
     @Id
     UUID reviewId;
 
-    String content;
-    String email;
+    Integer rating;
+    String goodFunc;
+    String badFunc;
+    String reason;
+    String reuse;
+    String feedback;
+    String name;
+    String phoneNum;
+    String studentNum;
 
     LocalDateTime createAt;
     LocalDateTime uploadAt;

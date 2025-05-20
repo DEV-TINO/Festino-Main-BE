@@ -9,8 +9,15 @@ public class CreateReviewDTOBean {
     public ResponseReviewGetDTO exec(ReviewDAO reviewDAO){
         return ResponseReviewGetDTO.builder()
                 .reviewId(reviewDAO.getReviewId())
-                .email(reviewDAO.getEmail())
-                .content(reviewDAO.getContent())
+                .rating(reviewDAO.getRating())
+                .goodFunc(reviewDAO.getGoodFunc())
+                .badFunc(reviewDAO.getBadFunc())
+                .reason(reviewDAO.getReason())
+                .reuse(reviewDAO.getReuse())
+                .feedback(reviewDAO.getFeedback())
+                .name(reviewDAO.getName())
+                .phoneNum(reviewDAO.getPhoneNum())
+                .studentNum(reviewDAO.getStudentNum())
                 .build();
     }
 }
