@@ -44,11 +44,11 @@ public class CreateTalentShowsDTOBean {
         List<ResponseTalentShowsGetDTO> responseTalentShowsGetDTOList = new ArrayList<>();
 
         if (day == 1) {
-            day = 11;
+            day = 26;
         } else if (day == 2){
-            day = 12;
+            day = 27;
         } else if (day == 3) {
-            day = 13;
+            day = 28;
         } else
             return null;
 
