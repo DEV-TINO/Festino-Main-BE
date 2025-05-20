@@ -25,7 +25,7 @@ public class GetMenuDAOBean {
     public List<MenuDAO> exec(UUID boothId){
 
         List<MenuDAO> daoList = menuRepositoryJPA.findAllByBoothIdOrderByMenuIndexAsc(boothId);
-        if (daoList.isEmpty()) throw new ServiceException(ExceptionEnum.EMPTY_LIST);
+//        if (daoList.isEmpty()) throw new ServiceException(ExceptionEnum.EMPTY_LIST);
 
         return daoList;
 
