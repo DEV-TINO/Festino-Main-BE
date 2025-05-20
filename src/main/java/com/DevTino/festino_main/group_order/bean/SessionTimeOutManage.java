@@ -49,9 +49,6 @@ public class SessionTimeOutManage {
         try {
             String sessionId = boothId + ":" + tableNum;
 
-//            // 기존 예약 태스크가 있으면 취소
-//            cancelExistingTasks(sessionId);
-
             // 기존 태스크가 있는지 확인
             boolean hasExistingTasks = warningTasks.containsKey(sessionId) ||
                     endTasks.containsKey(sessionId) ||
@@ -70,6 +67,12 @@ public class SessionTimeOutManage {
             // DB의 세션 정보 업데이트
             GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId)
                     .orElseThrow(() -> new RuntimeException("Order session not found: " + sessionId));
+
+            // 기존 세션이 이미 만료된 경우
+            if (session.getExpiryTime() != null && session.getExpiryTime().isBefore(now)) {
+                handleSessionExpiry(sessionId);
+                return;
+            }
 
             // 경고 메시지 태스크 예약
             Instant warningInstant = warningTime.atZone(ZoneId.systemDefault()).toInstant();
@@ -160,6 +163,7 @@ public class SessionTimeOutManage {
 
             // 세션 삭제
             groupOrderRepositoryJPA.delete(session);
+            groupOrderRepositoryJPA.flush(); // 즉시 변경사항 반영
         }
 
         // 관련 태스크 정리
