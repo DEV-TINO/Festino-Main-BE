@@ -9,6 +9,14 @@ import java.util.UUID;
 @Builder
 public class ResponseReviewGetDTO {
     UUID reviewId;
-    String content;
-    String email;
+
+    Integer rating;
+    String goodFunc;
+    String badFunc;
+    String reason;
+    String reuse;
+    String feedback;
+    String name;
+    String phoneNum;
+    String studentNum;
 }
