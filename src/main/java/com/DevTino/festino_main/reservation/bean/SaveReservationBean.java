@@ -15,8 +15,6 @@ import com.DevTino.festino_main.reservation.domain.ReservationEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 @Component
 public class SaveReservationBean {
 
@@ -42,7 +40,7 @@ public class SaveReservationBean {
     }
 
     // 예약 등록
-    public ResponseReservationSaveDTO exec(RequestReservationSaveDTO requestReservationSaveDTO) throws IOException {
+    public ResponseReservationSaveDTO exec(RequestReservationSaveDTO requestReservationSaveDTO) {
 
         // 부스 정보 조회
         NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(requestReservationSaveDTO.getBoothId());
