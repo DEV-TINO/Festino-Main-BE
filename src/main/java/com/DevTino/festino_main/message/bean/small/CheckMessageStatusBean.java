@@ -1,5 +1,7 @@
 package com.DevTino.festino_main.message.bean.small;
 
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import com.DevTino.festino_main.message.others.SmsConfig;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -29,39 +31,44 @@ public class CheckMessageStatusBean {
         this.smsConfig = smsConfig;
     }
 
-    public String exec(String refKey, String accessToken) throws IOException {
-        String authValue = Base64.getEncoder()
-                .encodeToString(String.format("%s:%s", smsConfig.getSmsId(), accessToken).getBytes(StandardCharsets.UTF_8));
+    public String exec(String refKey, String accessToken) {
 
-        Request request = new Request.Builder()
-                .url(RESULT_LOG_URL + refKey)
-                .get()
-                .addHeader("Content-Type", CONTENT_TYPE)
-                .addHeader("Authorization", "Basic " + authValue)
-                .addHeader("cache-control", CACHE_CONTROL)
-                .build();
+        try {
+            String authValue = Base64.getEncoder()
+                    .encodeToString(String.format("%s:%s", smsConfig.getSmsId(), accessToken).getBytes(StandardCharsets.UTF_8));
 
-        while (true) {
+            Request request = new Request.Builder()
+                    .url(RESULT_LOG_URL + refKey)
+                    .get()
+                    .addHeader("Content-Type", CONTENT_TYPE)
+                    .addHeader("Authorization", "Basic " + authValue)
+                    .addHeader("cache-control", CACHE_CONTROL)
+                    .build();
 
-            OkHttpClient client = new OkHttpClient();
+            while (true) {
 
-            Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
-                Map<String, Object> result = new Gson().fromJson(Objects.requireNonNull(response.body()).string(), Map.class);
+                OkHttpClient client = new OkHttpClient();
 
-                String dataJson = new Gson().toJson(result.get("data"));
-                Type listType = new TypeToken<List<Map<String, Object>>>() {}.getType();
-                List<Map<String, Object>> dataList = new Gson().fromJson(dataJson, listType);
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    Map<String, Object> result = new Gson().fromJson(Objects.requireNonNull(response.body()).string(), Map.class);
 
-                for (Map<String, Object> data : dataList) {
-                    String code = (String) data.get("CODE");
-                    if ("FAIL".equals(code)) {
-                        return "PHONE_NUM_FAIL";
-                    } else if ("SUCC".equals(code)) {
-                        return "SEND_SUCCESS";
+                    String dataJson = new Gson().toJson(result.get("data"));
+                    Type listType = new TypeToken<List<Map<String, Object>>>() {}.getType();
+                    List<Map<String, Object>> dataList = new Gson().fromJson(dataJson, listType);
+
+                    for (Map<String, Object> data : dataList) {
+                        String code = (String) data.get("CODE");
+                        if ("FAIL".equals(code)) {
+                            return "PHONE_NUM_FAIL";
+                        } else if ("SUCC".equals(code)) {
+                            return "SEND_SUCCESS";
+                        }
                     }
                 }
             }
+        } catch (IOException e) {
+            throw new ServiceException(ExceptionEnum.INTERNAL_ERROR);
         }
     }
 }

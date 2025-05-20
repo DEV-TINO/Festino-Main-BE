@@ -35,11 +35,6 @@ public class MainUserService {
 
     // 사용자 인증 번호 전송
     public UUID sendMessageMainUserAuthorization(RequestMainUserSaveDTO requestMainUserSaveDTO) {
-        try {
-            return sendMessageMainUserAuthorizationBean.exec(requestMainUserSaveDTO);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return sendMessageMainUserAuthorizationBean.exec(requestMainUserSaveDTO);
     }
 }

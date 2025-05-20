@@ -9,7 +9,6 @@ import com.DevTino.festino_main.user.domain.entity.MainUserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.UUID;
 
@@ -33,7 +32,7 @@ public class SendMessageMainUserAuthorizationBean {
     }
 
     // 인증코드 전송
-    public UUID exec(RequestMainUserSaveDTO requestMainUserSaveDTO) throws IOException {
+    public UUID exec(RequestMainUserSaveDTO requestMainUserSaveDTO) {
 
         // 인증코드 생성
         String authorizationCode = String.valueOf(100000 + secureRandom.nextInt(900000));
