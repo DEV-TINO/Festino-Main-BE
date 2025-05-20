@@ -9,8 +9,6 @@ import com.DevTino.festino_main.reservation.domain.DTO.ResponseReservationSaveDT
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-
 @Service
 public class ReservationService {
     GetReservationBean getReservationBean;
@@ -25,7 +23,7 @@ public class ReservationService {
     }
 
     // 예약 등록
-    public ResponseReservationSaveDTO saveReservation(RequestReservationSaveDTO requestReservationSaveDTO) throws IOException {
+    public ResponseReservationSaveDTO saveReservation(RequestReservationSaveDTO requestReservationSaveDTO) {
         return saveReservationBean.exec(requestReservationSaveDTO);
     }
 
