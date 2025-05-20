@@ -26,6 +26,7 @@ public enum ExceptionEnum {
     CSRF_TOKEN_EXPIRED(HttpStatus.BAD_REQUEST, "E017", "CSRF 토큰이 만료되었습니다."),
     RESERVATION_DISABLED(HttpStatus.FORBIDDEN, "E018", "예약이 비활성화된 상태입니다."),
     AUTHCODE_MISMATCH(HttpStatus.UNAUTHORIZED, "E019", "인증코드가 일치하지 않습니다."),
+    MESSAGE_SEND_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, "E020", "메시지 전송에 실패했습니다. 잠시 후 다시 시도해 주세요."),
 
     // 공통 예외
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "E999", "서버 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");

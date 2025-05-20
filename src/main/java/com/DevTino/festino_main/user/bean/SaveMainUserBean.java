@@ -25,7 +25,7 @@ public class SaveMainUserBean {
 
     public UUID exec(RequestMainUserSaveDTO requestMainUserSaveDTO){
 
-        // 사용자 정보가 있는지 조회
+        // 사용자 정보 조회
         MainUserDAO mainUserDAO = getMainUserDAOBean.exec(requestMainUserSaveDTO.getPhoneNum(), requestMainUserSaveDTO.getMainUserName());
 
         if (mainUserDAO.isAuthenticated()) throw new ServiceException(ExceptionEnum.ALREADY_PROCESSED);

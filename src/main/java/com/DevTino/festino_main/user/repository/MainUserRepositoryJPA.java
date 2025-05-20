@@ -9,4 +9,6 @@ public interface MainUserRepositoryJPA extends JpaRepository<MainUserDAO, UUID> 
 
     MainUserDAO findByMainUserId(UUID mainUserId);
     MainUserDAO findByPhoneNumAndMainUserName(String phoneNum, String mainUserName);
+    boolean existsByPhoneNumAndMainUserName(String phoneNum, String mainUserName);
+
 }
