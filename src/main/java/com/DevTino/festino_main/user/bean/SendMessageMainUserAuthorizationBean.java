@@ -1,9 +1,8 @@
 package com.DevTino.festino_main.user.bean;
 
-import com.DevTino.festino_main.user.bean.small.CreateMainUserDAOBean;
-import com.DevTino.festino_main.user.bean.small.GetMainUserDAOBean;
-import com.DevTino.festino_main.user.bean.small.SaveMainUserDAOBean;
-import com.DevTino.festino_main.user.bean.small.SendMessageBean;
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
+import com.DevTino.festino_main.user.bean.small.*;
 import com.DevTino.festino_main.user.domain.dto.RequestMainUserSaveDTO;
 import com.DevTino.festino_main.user.domain.entity.MainUserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +19,15 @@ public class SendMessageMainUserAuthorizationBean {
     SaveMainUserDAOBean saveMainUserDAOBean;
     GetMainUserDAOBean getMainUserDAOBean;
     SendMessageBean sendMessageBean;
+    CheckMainUserDAOBean checkMainUserDAOBean;
 
     @Autowired
-    public SendMessageMainUserAuthorizationBean(CreateMainUserDAOBean createMainUserDAOBean,
-                                                 SaveMainUserDAOBean saveMainUserDAOBean,
-                                                 SendMessageBean sendMessageBean, GetMainUserDAOBean getMainUserDAOBean) {
+    public SendMessageMainUserAuthorizationBean(CreateMainUserDAOBean createMainUserDAOBean, SaveMainUserDAOBean saveMainUserDAOBean, SendMessageBean sendMessageBean, GetMainUserDAOBean getMainUserDAOBean, CheckMainUserDAOBean checkMainUserDAOBean) {
         this.createMainUserDAOBean = createMainUserDAOBean;
         this.saveMainUserDAOBean = saveMainUserDAOBean;
         this.sendMessageBean = sendMessageBean;
         this.getMainUserDAOBean = getMainUserDAOBean;
+        this.checkMainUserDAOBean = checkMainUserDAOBean;
     }
 
     // 인증코드 전송
@@ -37,29 +36,27 @@ public class SendMessageMainUserAuthorizationBean {
         // 인증코드 생성
         String authorizationCode = String.valueOf(100000 + secureRandom.nextInt(900000));
 
-        // 재요청
-        MainUserDAO oldMainUserDAO = getMainUserDAOBean.exec(requestMainUserSaveDTO.getPhoneNum(), requestMainUserSaveDTO.getMainUserName());
-        if (oldMainUserDAO != null) {
+        // 유저가 저장되어 있는 경우
+        if (checkMainUserDAOBean.exec(requestMainUserSaveDTO.getPhoneNum(), requestMainUserSaveDTO.getMainUserName())) {
 
-            // 인증코드가 인증 안 된 경우
-            if (!oldMainUserDAO.isAuthenticated()){
-                System.out.println("oldMainUserDAO = " + oldMainUserDAO);
-                // 인증코드 변경
-                oldMainUserDAO.setAuthorizationCode(authorizationCode);
-                saveMainUserDAOBean.exec(oldMainUserDAO);
+            // 유저 조회
+            MainUserDAO oldMainUserDAO = getMainUserDAOBean.exec(requestMainUserSaveDTO.getPhoneNum(), requestMainUserSaveDTO.getMainUserName());
 
-                // 인증코드 전송
-                String messageStatus = sendMessageBean.exec(requestMainUserSaveDTO.getPhoneNum(), authorizationCode);
-                if (messageStatus.equals("SEND_FAIL")) return null;
+            // 이미 인증된 유저인 경우 예외 발생
+            if (oldMainUserDAO.isAuthenticated()) throw new ServiceException(ExceptionEnum.ALREADY_PROCESSED);
 
+            // 인증코드 변경
+            oldMainUserDAO.setAuthorizationCode(authorizationCode);
+            saveMainUserDAOBean.exec(oldMainUserDAO);
 
-                return oldMainUserDAO.getMainUserId();
-            }
-            else {
-                // 인증코드가 인증 된 경우
-                return null;
-            }
+            // 인증코드 전송
+            String messageStatus = sendMessageBean.exec(requestMainUserSaveDTO.getPhoneNum(), authorizationCode);
+
+            return oldMainUserDAO.getMainUserId();
+
         }
+        
+        // 유저가 저장되어 있지 않은 경우
         else {
             // 유저 저장
             MainUserDAO mainUserDAO = createMainUserDAOBean.exec(requestMainUserSaveDTO, authorizationCode);
@@ -69,7 +66,6 @@ public class SendMessageMainUserAuthorizationBean {
 
             // 인증코드 전송
             String messageStatus = sendMessageBean.exec(requestMainUserSaveDTO.getPhoneNum(), authorizationCode);
-            if (messageStatus.equals("SEND_FAIL")) return null;
 
             return mainUserDAO.getMainUserId();
         }
