@@ -46,8 +46,8 @@ public class CreateRealTimeQuestionDAOBean {
                 .question(requestRealTimeQuestionSaveDTO.getQuestion())
                 .startTime(startTime)
                 .endTime(endTime)
-                .createAt(LocalDateTime.now())
-                .updateAt(LocalDateTime.now())
+                .createAt(DateTimeUtils.nowZone())
+                .updateAt(DateTimeUtils.nowZone())
                 .build();
     }
 }

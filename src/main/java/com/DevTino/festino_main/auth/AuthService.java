@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.auth;
 
+import com.DevTino.festino_main.DateTimeUtils;
 import com.DevTino.festino_main.exception.ExceptionEnum;
 import com.DevTino.festino_main.exception.ServiceException;
 import com.DevTino.festino_main.user.domain.entity.MainUserTokenDAO;
@@ -106,7 +107,7 @@ public class AuthService {
                 .mainUserId(mainUserId)
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .createAt(LocalDateTime.now())
+                .createAt(DateTimeUtils.nowZone())
                 .build();
 
         mainUserTokenRepositoryJPA.save(mainUserToken);

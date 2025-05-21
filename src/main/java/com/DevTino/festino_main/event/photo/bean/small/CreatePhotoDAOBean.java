@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.event.photo.bean.small;
 
+import com.DevTino.festino_main.DateTimeUtils;
 import com.DevTino.festino_main.event.photo.domain.dto.RequestPhotoSaveDTO;
 import com.DevTino.festino_main.event.photo.domain.entity.PhotoDAO;
 import com.DevTino.festino_main.exception.ExceptionEnum;
@@ -33,7 +34,7 @@ public class CreatePhotoDAOBean {
                 .mainUserName(mainUserName)
                 .imageUrl(requestPhotoSaveDTO.getImageUrl())
                 .heartCount(0)
-                .createAt(LocalDateTime.now())
+                .createAt(DateTimeUtils.nowZone())
                 .build();
     }
 }

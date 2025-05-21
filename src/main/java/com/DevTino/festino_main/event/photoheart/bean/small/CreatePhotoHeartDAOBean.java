@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.event.photoheart.bean.small;
 
+import com.DevTino.festino_main.DateTimeUtils;
 import com.DevTino.festino_main.event.photoheart.domain.dto.RequestPhotoHeartSaveDTO;
 import com.DevTino.festino_main.event.photoheart.domain.entity.PhotoHeartDAO;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ public class CreatePhotoHeartDAOBean {
                 .photoHeartId(UUID.randomUUID())
                 .photoId(requestPhotoHeartSaveDTO.getPhotoId())
                 .mainUserId(requestPhotoHeartSaveDTO.getMainUserId())
-                .createAt(LocalDateTime.now())
+                .createAt(DateTimeUtils.nowZone())
                 .build();
     }
 }
