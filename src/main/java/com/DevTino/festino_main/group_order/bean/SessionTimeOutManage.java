@@ -72,6 +72,7 @@ public class SessionTimeOutManage {
             // 세션 만료 시간 설정
             session.setExpiryTime(expiryTime);
             groupOrderRepositoryJPA.save(session);
+            groupOrderRepositoryJPA.flush();
 
             // 경고 메시지 태스크 예약
             schedulePreSessionEndTask(session, warningTime);
