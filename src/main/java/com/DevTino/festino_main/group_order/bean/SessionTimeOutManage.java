@@ -176,7 +176,6 @@ public class SessionTimeOutManage {
 
 
     // 시간 업데이트 메시지 전송
-    @Transactional
     private void sendTimeUpdateMessage(GroupOrderDAO session) {
         int remainingMinutes = getRemainingMinutes(session.getId());
 
