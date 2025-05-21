@@ -71,7 +71,7 @@ public class GlobalExceptionHandler {
         if (res.isCommitted()) {
             // 응답이 이미 커밋된 경우, 새로운 응답을 작성할 수 없음
             System.out.println("응답이 이미 커밋되었습니다.");
-            return ResponseEntity.status(ex.exceptionEnum.getHttpStatus()).body(null);
+            return ResponseEntity.status(ExceptionEnum.INTERNAL_ERROR.getHttpStatus()).body(null);
         }
 
         // 성공 여부 실패로 설정, 예외 메시지 설정
