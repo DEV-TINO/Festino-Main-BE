@@ -37,7 +37,6 @@ public class GlobalExceptionHandler {
         System.out.println("Response Buffer Size     : " + res.getBufferSize());
         System.out.println("Response Status Message  : " + res.getStatus());
 
-        ex.printStackTrace();
         System.out.println("-----------------------------------------------------------------");
 
         if (res.isCommitted()) {
@@ -70,7 +69,7 @@ public class GlobalExceptionHandler {
         System.out.println("HTTP Method              : " + req.getMethod());
 
         System.out.println("Request Header [Auth]    : " + req.getHeader("Authorization"));
-        System.out.println("Request Parameters       : " + req.getParameterMap());
+        System.out.println("Request Parameters       : " + req.getParameterMagip());
         System.out.println("Request Attribute [body] : " + req.getAttribute("body"));
         System.out.println("Client IP Address        : " + req.getRemoteAddr());
         System.out.println("Request Host             : " + req.getHeader("Host"));
@@ -80,7 +79,6 @@ public class GlobalExceptionHandler {
         System.out.println("Response Buffer Size     : " + res.getBufferSize());
         System.out.println("Response Status Message  : " + res.getStatus());
 
-        ex.printStackTrace();
         System.out.println("-----------------------------------------------------------------");
         
         if (res.isCommitted()) {
