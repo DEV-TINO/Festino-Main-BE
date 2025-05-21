@@ -19,8 +19,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ServiceException.class)
     public ResponseEntity<ApiResponse<Object>> handleServiceException(ServiceException ex, HttpServletRequest req, HttpServletResponse res) {
 
-        ContentCachingRequestWrapper wrapper = (ContentCachingRequestWrapper) req;
-        byte[] buf = wrapper.getContentAsByteArray();
 
         System.out.println("----------------- Error occured in [ServiceException.class] -----------------");
 
@@ -30,7 +28,6 @@ public class GlobalExceptionHandler {
         System.out.println("Timestamp                : " + System.currentTimeMillis());
         System.out.println("HTTP Method              : " + req.getMethod());
 
-        System.out.println("Raw Request Body         : " + new String(buf, StandardCharsets.UTF_8));
         System.out.println("Request Header [Auth]    : " + req.getHeader("Authorization"));
         System.out.println("Request Parameters       : " + req.getParameterMap());
         System.out.println("Request Attribute [body] : " + req.getAttribute("body"));
@@ -65,8 +62,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiResponse<Object>> handleRuntimeException(RuntimeException ex, HttpServletRequest req, HttpServletResponse res) {
 
-        ContentCachingRequestWrapper wrapper = (ContentCachingRequestWrapper) req;
-        byte[] buf = wrapper.getContentAsByteArray();
 
         System.out.println("----------------- Error occured in [RuntimeException.class] -----------------");
 
@@ -76,7 +71,6 @@ public class GlobalExceptionHandler {
         System.out.println("Timestamp                : " + System.currentTimeMillis());
         System.out.println("HTTP Method              : " + req.getMethod());
 
-        System.out.println("Raw Request Body         : " + new String(buf, StandardCharsets.UTF_8));
         System.out.println("Request Header [Auth]    : " + req.getHeader("Authorization"));
         System.out.println("Request Parameters       : " + req.getParameterMap());
         System.out.println("Request Attribute [body] : " + req.getAttribute("body"));
@@ -87,6 +81,8 @@ public class GlobalExceptionHandler {
         System.out.println("Response Header Names    : " + res.getHeaderNames());
         System.out.println("Response Buffer Size     : " + res.getBufferSize());
         System.out.println("Response Status Message  : " + res.getStatus());
+
+        ex.printStackTrace();
         System.out.println("-----------------------------------------------------------------");
         
         if (res.isCommitted()) {
