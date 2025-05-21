@@ -3,6 +3,7 @@ package com.DevTino.festino_main.review.domain.DTO;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -11,8 +12,8 @@ public class ResponseReviewGetDTO {
     UUID reviewId;
 
     Integer rating;
-    String goodFunc;
-    String badFunc;
+    List<String> goodFunc;
+    List<String> badFunc;
     String reason;
     String reuse;
     String feedback;
