@@ -36,6 +36,10 @@ public class OrderDoneBean {
             // 주문 완료 메시지 전송 (모든 클라이언트에게)
             sendOrderDoneMessage(session);
 
+            // 세션삭제
+            groupOrderRepositoryJPA.delete(session);
+            groupOrderRepositoryJPA.flush();
+
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
