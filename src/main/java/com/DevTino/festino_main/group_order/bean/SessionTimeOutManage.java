@@ -35,7 +35,7 @@ public class SessionTimeOutManage {
 
     private static final int SESSION_TIMEOUT_MINUTES = 10; // 세션 타임아웃 10분
     private static final int WARNING_BEFORE_EXPIRY_MINUTES = 1; // 경고는 만료 1분 전에
-    private static final int TIME_UPDATE_INTERVAL_SECONDS = 10; // 시간 업데이트 간격 (1분)
+    private static final int TIME_UPDATE_INTERVAL_SECONDS = 60; // 시간 업데이트 간격 (1분)
 
     @Autowired
     public SessionTimeOutManage(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate, TaskScheduler taskScheduler) {
@@ -49,9 +49,6 @@ public class SessionTimeOutManage {
     public void scheduleSessionTimeout(UUID boothId, Integer tableNum) {
         try {
             String sessionId = boothId + ":" + tableNum;
-
-//            // 기존 예약 태스크가 있으면 취소
-//            cancelExistingTasks(sessionId);
 
             // 기존 태스크가 있는지 확인
             boolean hasExistingTasks = warningTasks.containsKey(sessionId) ||
@@ -77,20 +74,10 @@ public class SessionTimeOutManage {
             groupOrderRepositoryJPA.save(session);
 
             // 경고 메시지 태스크 예약
-            Instant warningInstant = warningTime.atZone(ZoneId.systemDefault()).toInstant();
-            ScheduledFuture<?> warningTask = taskScheduler.schedule(
-                    () -> sendPreSessionEndMessage(session),
-                    warningInstant
-            );
-            warningTasks.put(sessionId, warningTask);
+            schedulePreSessionEndTask(session, warningTime);
 
             // 종료 메시지 태스크 예약
-            Instant expiryInstant = expiryTime.atZone(ZoneId.systemDefault()).toInstant();
-            ScheduledFuture<?> endTask = taskScheduler.schedule(
-                    () -> handleSessionExpiry(sessionId),
-                    expiryInstant
-            );
-            endTasks.put(sessionId, endTask);
+            scheduleSessionEndTask(session, expiryTime);
 
             // 시간 업데이트 태스크 추가 - 1분마다 실행
             scheduleTimeUpdateTask(session);
@@ -139,6 +126,51 @@ public class SessionTimeOutManage {
         );
 
         timeUpdateTasks.put(sessionId, timeUpdateTask);
+    }
+
+    // 종료 전 알림 태스크 스케줄링
+    private void schedulePreSessionEndTask(GroupOrderDAO session, LocalDateTime warningTime) {
+        String sessionId = session.getId();
+        // 경고 메시지 태스크 예약
+        Instant warningInstant = warningTime.atZone(ZoneId.systemDefault()).toInstant();
+        ScheduledFuture<?> warningTask = taskScheduler.schedule(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            GroupOrderDAO currentSession = groupOrderRepositoryJPA.findById(sessionId).orElse(null);
+                            if (currentSession != null) {
+                                sendPreSessionEndMessage(currentSession);
+                            } else {
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                warningInstant
+        );
+        warningTasks.put(sessionId, warningTask);
+    }
+
+    // 종료 알림 태스크 스케줄링
+    private void scheduleSessionEndTask(GroupOrderDAO session, LocalDateTime expiryTime) {
+        String sessionId = session.getId();
+        Instant expiryInstant = expiryTime.atZone(ZoneId.systemDefault()).toInstant();
+        ScheduledFuture<?> endTask = taskScheduler.schedule(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            handleSessionExpiry(sessionId);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                expiryInstant
+        );
+        endTasks.put(sessionId, endTask);
     }
 
 
