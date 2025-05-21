@@ -5,8 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.web.util.ContentCachingRequestWrapper;
+import java.nio.charset.StandardCharsets;
 
 
 @RestControllerAdvice
@@ -15,26 +19,36 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ServiceException.class)
     public ResponseEntity<ApiResponse<Object>> handleServiceException(ServiceException ex, HttpServletRequest req, HttpServletResponse res) {
 
-        System.out.println("----------------- 에러 발생 [ServiceException.class] -----------------");
-        System.out.println("에러 발생 경로 : " + req.getRequestURI());
-        System.out.println("에러 발생 메세지 : " + ex.getMessage());
-        System.out.println("에러 발생 클래스 : " + ex.getClass());
-        System.out.println("에러 발생 시간 : " + System.currentTimeMillis());
-        System.out.println("에러 발생 요청 메소드 : " + req.getMethod());
-        System.out.println("에러 발생 요청 헤더 : " + req.getHeader("Authorization"));
-        System.out.println("에러 발생 요청 파라미터 : " + req.getParameterMap());
-        System.out.println("에러 발생 요청 바디 : " + req.getAttribute("body"));
-        System.out.println("에러 발생 요청 IP : " + req.getRemoteAddr());
-        System.out.println("에러 발생 요청 Host : " + req.getHeader("Host"));
-        System.out.println("에러 발생 응답 상태 : " + res.getStatus());
-        System.out.println("에러 발생 응답 헤더 : " + res.getHeaderNames());
-        System.out.println("에러 발생 응답 바디 : " + res.getBufferSize());
-        System.out.println("에러 발생 응답 메세지 : " + res.getStatus());
+        ContentCachingRequestWrapper wrapper = (ContentCachingRequestWrapper) req;
+        byte[] buf = wrapper.getContentAsByteArray();
+
+        System.out.println("----------------- Error occured in [ServiceException.class] -----------------");
+
+        System.out.println("Request URI              : " + req.getRequestURI());
+        System.out.println("Error Message            : " + ex.getMessage());
+        System.out.println("Exception Class          : " + ex.getClass().getName());
+        System.out.println("Timestamp                : " + System.currentTimeMillis());
+        System.out.println("HTTP Method              : " + req.getMethod());
+
+        System.out.println("Raw Request Body         : " + new String(buf, StandardCharsets.UTF_8));
+        System.out.println("Request Header [Auth]    : " + req.getHeader("Authorization"));
+        System.out.println("Request Parameters       : " + req.getParameterMap());
+        System.out.println("Request Attribute [body] : " + req.getAttribute("body"));
+        System.out.println("Client IP Address        : " + req.getRemoteAddr());
+        System.out.println("Request Host             : " + req.getHeader("Host"));
+
+        System.out.println("Response Status Code     : " + res.getStatus());
+        System.out.println("Response Header Names    : " + res.getHeaderNames());
+        System.out.println("Response Buffer Size     : " + res.getBufferSize());
+        System.out.println("Response Status Message  : " + res.getStatus());
+
+        ex.printStackTrace();
         System.out.println("-----------------------------------------------------------------");
 
         if (res.isCommitted()) {
             // 응답이 이미 커밋된 경우, 새로운 응답을 작성할 수 없음
-            System.out.println("응답이 이미 커밋되었습니다.");
+            System.out.println("The response has already been committed.");
+            System.out.println("--------------------------------------------------");
             return ResponseEntity.status(ex.exceptionEnum.getHttpStatus()).body(null);
         }
 
@@ -51,26 +65,31 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiResponse<Object>> handleRuntimeException(RuntimeException ex, HttpServletRequest req, HttpServletResponse res) {
 
-        System.out.println("----------------- 에러 발생 [RuntimeException.class] -----------------");
-        System.out.println("에러 발생 경로 : " + req.getRequestURI());
-        System.out.println("에러 발생 메세지 : " + ex.getMessage());
-        System.out.println("에러 발생 클래스 : " + ex.getClass());
-        System.out.println("에러 발생 시간 : " + System.currentTimeMillis());
-        System.out.println("에러 발생 요청 메소드 : " + req.getMethod());
-        System.out.println("에러 발생 요청 헤더 : " + req.getHeader("Authorization"));
-        System.out.println("에러 발생 요청 파라미터 : " + req.getParameterMap());
-        System.out.println("에러 발생 요청 바디 : " + req.getAttribute("body"));
-        System.out.println("에러 발생 요청 IP : " + req.getRemoteAddr());
-        System.out.println("에러 발생 요청 Host : " + req.getHeader("Host"));
-        System.out.println("에러 발생 응답 상태 : " + res.getStatus());
-        System.out.println("에러 발생 응답 헤더 : " + res.getHeaderNames());
-        System.out.println("에러 발생 응답 바디 : " + res.getBufferSize());
-        System.out.println("에러 발생 응답 메세지 : " + res.getStatus());
+        System.out.println("----------------- Error occured in [RuntimeException.class] -----------------");
+
+        System.out.println("Request URI              : " + req.getRequestURI());
+        System.out.println("Error Message            : " + ex.getMessage());
+        System.out.println("Exception Class          : " + ex.getClass().getName());
+        System.out.println("Timestamp                : " + System.currentTimeMillis());
+        System.out.println("HTTP Method              : " + req.getMethod());
+
+        System.out.println("Raw Request Body         : " + new String(buf, StandardCharsets.UTF_8));
+        System.out.println("Request Header [Auth]    : " + req.getHeader("Authorization"));
+        System.out.println("Request Parameters       : " + req.getParameterMap());
+        System.out.println("Request Attribute [body] : " + req.getAttribute("body"));
+        System.out.println("Client IP Address        : " + req.getRemoteAddr());
+        System.out.println("Request Host             : " + req.getHeader("Host"));
+
+        System.out.println("Response Status Code     : " + res.getStatus());
+        System.out.println("Response Header Names    : " + res.getHeaderNames());
+        System.out.println("Response Buffer Size     : " + res.getBufferSize());
+        System.out.println("Response Status Message  : " + res.getStatus());
         System.out.println("-----------------------------------------------------------------");
         
         if (res.isCommitted()) {
             // 응답이 이미 커밋된 경우, 새로운 응답을 작성할 수 없음
-            System.out.println("응답이 이미 커밋되었습니다.");
+            System.out.println("The response has already been committed.");
+            System.out.println("--------------------------------------------------");
             return ResponseEntity.status(ExceptionEnum.INTERNAL_ERROR.getHttpStatus()).body(null);
         }
 
