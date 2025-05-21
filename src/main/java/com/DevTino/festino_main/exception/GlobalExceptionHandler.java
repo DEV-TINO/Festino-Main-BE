@@ -1,13 +1,10 @@
 package com.DevTino.festino_main.exception;
 
 import com.DevTino.festino_main.ApiResponse;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.net.http.HttpResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -21,8 +18,6 @@ public class GlobalExceptionHandler {
         System.out.println("----------------- 에러 발생 [ServiceException.class] -----------------");
         System.out.println("에러 발생 경로 : " + req.getRequestURI());
         System.out.println("에러 발생 메세지 : " + ex.getMessage());
-        System.out.println("에러 발생 코드 : " + ex.exceptionEnum.getCode());
-        System.out.println("에러 발생 상태 : " + ex.exceptionEnum.getHttpStatus());
         System.out.println("에러 발생 클래스 : " + ex.getClass());
         System.out.println("에러 발생 시간 : " + System.currentTimeMillis());
         System.out.println("에러 발생 요청 메소드 : " + req.getMethod());
@@ -59,8 +54,6 @@ public class GlobalExceptionHandler {
         System.out.println("----------------- 에러 발생 [RuntimeException.class] -----------------");
         System.out.println("에러 발생 경로 : " + req.getRequestURI());
         System.out.println("에러 발생 메세지 : " + ex.getMessage());
-        System.out.println("에러 발생 코드 : " + ex.exceptionEnum.getCode());
-        System.out.println("에러 발생 상태 : " + ex.exceptionEnum.getHttpStatus());
         System.out.println("에러 발생 클래스 : " + ex.getClass());
         System.out.println("에러 발생 시간 : " + System.currentTimeMillis());
         System.out.println("에러 발생 요청 메소드 : " + req.getMethod());
@@ -74,7 +67,7 @@ public class GlobalExceptionHandler {
         System.out.println("에러 발생 응답 바디 : " + res.getBufferSize());
         System.out.println("에러 발생 응답 메세지 : " + res.getStatus());
         System.out.println("-----------------------------------------------------------------");
-
+        
         if (res.isCommitted()) {
             // 응답이 이미 커밋된 경우, 새로운 응답을 작성할 수 없음
             System.out.println("응답이 이미 커밋되었습니다.");
