@@ -87,8 +87,14 @@ public class ReservationController {
     public ResponseEntity<ApiResponse<Object>> checkReservationPhoneNum(@RequestParam("phoneNum") String phoneNum) {
         String adminName = reservationService.checkReservationPhoneNum(phoneNum);
 
+        ApiResponse<Object> response;
+
         // Map 이용해서 반환값 json 데이터로 변환
-        ApiResponse<Object> response = new ApiResponse<>(true, "전화번호 중복 조회 성공", adminName);
+        if (adminName.equals("-1")) {
+            response = new ApiResponse<>(true, "전화번호 중복 조회 실패", null);
+        } else {
+            response = new ApiResponse<>(true, "전화번호 중복 조회 성공", adminName);
+        }
 
         // status, body 설정해서 응답 리턴
         return ResponseEntity.status(HttpStatus.OK).body(response);

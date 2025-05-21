@@ -33,10 +33,6 @@ public class GetReservationByPhoneNumDAOBean {
     @Transactional(readOnly = true)
     public ReservationDAO exec(String phoneNum) {
 
-        ReservationDAO dao = reservationRepositoryJPA.findByPhoneNumAndReservationType(phoneNum, ReservationEnum.RESERVE);
-        if (dao == null) throw new ServiceException(ExceptionEnum.ENTITY_NOT_FOUND);
-
-        return dao;
-
+        return reservationRepositoryJPA.findByPhoneNumAndReservationType(phoneNum, ReservationEnum.RESERVE);
     }
 }
