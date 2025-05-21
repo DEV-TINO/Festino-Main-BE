@@ -65,6 +65,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiResponse<Object>> handleRuntimeException(RuntimeException ex, HttpServletRequest req, HttpServletResponse res) {
 
+        ContentCachingRequestWrapper wrapper = (ContentCachingRequestWrapper) req;
+        byte[] buf = wrapper.getContentAsByteArray();
+
         System.out.println("----------------- Error occured in [RuntimeException.class] -----------------");
 
         System.out.println("Request URI              : " + req.getRequestURI());
