@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.group_order.domain;
 
+import com.DevTino.festino_main.DateTimeUtils;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,7 +46,7 @@ public class GroupOrderDAO {
         this.boothId = boothId;
         this.tableNum = tableNum;
         this.id = boothId + ":" + tableNum;  // 복합 ID 생성
-        this.startTime = LocalDateTime.now();
+        this.startTime = DateTimeUtils.nowZone();
         this.expiryTime = this.startTime.plusMinutes(10); // 10분 후 만료
     }
 

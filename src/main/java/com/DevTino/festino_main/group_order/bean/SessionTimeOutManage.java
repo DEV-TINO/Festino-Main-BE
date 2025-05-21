@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.group_order.bean;
 
+import com.DevTino.festino_main.DateTimeUtils;
 import com.DevTino.festino_main.group_order.domain.DTO.OrderMessageDTO;
 import com.DevTino.festino_main.group_order.domain.DTO.TimeInfo;
 import com.DevTino.festino_main.group_order.domain.ENUM.TopicMessageType;
@@ -63,7 +64,7 @@ public class SessionTimeOutManage {
             }
 
             // 세션 생성 시간 (지금) + 지정된 시간으로 만료 시간 계산
-            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime now = DateTimeUtils.nowZone();
             LocalDateTime expiryTime = now.plusMinutes(SESSION_TIMEOUT_MINUTES);
             LocalDateTime warningTime = now.plusMinutes(SESSION_TIMEOUT_MINUTES - WARNING_BEFORE_EXPIRY_MINUTES);
 
@@ -226,7 +227,7 @@ public class SessionTimeOutManage {
     public int getRemainingMinutes(String sessionId) {
         GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId).orElse(null);
         if (session != null && session.getExpiryTime() != null) {
-            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime now = DateTimeUtils.nowZone();;
             // 남은 시간 계산 - 초 단위로 계산 후 60으로 나누어 분으로 변환
             long remainingSeconds = Duration.between(now, session.getExpiryTime()).getSeconds();
             return (int) Math.max(0, (remainingSeconds + 59) / 60); // 올림 처리
