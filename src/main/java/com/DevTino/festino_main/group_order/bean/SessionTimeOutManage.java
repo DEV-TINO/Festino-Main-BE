@@ -35,7 +35,7 @@ public class SessionTimeOutManage {
 
     private static final int SESSION_TIMEOUT_MINUTES = 10; // 세션 타임아웃 10분
     private static final int WARNING_BEFORE_EXPIRY_MINUTES = 1; // 경고는 만료 1분 전에
-    private static final int TIME_UPDATE_INTERVAL_SECONDS = 60; // 시간 업데이트 간격 (1분)
+    private static final int TIME_UPDATE_INTERVAL_SECONDS = 10; // 시간 업데이트 간격 (1분)
 
     @Autowired
     public SessionTimeOutManage(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate, TaskScheduler taskScheduler) {
@@ -72,6 +72,10 @@ public class SessionTimeOutManage {
             GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId)
                     .orElseThrow(() -> new RuntimeException("Order session not found: " + sessionId));
 
+            // 세션 만료 시간 설정
+            session.setExpiryTime(expiryTime);
+            groupOrderRepositoryJPA.save(session);
+
             // 경고 메시지 태스크 예약
             Instant warningInstant = warningTime.atZone(ZoneId.systemDefault()).toInstant();
             ScheduledFuture<?> warningTask = taskScheduler.schedule(
@@ -105,21 +109,32 @@ public class SessionTimeOutManage {
     private void scheduleTimeUpdateTask(GroupOrderDAO session) {
         String sessionId = session.getId();
 
-        // 10초 주기로 반복 실행되는 태스크 생성
+        // 1초 후 첫 실행, 그 이후 1분마다 실행
+        Instant initialDelay = Instant.now().plusSeconds(1);
+
         ScheduledFuture<?> timeUpdateTask = taskScheduler.scheduleAtFixedRate(
-                () -> {
-                    // 세션이 아직 존재하는지 확인
-                    GroupOrderDAO currentSession = groupOrderRepositoryJPA.findById(sessionId).orElse(null);
-                    if (currentSession != null) {
-                        sendTimeUpdateMessage(currentSession);
-                    } else {
-                        // 세션이 삭제된 경우, 이 태스크도 취소
-                        ScheduledFuture<?> task = timeUpdateTasks.remove(sessionId);
-                        if (task != null) {
-                            task.cancel(false);
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+
+                            // 세션 조회
+                            GroupOrderDAO currentSession = groupOrderRepositoryJPA.findById(sessionId).orElse(null);
+                            if (currentSession != null) {
+                                sendTimeUpdateMessage(currentSession);
+                            } else {
+                                ScheduledFuture<?> task = timeUpdateTasks.get(sessionId);
+                                if (task != null) {
+                                    task.cancel(false);
+                                    timeUpdateTasks.remove(sessionId);
+                                }
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 },
+                initialDelay,
                 Duration.ofSeconds(TIME_UPDATE_INTERVAL_SECONDS)
         );
 
