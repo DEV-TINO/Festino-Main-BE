@@ -1,15 +1,12 @@
 package com.DevTino.festino_main.image.controller;
 
+import com.DevTino.festino_main.ApiResponse;
 import com.DevTino.festino_main.image.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @CrossOrigin("*")
@@ -25,20 +22,12 @@ public class ImageController {
 
     // 이미지 저장
     @PostMapping("")
-    public ResponseEntity<Map<String, Object>> saveImage(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<ApiResponse<Object>> saveImage(@RequestParam("file") MultipartFile file) {
 
         String imageUrl = imageService.saveImage(file);
 
-        // 메뉴 저장 성공 여부
-        boolean success = imageUrl != null;
+        ApiResponse<Object> response = new ApiResponse<>(true, "이미지 저장 성공", imageUrl);
 
-        // Map을 통해 메시지와 id 값 json 데이터로 변환
-        Map<String, Object> requestMap = new HashMap<>();
-        requestMap.put("success", success);
-        requestMap.put("message", success ? "이미지 저장 성공" : "이미지 저장 실패");
-        requestMap.put("data", imageUrl);
-
-        // status, body 설정해서 응답 리턴
-        return ResponseEntity.status(HttpStatus.OK).body(requestMap);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
