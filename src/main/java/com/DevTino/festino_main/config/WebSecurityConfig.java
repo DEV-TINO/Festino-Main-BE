@@ -29,6 +29,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/main/event/photo").authenticated() // 이 경로만 인증 필요
                         .requestMatchers(HttpMethod.DELETE, "/main/event/photo").authenticated() // 이 경로만 인증 필요
+                        .requestMatchers(HttpMethod.POST, "/main/event/photo/heart").authenticated() // 이 경로만 인증 필요
+                        .requestMatchers(HttpMethod.DELETE, "/main/event/photo/heart").authenticated() // 이 경로만 인증 필요
                         .anyRequest().permitAll() // 나머지는 모두 허용
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // JWT 필터 등록
