@@ -26,11 +26,11 @@ public class GlobalExceptionHandler {
         System.out.println("Timestamp                : " + System.currentTimeMillis());
         System.out.println("HTTP Method              : " + req.getMethod());
 
-        System.out.println("Request Header [Auth]    : " + req.getHeader("Authorization"));
+        System.out.println("Request Header [Auth]    : " + req.getHeader("Access-token"));
         System.out.println("Request Parameters       : " + req.getParameterMap());
         System.out.println("Request Attribute [body] : " + req.getAttribute("body"));
         System.out.println("Client IP Address        : " + req.getRemoteAddr());
-        System.out.println("Request Host             : " + req.getHeader("Host"));
+        System.out.println("Request Host             : " + req.getHeader("Refresh-token"));
 
         System.out.println("Response Status Code     : " + res.getStatus());
         System.out.println("Response Header Names    : " + res.getHeaderNames());
@@ -68,11 +68,11 @@ public class GlobalExceptionHandler {
         System.out.println("Timestamp                : " + System.currentTimeMillis());
         System.out.println("HTTP Method              : " + req.getMethod());
 
-        System.out.println("Request Header [Auth]    : " + req.getHeader("Authorization"));
-        System.out.println("Request Parameters       : " + req.getParameterMagip());
+        System.out.println("Request Header [Auth]    : " + req.getHeader("Access-token"));
+        System.out.println("Request Parameters       : " + req.getParameterMap());
         System.out.println("Request Attribute [body] : " + req.getAttribute("body"));
         System.out.println("Client IP Address        : " + req.getRemoteAddr());
-        System.out.println("Request Host             : " + req.getHeader("Host"));
+        System.out.println("Request Host             : " + req.getHeader("Refresh-token"));
 
         System.out.println("Response Status Code     : " + res.getStatus());
         System.out.println("Response Header Names    : " + res.getHeaderNames());
