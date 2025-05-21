@@ -54,7 +54,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ApiResponse<Object>> handleRuntimeException(RuntimeException e, HttpServletRequest req, HttpServletResponse res) {
+    public ResponseEntity<ApiResponse<Object>> handleRuntimeException(RuntimeException ex, HttpServletRequest req, HttpServletResponse res) {
 
         System.out.println("----------------- 에러 발생 [RuntimeException.class] -----------------");
         System.out.println("에러 발생 경로 : " + req.getRequestURI());
