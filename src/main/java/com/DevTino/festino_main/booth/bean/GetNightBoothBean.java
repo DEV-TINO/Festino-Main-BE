@@ -44,7 +44,7 @@ public class GetNightBoothBean {
         }
 
         // 가져온 dao를 dto로 변환
-        return createNightBoothDTOBean.exec(nightBoothDAO, menuDAOList);
+        return createNightBoothDTOBean.exec(nightBoothDAO, filteredMenuList);
     }
 
 }
