@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -21,6 +22,10 @@ public class TableNumDAO {
     UUID boothId;
     String customTableNum;
     String orderUrl;
+    Integer tablePriority;
 
     Boolean isDeleted;
+
+    LocalDateTime createAt;
+    LocalDateTime updateAt;
 }
