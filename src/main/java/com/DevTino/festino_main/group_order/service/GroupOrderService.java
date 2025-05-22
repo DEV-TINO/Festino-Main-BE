@@ -22,8 +22,8 @@ public class GroupOrderService {
     private final OrderCancelBean orderCancelBean;
 
     // 주문 세션 참여 - 전체 클라이언트에게 전송용
-    public void joinOrderSession(UUID boothId, Integer tableNum) {
-        joinSessionBean.exec(boothId, tableNum);
+    public void joinOrderSession(UUID boothId, Integer tableNum, String sessionId) {
+        joinSessionBean.exec(boothId, tableNum, sessionId);
     }
 
     // 주문 세션 참여 - 특정 클라이언트에게 init메시지 전송용

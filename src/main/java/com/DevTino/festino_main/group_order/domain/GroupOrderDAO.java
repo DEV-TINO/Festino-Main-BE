@@ -24,6 +24,7 @@ public class GroupOrderDAO {
     UUID boothId;
     Integer tableNum;
 
+
     Integer memberCount = 0;
     Integer totalPrice = 0;
     Integer totalCount = 0;
@@ -37,14 +38,19 @@ public class GroupOrderDAO {
     // 세션 만료 시간
     LocalDateTime expiryTime;
 
+    // ✅ WebSocket ID 목록
+    @ElementCollection
+    private List<String> websocketIds = new ArrayList<>();
+
     // 주문 메뉴 일대다 관계
     @OneToMany(mappedBy = "groupOrderDAO", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GroupOrderMenuDAO> menuItems = new ArrayList<>();
 
     // 주문 세션 생성자
-    public GroupOrderDAO(UUID boothId, Integer tableNum) {
+    public GroupOrderDAO(UUID boothId, Integer tableNum, String webSocketSessionId) {
         this.boothId = boothId;
         this.tableNum = tableNum;
+        this.getWebsocketIds().add(webSocketSessionId); // 세션 아이디 추가
         this.id = boothId + ":" + tableNum;  // 복합 ID 생성
         this.startTime = DateTimeUtils.nowZone();
         this.expiryTime = this.startTime.plusMinutes(10); // 10분 후 만료

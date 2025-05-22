@@ -29,10 +29,10 @@ public class JoinSessionBean {
 
     // 주문 참여
     @Transactional
-    public void exec(UUID boothId, Integer tableNum) {
+    public void exec(UUID boothId, Integer tableNum, String webSocketSessionId) {
         try {
             // 세션 조회 또는 생성
-            GroupOrderDAO session = getOrCreateSession(boothId, tableNum);
+            GroupOrderDAO session = getOrCreateSession(boothId, tableNum, webSocketSessionId);
 
             // 멤버 업데이트 메시지 발송 (모든 클라이언트에게)
             sendMemberUpdateMessage(session);
@@ -48,16 +48,21 @@ public class JoinSessionBean {
     }
 
     // 세션 조회 또는 생성
-    private GroupOrderDAO getOrCreateSession(UUID boothId, Integer tableNum) {
+    private GroupOrderDAO getOrCreateSession(UUID boothId, Integer tableNum, String webSocketSessionId) {
         String sessionId = boothId + ":" + tableNum;
         GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId).orElse(null);
 
         if (session != null) {
             // 기존 세션이 있는 경우
-            session.addMemberCount();
+            // 내 세션 아이디가 있는지 판단해
+            // 없으면 세션 아이디 추가하고 참여자 수 증가
+            if (!session.getWebsocketIds().contains(webSocketSessionId)) {
+                session.getWebsocketIds().add(webSocketSessionId);
+                session.setMemberCount(session.getMemberCount() + 1);
+            }
         } else {
             // 세션이 없는 경우 새로 생성
-            session = new GroupOrderDAO(boothId, tableNum);
+            session = new GroupOrderDAO(boothId, tableNum, webSocketSessionId);
             session.addMemberCount();
         }
 

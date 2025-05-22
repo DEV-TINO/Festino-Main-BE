@@ -33,7 +33,7 @@ public class GroupOrderController {
 
             if (AppMessageType.INIT.name().equals(typeStr)) {
 
-                groupOrderService.joinOrderSession(request.getBoothId(), request.getTableNum());
+                groupOrderService.joinOrderSession(request.getBoothId(), request.getTableNum(), sessionId);
                 groupOrderService.sendInitMessage(request.getBoothId(), request.getTableNum(), sessionId);
 
             }
