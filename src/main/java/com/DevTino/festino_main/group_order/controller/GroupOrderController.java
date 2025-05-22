@@ -31,7 +31,13 @@ public class GroupOrderController {
             String typeStr = request.getType();
             String sessionId = headerAccessor.getSessionId();
 
-            if (AppMessageType.MENUADD.name().equals(typeStr)) {
+            if (AppMessageType.INIT.name().equals(typeStr)) {
+
+                groupOrderService.joinOrderSession(request.getBoothId(), request.getTableNum());
+                groupOrderService.sendInitMessage(request.getBoothId(), request.getTableNum(), sessionId);
+
+            }
+            else if (AppMessageType.MENUADD.name().equals(typeStr)) {
                 // 메뉴 추가
                 // payload가 Map으로 변환됨
                 Map<String, Object> payload = (Map<String, Object>) request.getPayload();
@@ -76,34 +82,34 @@ public class GroupOrderController {
         }
     }
 
-    @EventListener
-    public void handleSubscription(SessionSubscribeEvent event) {
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        String destination = headerAccessor.getDestination();
-        String sessionId = headerAccessor.getSessionId();
-
-        try {
-            if (destination != null) {
-                String[] parts = destination.split("/");
-                UUID boothId = null;
-                Integer tableNum = null;
-
-                // 일반 토픽 구독: /topic/{boothId}/{tableNum}
-                if (destination.startsWith("/topic/") && parts.length == 4) {
-                    boothId = UUID.fromString(parts[2]);
-                    tableNum = Integer.parseInt(parts[3]);
-                    groupOrderService.joinOrderSession(boothId, tableNum);
-                }
-                // 사용자별 토픽 구독: /user/topic/{boothId}/{tableNum}
-                else if (destination.startsWith("/user/") && parts.length >= 5 && "topic".equals(parts[2])) {
-                    boothId = UUID.fromString(parts[3]);
-                    tableNum = Integer.parseInt(parts[4]);
-                    groupOrderService.sendInitMessage(boothId, tableNum, sessionId);
-                }
-            }
-        } catch (Exception e) {
-            log.error("구독 처리 오류: {}", e.getMessage(), e);
-        }
-    }
+//    @EventListener
+//    public void handleSubscription(SessionSubscribeEvent event) {
+//        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
+//        String destination = headerAccessor.getDestination();
+//        String sessionId = headerAccessor.getSessionId();
+//
+//        try {
+//            if (destination != null) {
+//                String[] parts = destination.split("/");
+//                UUID boothId = null;
+//                Integer tableNum = null;
+//
+//                // 일반 토픽 구독: /topic/{boothId}/{tableNum}
+//                if (destination.startsWith("/topic/") && parts.length == 4) {
+//                    boothId = UUID.fromString(parts[2]);
+//                    tableNum = Integer.parseInt(parts[3]);
+//                    groupOrderService.joinOrderSession(boothId, tableNum);
+//                }
+//                // 사용자별 토픽 구독: /user/topic/{boothId}/{tableNum}
+//                else if (destination.startsWith("/user/") && parts.length >= 5 && "topic".equals(parts[2])) {
+//                    boothId = UUID.fromString(parts[3]);
+//                    tableNum = Integer.parseInt(parts[4]);
+//                    groupOrderService.sendInitMessage(boothId, tableNum, sessionId);
+//                }
+//            }
+//        } catch (Exception e) {
+//            log.error("구독 처리 오류: {}", e.getMessage(), e);
+//        }
+//    }
 
 }

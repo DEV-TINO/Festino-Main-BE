@@ -21,12 +21,12 @@ public class GroupOrderService {
     private final OrderDoneBean orderDoneBean;
     private final OrderCancelBean orderCancelBean;
 
-    // 주문 세션 참여 - 전체 클라이언트에게 전송용 - subscirbe 시 호출됨
+    // 주문 세션 참여 - 전체 클라이언트에게 전송용
     public void joinOrderSession(UUID boothId, Integer tableNum) {
         joinSessionBean.exec(boothId, tableNum);
     }
 
-    // 주문 세션 참여 - 특정 클라이언트에게 init메시지 전송용 - subscribe 시 호출됨
+    // 주문 세션 참여 - 특정 클라이언트에게 init메시지 전송용
     public void sendInitMessage(UUID boothId, Integer tableNum, String sessionId) {
         sendInitMessageBean.exec(boothId, tableNum, sessionId);
     }
