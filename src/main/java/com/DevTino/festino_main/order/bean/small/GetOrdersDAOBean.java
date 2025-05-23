@@ -20,7 +20,6 @@ public class GetOrdersDAOBean {
     DesignOrderRepositoryJPA designOrderRepositoryJPA;
     MachineOrderRepositoryJPA machineOrderRepositoryJPA;
     ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA;
-    EnergyOrderRepositoryJPA energyOrderRepositoryJPA;
     BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA;
 
     public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA,
@@ -30,7 +29,6 @@ public class GetOrdersDAOBean {
                             DesignOrderRepositoryJPA designOrderRepositoryJPA,
                             MachineOrderRepositoryJPA machineOrderRepositoryJPA,
                             ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA,
-                            EnergyOrderRepositoryJPA energyOrderRepositoryJPA,
                             BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
@@ -39,7 +37,6 @@ public class GetOrdersDAOBean {
         this.designOrderRepositoryJPA = designOrderRepositoryJPA;
         this.machineOrderRepositoryJPA = machineOrderRepositoryJPA;
         this.electronicsOrderRepositoryJPA = electronicsOrderRepositoryJPA;
-        this.energyOrderRepositoryJPA = energyOrderRepositoryJPA;
         this.biochemistryOrderRepositoryJPA = biochemistryOrderRepositoryJPA;
     }
 
@@ -88,12 +85,6 @@ public class GetOrdersDAOBean {
         List<ElectronicsOrderDAO> electronicsOrderDAOList = electronicsOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
         for (ElectronicsOrderDAO electronicsOrderDAO : electronicsOrderDAOList) {
             orderDTOList.add(OrderDTO.fromElectronicsOrderDAO(electronicsOrderDAO));
-        }
-
-        // 에너지전기공학과에서 조회
-        List<EnergyOrderDAO> energyOrderDAOList = energyOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
-        for (EnergyOrderDAO energyOrderDAO : energyOrderDAOList) {
-            orderDTOList.add(OrderDTO.fromEnergyOrderDAO(energyOrderDAO));
         }
 
         // 생명화학공학과에서 조회
