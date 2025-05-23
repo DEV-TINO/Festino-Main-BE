@@ -14,6 +14,13 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Propagation;
+
 @Component
 public class SessionHealthCheckBean {
     private final GroupOrderRepositoryJPA groupOrderRepositoryJPA;
@@ -25,17 +32,22 @@ public class SessionHealthCheckBean {
         this.messagingTemplate = messagingTemplate;
     }
 
-    public void exec(UUID boothId, Integer tableNum) {
+    @Transactional
+    public void exec(UUID boothId, Integer tableNum, String sessionId, String clientId) {
         try {
-            // 세션 ID 생성
-            String sessionId = boothId + ":" + tableNum;
+            // Room ID 생성
+            String roomId = boothId + ":" + tableNum;
 
-            // 세션 조회
-            GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId)
-                    .orElseThrow(() -> new RuntimeException("Order session not found: " + sessionId));
+            // Room 조회
+            GroupOrderDAO session = groupOrderRepositoryJPA.findById(roomId).orElseThrow(() -> new RuntimeException("Order session not found: " + roomId));
+            session.updateClientActivity(clientId);
 
-            // 헬스 체크 메시지 전송 (해당 클라이언트 외 모두에게)
-            sendHealthCheckMessage(session);
+            // 세션 저장
+            groupOrderRepositoryJPA.save(session);
+            groupOrderRepositoryJPA.flush();
+
+            // 헬스 체크 메시지 전송
+            sendHealthCheckMessage(session, sessionId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,50 +57,32 @@ public class SessionHealthCheckBean {
     }
 
     // 헬스 체크 메시지 전송
-    private void sendHealthCheckMessage(GroupOrderDAO session) {
+    private void sendHealthCheckMessage(GroupOrderDAO session, String sessionId) {
 
         // 남은 시간 계산 (sessionTimeOutManage를 주입받아야 함)
+        // 남은 시간 계산
         int remainingMinutes = getRemainingMinutes(session.getId());
 
         // 메시지 생성
         OrderMessageDTO message;
+        
+        
+        String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
 
-        if (remainingMinutes >= 2) {
+        if (remainingMinutes > 0) {
             // 메시지 생성
-            message = OrderMessageDTO.builder()
-                    .type(TopicMessageType.TIMEUPDATE.name())
-                    .boothId(session.getBoothId())
-                    .tableNum(session.getTableNum())
-                    .payload(remainingMinutes)
-                    .build();
-            String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
-            messagingTemplate.convertAndSend(destination, message);
-
-        } else if (remainingMinutes == 1) {
-            message = OrderMessageDTO.builder()
-                    .type(TopicMessageType.PRESESSIONEND.name())
-                    .boothId(session.getBoothId())
-                    .tableNum(session.getTableNum())
-                    .payload(remainingMinutes)
-                    .build();
-            String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
-            messagingTemplate.convertAndSend(destination, message);
-
+            message = OrderMessageDTO.builder().boothId(session.getBoothId()).tableNum(session.getTableNum()).payload(remainingMinutes).type(TopicMessageType.TIMEUPDATE.name()).build();
+            // String Value ... -> Map 만드는 거
+            messagingTemplate.convertAndSendToUser(sessionId, destination, message);
         } else if (remainingMinutes == 0){
-            message = OrderMessageDTO.builder()
-                    .type(TopicMessageType.SESSIONEND.name())
-                    .boothId(session.getBoothId())
-                    .tableNum(session.getTableNum())
-                    .payload(remainingMinutes)
-                    .build();
-            String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
-            messagingTemplate.convertAndSend(destination, message);
-
-            // 세션 삭제
+            message = OrderMessageDTO.builder().boothId(session.getBoothId()).tableNum(session.getTableNum()).payload(remainingMinutes).type(TopicMessageType.SESSIONEND.name()).build();
             groupOrderRepositoryJPA.delete(session);
+            // String Value ... -> Map 만드는 거
+            messagingTemplate.convertAndSendToUser(sessionId, destination, message);
         } else {
             System.out.println("CannotConvertReamin");
         }
+
     }
 
     // 세션 남은 시간 조회 (분 단위, 더 정확한 계산)

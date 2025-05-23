@@ -54,6 +54,8 @@ public class UnSubSessionBean {
                 // 나머지 클라이언트에게 멤버 업데이트 메시지 전송
                 sendMemberUpdateMessage(session);
             }
+            
+            groupOrderRepositoryJPA.flush();
 
         } catch (Exception e) {
             e.printStackTrace();

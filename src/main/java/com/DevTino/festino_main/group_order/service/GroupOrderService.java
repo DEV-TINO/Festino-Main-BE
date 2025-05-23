@@ -32,18 +32,18 @@ public class GroupOrderService {
         sendInitMessageBean.exec(boothId, tableNum, sessionId);
     }
     // 메뉴 추가
-    public void sessionHealthCheck(UUID boothId, Integer tableNum) {
-        sessionHealthCheckBean.exec(boothId, tableNum);
+    public void sessionHealthCheck(UUID boothId, Integer tableNum, String sessionId, String clientId) {
+        sessionHealthCheckBean.exec(boothId, tableNum, sessionId, clientId);
     }
 
     // 메뉴 추가
-    public void addMenu(UUID boothId, Integer tableNum, UUID menuId) {
-        menuAddBean.exec(boothId, tableNum, menuId);
+    public void addMenu(UUID boothId, Integer tableNum, UUID menuId,  String clientId) {
+        menuAddBean.exec(boothId, tableNum, menuId, clientId);
     }
 
     // 메뉴 감소
-    public void subMenu(UUID boothId, Integer tableNum, UUID menuId) {
-        menuSubBean.exec(boothId, tableNum, menuId);
+    public void subMenu(UUID boothId, Integer tableNum, UUID menuId,  String clientId) {
+        menuSubBean.exec(boothId, tableNum, menuId, clientId);
     }
 
     // 구독 취소

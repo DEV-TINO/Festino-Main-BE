@@ -38,9 +38,11 @@ public class StartOrderBean {
 
             // 주문 진행 중 상태 설정 및 주문시작 버튼 누른 사용자 설정
             session.startOrder(clientId);
+            session.updateClientActivity(clientId);
 
             // 세션 저장
             groupOrderRepositoryJPA.save(session);
+            groupOrderRepositoryJPA.flush();
 
             // 주문 시작 메시지 전송 (해당 클라이언트 외 모두에게)
             sendStartOrderMessage(session, clientId);

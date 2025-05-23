@@ -1,6 +1,7 @@
 package com.DevTino.festino_main.group_order.bean;
 
 import com.DevTino.festino_main.DateTimeUtils;
+import com.DevTino.festino_main.group_order.domain.DTO.MemberInfo;
 import com.DevTino.festino_main.group_order.domain.DTO.OrderMessageDTO;
 import com.DevTino.festino_main.group_order.domain.DTO.TimeInfo;
 import com.DevTino.festino_main.group_order.domain.ENUM.TopicMessageType;
@@ -20,6 +21,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
+import java.util.Set;
+import java.util.List;
+
+
+
 
 @Component
 public class SessionTimeOutManage {
@@ -83,6 +89,7 @@ public class SessionTimeOutManage {
     }
 
     // 시간 업데이트 태스크 스케줄링
+    @Transactional
     private void scheduleTimeUpdateTask(GroupOrderDAO session) {
         String sessionId = session.getId();
 
@@ -94,15 +101,45 @@ public class SessionTimeOutManage {
                     @Override
                     public void run() {
                         try {
-
                             // 세션 조회
                             GroupOrderDAO currentSession = groupOrderRepositoryJPA.findById(sessionId).orElse(null);
+                            
+                            if (currentSession == null) {
+                                System.out.println("Session not found: " + sessionId);
+                                return;
+                            }
+
+                            Set<String> clientIds = currentSession.getClientIds().keySet();
+
                             if (currentSession != null) {
-                                for(String clientId : currentSession.findInactiveClients()) {
-                                    currentSession.removeClient(clientId);
+                                String destination = "/topic/" + currentSession.getBoothId() + "/" + currentSession.getTableNum();
+                                List<String> inactiveClients = currentSession.findInactiveClients();
+
+
+                                if (!inactiveClients.isEmpty()) {
+                                    for (String clientId : inactiveClients) {
+                                        currentSession.removeClient(clientId);
+                                    }
+
+                                    // 멤버 정보 생성
+                                    MemberInfo memberInfo = MemberInfo.builder()
+                                            .memberCount(currentSession.getMemberCount())
+                                            .build();
+
+                                    // 메시지 생성
+                                    OrderMessageDTO message = OrderMessageDTO.builder()
+                                            .type(String.valueOf(TopicMessageType.MEMBERUPDATE))
+                                            .boothId(currentSession.getBoothId())
+                                            .tableNum(currentSession.getTableNum())
+                                            .payload(memberInfo)
+                                            .build();
+
+                                    // Send MemberUpdate meesage
+                                    messagingTemplate.convertAndSend(destination, message);
+
+                                    groupOrderRepositoryJPA.save(currentSession);
+                                    groupOrderRepositoryJPA.flush();
                                 }
-                                groupOrderRepositoryJPA.save(currentSession);
-                                groupOrderRepositoryJPA.flush();
 
                             } else {
                                 ScheduledFuture<?> task = timeUpdateTasks.get(sessionId);

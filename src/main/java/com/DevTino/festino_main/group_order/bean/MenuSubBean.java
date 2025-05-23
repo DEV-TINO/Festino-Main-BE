@@ -28,7 +28,7 @@ public class MenuSubBean {
     }
 
     @Transactional
-    public void exec(UUID boothId, Integer tableNum, UUID menuId) {
+    public void exec(UUID boothId, Integer tableNum, UUID menuId, String clientId) {
 
         // 세션 id 생성
         String sessionId = boothId + ":" + tableNum;
@@ -52,9 +52,11 @@ public class MenuSubBean {
 
             // 메뉴 수량 증가
             session.subMenu(menuId, price);
+            session.updateClientActivity(clientId);
 
             // 세션 저장
             groupOrderRepositoryJPA.save(session);
+            groupOrderRepositoryJPA.flush();
 
             // 메뉴 업데이트 메시지 전송
             sendMenuUpdateMessage(session, menuId);

@@ -40,7 +40,7 @@ public class GroupOrderController {
             }
             else if (AppMessageType.TIMEUPDATE.name().equals(typeStr)) {
                 // 시간 업데이트 요청 처리
-                groupOrderService.sessionHealthCheck(request.getBoothId(), request.getTableNum());
+                groupOrderService.sessionHealthCheck(request.getBoothId(), request.getTableNum(), sessionId, clientId);
             }
 
             else if (AppMessageType.MENUADD.name().equals(typeStr)) {
@@ -48,14 +48,14 @@ public class GroupOrderController {
                 // payload가 Map으로 변환됨
                 Map<String, Object> payload = (Map<String, Object>) request.getPayload();
                 UUID menuId = UUID.fromString(payload.get("menuId").toString());
-                groupOrderService.addMenu(request.getBoothId(), request.getTableNum(), menuId);
+                groupOrderService.addMenu(request.getBoothId(), request.getTableNum(), menuId, clientId);
             }
             else if (AppMessageType.MENUSUB.name().equals(typeStr)) {
                 // 메뉴 감소
                 // payload가 Map으로 변환됨
                 Map<String, Object> payload = (Map<String, Object>) request.getPayload();
                 UUID menuId = UUID.fromString(payload.get("menuId").toString());
-                groupOrderService.subMenu(request.getBoothId(), request.getTableNum(), menuId);
+                groupOrderService.subMenu(request.getBoothId(), request.getTableNum(), menuId, clientId);
             }
             else if (AppMessageType.UNSUB.name().equals(typeStr)) {
                 // 구독 취소

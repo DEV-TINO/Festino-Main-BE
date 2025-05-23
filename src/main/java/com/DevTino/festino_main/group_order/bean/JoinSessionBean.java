@@ -48,6 +48,7 @@ public class JoinSessionBean {
     }
 
     // 세션 조회 또는 생성
+    @Transactional
     private GroupOrderDAO getOrCreateSession(UUID boothId, Integer tableNum, String webSocketSessionId, String clientId) {
         String sessionId = boothId + ":" + tableNum;
         GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId).orElse(null);
