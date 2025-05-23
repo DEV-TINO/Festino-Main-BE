@@ -62,7 +62,7 @@ public class GroupOrderDAO {
 
     // 클라이언트 추가
     public void addClient(String clientId) {
-        if (this.clientIds.contains(clientId)) {
+        if (!this.clientIds.contains(clientId)) {
             this.clientIds.add(clientId);
             this.memberCount++;
         }
