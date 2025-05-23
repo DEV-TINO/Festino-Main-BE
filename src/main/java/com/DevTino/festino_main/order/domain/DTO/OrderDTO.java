@@ -190,4 +190,24 @@ public class OrderDTO {
                 .menuInfo(energyOrderDAO.getMenuInfo())
                 .build();
     }
+
+    public static OrderDTO fromBiochemistryOrderDAO(BiochemistryOrderDAO biochemistryOrderDAO) {
+        return OrderDTO.builder()
+                .orderNum(biochemistryOrderDAO.getOrderNum())
+                .orderId(biochemistryOrderDAO.getOrderId())
+                .boothId(biochemistryOrderDAO.getBoothId())
+                .orderType(biochemistryOrderDAO.getOrderType())
+                .tableNum(biochemistryOrderDAO.getTableNum())
+                .date(biochemistryOrderDAO.getDate())
+                .userName(biochemistryOrderDAO.getUserName())
+                .phoneNum(biochemistryOrderDAO.getPhoneNum())
+                .note(biochemistryOrderDAO.getNote())
+                .totalPrice(biochemistryOrderDAO.getTotalPrice())
+                .createAt(biochemistryOrderDAO.getCreateAt())
+                .isCoupon(biochemistryOrderDAO.getIsCoupon())
+                .isDeposit(biochemistryOrderDAO.getIsDeposit())
+                .isService(biochemistryOrderDAO.getIsService())
+                .menuInfo(biochemistryOrderDAO.getMenuInfo())
+                .build();
+    }
 }

@@ -16,6 +16,7 @@ public class SaveOrderDAOBean {
     MachineOrderRepositoryJPA machineOrderRepositoryJPA;
     ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA;
     EnergyOrderRepositoryJPA energyOrderRepositoryJPA;
+    BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA;
 
     @Autowired
     public SaveOrderDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA,
@@ -25,7 +26,8 @@ public class SaveOrderDAOBean {
                             DesignOrderRepositoryJPA designOrderRepositoryJPA,
                             MachineOrderRepositoryJPA machineOrderRepositoryJPA,
                             ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA,
-                            EnergyOrderRepositoryJPA energyOrderRepositoryJPA) {
+                            EnergyOrderRepositoryJPA energyOrderRepositoryJPA,
+                            BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
@@ -34,6 +36,7 @@ public class SaveOrderDAOBean {
         this.machineOrderRepositoryJPA = machineOrderRepositoryJPA;
         this.electronicsOrderRepositoryJPA = electronicsOrderRepositoryJPA;
         this.energyOrderRepositoryJPA = energyOrderRepositoryJPA;
+        this.biochemistryOrderRepositoryJPA = biochemistryOrderRepositoryJPA;
     }
 
     // 주문 등록
@@ -70,6 +73,10 @@ public class SaveOrderDAOBean {
             case "디자인공학부":
                 DesignOrderDAO designOrderDAO = DesignOrderDAO.fromOrderDTO(orderDTO);
                 designOrderRepositoryJPA.save(designOrderDAO);
+                break;
+            case "생명화학공학과":
+                BiochemistryOrderDAO biochemistryOrderDAO = BiochemistryOrderDAO.fromOrderDTO(orderDTO);
+                biochemistryOrderRepositoryJPA.save(biochemistryOrderDAO);
                 break;
             default:
                 break;

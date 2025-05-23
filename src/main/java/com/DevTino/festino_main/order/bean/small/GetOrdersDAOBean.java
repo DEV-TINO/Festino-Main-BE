@@ -21,6 +21,7 @@ public class GetOrdersDAOBean {
     MachineOrderRepositoryJPA machineOrderRepositoryJPA;
     ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA;
     EnergyOrderRepositoryJPA energyOrderRepositoryJPA;
+    BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA;
 
     public GetOrdersDAOBean(ComputerOrderRepositoryJPA computerOrderRepositoryJPA,
                             GameOrderRepositoryJPA gameOrderRepositoryJPA,
@@ -29,7 +30,8 @@ public class GetOrdersDAOBean {
                             DesignOrderRepositoryJPA designOrderRepositoryJPA,
                             MachineOrderRepositoryJPA machineOrderRepositoryJPA,
                             ElectronicsOrderRepositoryJPA electronicsOrderRepositoryJPA,
-                            EnergyOrderRepositoryJPA energyOrderRepositoryJPA) {
+                            EnergyOrderRepositoryJPA energyOrderRepositoryJPA,
+                            BiochemistryOrderRepositoryJPA biochemistryOrderRepositoryJPA) {
         this.computerOrderRepositoryJPA = computerOrderRepositoryJPA;
         this.gameOrderRepositoryJPA = gameOrderRepositoryJPA;
         this.nanoOrderRepositoryJPA = nanoOrderRepositoryJPA;
@@ -38,6 +40,7 @@ public class GetOrdersDAOBean {
         this.machineOrderRepositoryJPA = machineOrderRepositoryJPA;
         this.electronicsOrderRepositoryJPA = electronicsOrderRepositoryJPA;
         this.energyOrderRepositoryJPA = energyOrderRepositoryJPA;
+        this.biochemistryOrderRepositoryJPA = biochemistryOrderRepositoryJPA;
     }
 
     // 유저의 핸드폰 번호로 입금 완료된 주문 내역들을 조회
@@ -91,6 +94,12 @@ public class GetOrdersDAOBean {
         List<EnergyOrderDAO> energyOrderDAOList = energyOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
         for (EnergyOrderDAO energyOrderDAO : energyOrderDAOList) {
             orderDTOList.add(OrderDTO.fromEnergyOrderDAO(energyOrderDAO));
+        }
+
+        // 생명화학공학과에서 조회
+        List<BiochemistryOrderDAO> biochemistryOrderDAOList = biochemistryOrderRepositoryJPA.findAllByUserNameAndPhoneNum(userName, phoneNum);
+        for (BiochemistryOrderDAO biochemistryOrderDAO : biochemistryOrderDAOList) {
+            orderDTOList.add(OrderDTO.fromBiochemistryOrderDAO(biochemistryOrderDAO));
         }
 
         if (orderDTOList.isEmpty()) throw new ServiceException(ExceptionEnum.EMPTY_LIST);
