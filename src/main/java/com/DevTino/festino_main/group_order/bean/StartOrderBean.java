@@ -27,7 +27,7 @@ public class StartOrderBean {
     }
 
     @Transactional
-    public void exec(UUID boothId, Integer tableNum, String webSocketSessionId) {
+    public void exec(UUID boothId, Integer tableNum, String clientId) {
         try {
             // 세션 ID 생성
             String sessionId = boothId + ":" + tableNum;
@@ -37,13 +37,13 @@ public class StartOrderBean {
                     .orElseThrow(() -> new RuntimeException("Order session not found: " + sessionId));
 
             // 주문 진행 중 상태 설정 및 주문시작 버튼 누른 사용자 설정
-            session.startOrder(webSocketSessionId);
+            session.startOrder(clientId);
 
             // 세션 저장
             groupOrderRepositoryJPA.save(session);
 
             // 주문 시작 메시지 전송 (해당 클라이언트 외 모두에게)
-            sendStartOrderMessage(session, webSocketSessionId);
+            sendStartOrderMessage(session, clientId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,6 +58,7 @@ public class StartOrderBean {
                 .type(TopicMessageType.STARTORDER.name())
                 .boothId(session.getBoothId())
                 .tableNum(session.getTableNum())
+                .clientId(session.getOrderInitiatorId())
                 .build();
 
         // 메시지 전송 (특정 세션 ID 제외)

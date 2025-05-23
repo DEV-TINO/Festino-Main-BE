@@ -58,7 +58,7 @@ public class GroupOrderController {
             }
             else if (AppMessageType.STARTORDER.name().equals(typeStr)) {
                 // 주문 시작
-                groupOrderService.startOrder(request.getBoothId(), request.getTableNum(), sessionId);
+                groupOrderService.startOrder(request.getBoothId(), request.getTableNum(), clientId);
             }
             else if (AppMessageType.ORDERDONE.name().equals(typeStr)) {
                 // 주문 완료

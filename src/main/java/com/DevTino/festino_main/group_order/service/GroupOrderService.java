@@ -47,8 +47,8 @@ public class GroupOrderService {
     }
 
     // 주문 시작
-    public void startOrder(UUID boothId, Integer tableNum, String sessionId) {
-        startOrderBean.exec(boothId, tableNum, sessionId);
+    public void startOrder(UUID boothId, Integer tableNum, String clientId) {
+        startOrderBean.exec(boothId, tableNum, clientId);
     }
 
     // 주문 완료
