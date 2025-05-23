@@ -53,6 +53,7 @@ public class GroupOrderDAO {
         this.id = boothId + ":" + tableNum;  // 복합 ID 생성
         this.startTime = DateTimeUtils.nowZone();
         this.expiryTime = this.startTime.plusMinutes(10); // 10분 후 만료
+        this.addClient(clientId);
     }
 
     // 참여 인원 증가

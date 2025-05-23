@@ -59,7 +59,6 @@ public class JoinSessionBean {
         }else {
             // 세션이 없는 경우 새로 생성
             session = new GroupOrderDAO(boothId, tableNum, webSocketSessionId);
-            session.addMemberCount();
         }
 
         // DB에 세션 저장
