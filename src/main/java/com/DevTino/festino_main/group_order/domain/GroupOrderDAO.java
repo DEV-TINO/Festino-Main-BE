@@ -40,7 +40,7 @@ public class GroupOrderDAO {
 
     // client ID
     @ElementCollection
-    private Set<String> clientIds = new HashSet<>();
+    private List<String> clientIds = new ArrayList<>();
 
     // 주문 메뉴 일대다 관계
     @OneToMany(mappedBy = "groupOrderDAO", cascade = CascadeType.ALL, orphanRemoval = true)
