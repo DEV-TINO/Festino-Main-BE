@@ -26,7 +26,7 @@ public class UnSubSessionBean {
     }
 
     @Transactional
-    public void exec(UUID boothId, Integer tableNum, String webSocketSessionId) {
+    public void exec(UUID boothId, Integer tableNum, String webSocketSessionId, String clientId) {
         try {
             // 세션 ID 생성
             String sessionId = boothId + ":" + tableNum;
@@ -39,7 +39,7 @@ public class UnSubSessionBean {
             sendUnSubMessage(webSocketSessionId, boothId, tableNum);
 
             // 멤버 감소
-            session.subMemberCount();
+            session.removeClient(clientId);
 
             // 세션 저장 또는 삭제
             if (session.getMemberCount() <= 0) {

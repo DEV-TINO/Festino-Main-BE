@@ -30,10 +30,11 @@ public class GroupOrderController {
         try {
             String typeStr = request.getType();
             String sessionId = headerAccessor.getSessionId();
+            String clientId = request.getClientId();
 
             if (AppMessageType.INIT.name().equals(typeStr)) {
 
-                groupOrderService.joinOrderSession(request.getBoothId(), request.getTableNum(), sessionId);
+                groupOrderService.joinOrderSession(request.getBoothId(), request.getTableNum(), sessionId, clientId);
                 groupOrderService.sendInitMessage(request.getBoothId(), request.getTableNum(), sessionId);
 
             }
@@ -53,7 +54,7 @@ public class GroupOrderController {
             }
             else if (AppMessageType.UNSUB.name().equals(typeStr)) {
                 // 구독 취소
-                groupOrderService.unSubOrderSession(request.getBoothId(), request.getTableNum(), sessionId);
+                groupOrderService.unSubOrderSession(request.getBoothId(), request.getTableNum(), sessionId, clientId);
             }
             else if (AppMessageType.STARTORDER.name().equals(typeStr)) {
                 // 주문 시작
