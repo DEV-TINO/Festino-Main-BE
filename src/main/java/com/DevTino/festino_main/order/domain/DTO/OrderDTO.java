@@ -171,26 +171,6 @@ public class OrderDTO {
                 .build();
     }
 
-    public static OrderDTO fromEnergyOrderDAO(EnergyOrderDAO energyOrderDAO) {
-        return OrderDTO.builder()
-                .orderNum(energyOrderDAO.getOrderNum())
-                .orderId(energyOrderDAO.getOrderId())
-                .boothId(energyOrderDAO.getBoothId())
-                .orderType(energyOrderDAO.getOrderType())
-                .tableNum(energyOrderDAO.getTableNum())
-                .date(energyOrderDAO.getDate())
-                .userName(energyOrderDAO.getUserName())
-                .phoneNum(energyOrderDAO.getPhoneNum())
-                .note(energyOrderDAO.getNote())
-                .totalPrice(energyOrderDAO.getTotalPrice())
-                .createAt(energyOrderDAO.getCreateAt())
-                .isCoupon(energyOrderDAO.getIsCoupon())
-                .isDeposit(energyOrderDAO.getIsDeposit())
-                .isService(energyOrderDAO.getIsService())
-                .menuInfo(energyOrderDAO.getMenuInfo())
-                .build();
-    }
-
     public static OrderDTO fromBiochemistryOrderDAO(BiochemistryOrderDAO biochemistryOrderDAO) {
         return OrderDTO.builder()
                 .orderNum(biochemistryOrderDAO.getOrderNum())
