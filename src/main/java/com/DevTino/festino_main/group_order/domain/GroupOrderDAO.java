@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -40,7 +41,7 @@ public class GroupOrderDAO {
 
     // client ID
     @ElementCollection
-    private List<String> clientIds = new ArrayList<>();
+    private Map<String, LocalDateTime> clientIds = new HashMap<>();
 
     // 주문 메뉴 일대다 관계
     @OneToMany(mappedBy = "groupOrderDAO", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,23 +57,40 @@ public class GroupOrderDAO {
         this.addClient(clientId);
     }
 
-    // 참여 인원 증가
-    public void addMemberCount() {
-        this.memberCount++;
-    }
-
     // 클라이언트 추가
     public void addClient(String clientId) {
-        if (!this.clientIds.contains(clientId)) {
-            this.clientIds.add(clientId);
-            this.memberCount++;
+        if (!this.clientIds.containsKey(clientId)) {
+            this.clientIds.put(clientId, DateTimeUtils.nowZone());
+            updateMemberCount();
         }
     }
 
     // 클라이언트 제거
     public void removeClient(String clientId) {
-        this.clientIds.remove(clientId);
-        this.memberCount--;
+        if (this.clientIds.containsKey(clientId)) {
+            this.clientIds.remove(clientId);
+            updateMemberCount();
+        }
+    }
+
+    private boolean isUserActive(String clientId, LocalDateTime now) {
+        return Math.abs(Duration.between(now, this.clientIds.get(clientId)).getSeconds()) <= 10;
+    }
+
+    public List<String> findInactiveClients() {
+        LocalDateTime now = DateTimeUtils.nowZone();
+
+        List<String> clientIdKeys = new ArrayList<>();
+        for (String key : this.clientIds.keySet()) {
+            if (!isUserActive(key, now)) {
+                clientIdKeys.add(key);
+            }
+        }
+        return clientIdKeys;
+    }
+
+    private void updateMemberCount() {
+        this.memberCount = this.clientIds.keySet().size();
     }
 
     // 메뉴 추가

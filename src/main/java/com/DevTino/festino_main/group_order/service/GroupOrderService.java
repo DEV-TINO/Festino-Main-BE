@@ -20,6 +20,7 @@ public class GroupOrderService {
     private final SendInitMessageBean sendInitMessageBean;
     private final OrderDoneBean orderDoneBean;
     private final OrderCancelBean orderCancelBean;
+    private final SessionHealthCheckBean sessionHealthCheckBean;
 
     // 주문 세션 참여 - 전체 클라이언트에게 전송용
     public void joinOrderSession(UUID boothId, Integer tableNum, String sessionId, String clientId) {
@@ -29,6 +30,10 @@ public class GroupOrderService {
     // 주문 세션 참여 - 특정 클라이언트에게 init메시지 전송용
     public void sendInitMessage(UUID boothId, Integer tableNum, String sessionId) {
         sendInitMessageBean.exec(boothId, tableNum, sessionId);
+    }
+    // 메뉴 추가
+    public void sessionHealthCheck(UUID boothId, Integer tableNum) {
+        sessionHealthCheckBean.exec(boothId, tableNum);
     }
 
     // 메뉴 추가

@@ -38,6 +38,11 @@ public class GroupOrderController {
                 groupOrderService.sendInitMessage(request.getBoothId(), request.getTableNum(), sessionId);
 
             }
+            else if (AppMessageType.TIMEUPDATE.name().equals(typeStr)) {
+                // 시간 업데이트 요청 처리
+                groupOrderService.sessionHealthCheck(request.getBoothId(), request.getTableNum());
+            }
+
             else if (AppMessageType.MENUADD.name().equals(typeStr)) {
                 // 메뉴 추가
                 // payload가 Map으로 변환됨
