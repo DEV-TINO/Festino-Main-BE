@@ -7,8 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Entity
@@ -39,8 +41,8 @@ public class GroupOrderDAO {
     LocalDateTime expiryTime;
 
     // client ID
-    @ElementCollection
-    private List<String> clientIds = new ArrayList<>();
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Map<String, LocalDateTime> clientIds = new ConcurrentHashMap<>();
 
     // 주문 메뉴 일대다 관계
     @OneToMany(mappedBy = "groupOrderDAO", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,23 +58,55 @@ public class GroupOrderDAO {
         this.addClient(clientId);
     }
 
-    // 참여 인원 증가
-    public void addMemberCount() {
-        this.memberCount++;
-    }
-
     // 클라이언트 추가
     public void addClient(String clientId) {
-        if (!this.clientIds.contains(clientId)) {
-            this.clientIds.add(clientId);
-            this.memberCount++;
+        if (!this.clientIds.containsKey(clientId)) {
+            this.clientIds.put(clientId, DateTimeUtils.nowZone());
+            updateMemberCount();
         }
     }
 
     // 클라이언트 제거
     public void removeClient(String clientId) {
-        this.clientIds.remove(clientId);
-        this.memberCount--;
+        if (this.clientIds.containsKey(clientId)) {
+            this.clientIds.remove(clientId);
+            updateMemberCount();
+        }
+    } 
+
+    // 클라이언트 활동 업데이트
+    public void updateClientActivity(String clientId) {
+        if (this.clientIds.containsKey(clientId)) {
+            this.clientIds.put(clientId, DateTimeUtils.nowZone());
+            return;
+        }
+    }
+
+    private boolean isUserActive(String clientId, LocalDateTime now) {
+        LocalDateTime last = this.clientIds.get(clientId);
+        if (last == null) {
+            // 기록이 없으면 비활성으로 간주
+            return false;
+        }
+        Duration diff = Duration.between(last, now);
+        // 10초 이내면 활동 중
+        return diff.getSeconds() <= 10;
+    }
+
+    public List<String> findInactiveClients() {
+        LocalDateTime now = DateTimeUtils.nowZone();
+
+        List<String> clientIdKeys = new ArrayList<>();
+        for (String key : this.clientIds.keySet()) {
+            if (!isUserActive(key, now)) {
+                clientIdKeys.add(key);
+            }
+        }
+        return clientIdKeys;
+    }
+
+    private void updateMemberCount() {
+        this.memberCount = this.clientIds.keySet().size();
     }
 
     // 메뉴 추가

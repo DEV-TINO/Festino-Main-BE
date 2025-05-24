@@ -1,6 +1,7 @@
 package com.DevTino.festino_main.group_order.bean;
 
 import com.DevTino.festino_main.DateTimeUtils;
+import com.DevTino.festino_main.group_order.domain.DTO.MemberInfo;
 import com.DevTino.festino_main.group_order.domain.DTO.OrderMessageDTO;
 import com.DevTino.festino_main.group_order.domain.DTO.TimeInfo;
 import com.DevTino.festino_main.group_order.domain.ENUM.TopicMessageType;
@@ -20,6 +21,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
+import java.util.Set;
+import java.util.List;
+
+
+
 
 @Component
 public class SessionTimeOutManage {
@@ -34,8 +40,7 @@ public class SessionTimeOutManage {
     private final Map<String, ScheduledFuture<?>> timeUpdateTasks = new ConcurrentHashMap<>(); // 시간 업데이트 태스크 추가
 
     private static final int SESSION_TIMEOUT_MINUTES = 10; // 세션 타임아웃 10분
-    private static final int WARNING_BEFORE_EXPIRY_MINUTES = 1; // 경고는 만료 1분 전에
-    private static final int TIME_UPDATE_INTERVAL_SECONDS = 60; // 시간 업데이트 간격 (1분)
+    private static final int TIME_UPDATE_INTERVAL_SECONDS = 10; // 시간 업데이트 간격 (1분)
 
     @Autowired
     public SessionTimeOutManage(GroupOrderRepositoryJPA groupOrderRepositoryJPA, SimpMessagingTemplate messagingTemplate, TaskScheduler taskScheduler) {
@@ -63,7 +68,6 @@ public class SessionTimeOutManage {
             // 세션 생성 시간 (지금) + 지정된 시간으로 만료 시간 계산
             LocalDateTime now = DateTimeUtils.nowZone();
             LocalDateTime expiryTime = now.plusMinutes(SESSION_TIMEOUT_MINUTES);
-            LocalDateTime warningTime = now.plusMinutes(SESSION_TIMEOUT_MINUTES - WARNING_BEFORE_EXPIRY_MINUTES);
 
             // DB의 세션 정보 업데이트
             GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId)
@@ -74,17 +78,8 @@ public class SessionTimeOutManage {
             groupOrderRepositoryJPA.save(session);
             groupOrderRepositoryJPA.flush();
 
-//            // 경고 메시지 태스크 예약
-//            schedulePreSessionEndTask(session, warningTime);
-//
-//            // 종료 메시지 태스크 예약
-//            scheduleSessionEndTask(session, expiryTime);
-
             // 시간 업데이트 태스크 추가 - 1분마다 실행
             scheduleTimeUpdateTask(session);
-
-            // 첫 번째 시간 업데이트 메시지 즉시 전송
-            sendTimeUpdateMessage(session);
 
 
         } catch (Exception e) {
@@ -94,6 +89,7 @@ public class SessionTimeOutManage {
     }
 
     // 시간 업데이트 태스크 스케줄링
+    @Transactional
     private void scheduleTimeUpdateTask(GroupOrderDAO session) {
         String sessionId = session.getId();
 
@@ -105,11 +101,46 @@ public class SessionTimeOutManage {
                     @Override
                     public void run() {
                         try {
-
                             // 세션 조회
                             GroupOrderDAO currentSession = groupOrderRepositoryJPA.findById(sessionId).orElse(null);
+                            
+                            if (currentSession == null) {
+                                System.out.println("Session not found: " + sessionId);
+                                return;
+                            }
+
+                            Set<String> clientIds = currentSession.getClientIds().keySet();
+
                             if (currentSession != null) {
-                                sendTimeUpdateMessage(currentSession);
+                                String destination = "/topic/" + currentSession.getBoothId() + "/" + currentSession.getTableNum();
+                                List<String> inactiveClients = currentSession.findInactiveClients();
+
+
+                                if (!inactiveClients.isEmpty()) {
+                                    for (String clientId : inactiveClients) {
+                                        currentSession.removeClient(clientId);
+                                    }
+
+                                    // 멤버 정보 생성
+                                    MemberInfo memberInfo = MemberInfo.builder()
+                                            .memberCount(currentSession.getMemberCount())
+                                            .build();
+
+                                    // 메시지 생성
+                                    OrderMessageDTO message = OrderMessageDTO.builder()
+                                            .type(String.valueOf(TopicMessageType.MEMBERUPDATE))
+                                            .boothId(currentSession.getBoothId())
+                                            .tableNum(currentSession.getTableNum())
+                                            .payload(memberInfo)
+                                            .build();
+
+                                    // Send MemberUpdate meesage
+                                    messagingTemplate.convertAndSend(destination, message);
+
+                                    groupOrderRepositoryJPA.save(currentSession);
+                                    groupOrderRepositoryJPA.flush();
+                                }
+
                             } else {
                                 ScheduledFuture<?> task = timeUpdateTasks.get(sessionId);
                                 if (task != null) {
@@ -129,114 +160,6 @@ public class SessionTimeOutManage {
         timeUpdateTasks.put(sessionId, timeUpdateTask);
     }
 
-//     종료 전 알림 태스크 스케줄링
-//    private void schedulePreSessionEndTask(GroupOrderDAO session, LocalDateTime warningTime) {
-//        String sessionId = session.getId();
-//        // 경고 메시지 태스크 예약
-//        Instant warningInstant = warningTime.atZone(ZoneId.systemDefault()).toInstant();
-//        ScheduledFuture<?> warningTask = taskScheduler.schedule(
-//                new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            GroupOrderDAO currentSession = groupOrderRepositoryJPA.findById(sessionId).orElse(null);
-//                            if (currentSession != null) {
-//                                sendPreSessionEndMessage(currentSession);
-//                            } else {
-//                            }
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                },
-//                warningInstant
-//        );
-//        warningTasks.put(sessionId, warningTask);
-//    }
-
-//     종료 알림 태스크 스케줄링
-//    private void scheduleSessionEndTask(GroupOrderDAO session, LocalDateTime expiryTime) {
-//        String sessionId = session.getId();
-//        Instant expiryInstant = expiryTime.atZone(ZoneId.systemDefault()).toInstant();
-//        ScheduledFuture<?> endTask = taskScheduler.schedule(
-//                new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            handleSessionExpiry(sessionId);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                },
-//                expiryInstant
-//        );
-//        endTasks.put(sessionId, endTask);
-//    }
-
-
-    // 시간 업데이트 메시지 전송
-    private void sendTimeUpdateMessage(GroupOrderDAO session) {
-        String sessionId = session.getId();
-        int remainingMinutes = getRemainingMinutes(sessionId);
-
-        TimeInfo timeInfo = TimeInfo.builder()
-                .remainingMinutes(remainingMinutes)
-                .build();
-        OrderMessageDTO message;
-        if (remainingMinutes >= 2) {
-            // 메시지 생성
-            message = OrderMessageDTO.builder()
-                    .type(TopicMessageType.TIMEUPDATE.name())
-                    .boothId(session.getBoothId())
-                    .tableNum(session.getTableNum())
-                    .payload(timeInfo)
-                    .build();
-            String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
-            messagingTemplate.convertAndSend(destination, message);
-
-        } else if (remainingMinutes == 1) {
-            message = OrderMessageDTO.builder()
-                    .type(TopicMessageType.PRESESSIONEND.name())
-                    .boothId(session.getBoothId())
-                    .tableNum(session.getTableNum())
-                    .payload(timeInfo)
-                    .build();
-            String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
-            messagingTemplate.convertAndSend(destination, message);
-
-        } else {
-            message = OrderMessageDTO.builder()
-                    .type(TopicMessageType.SESSIONEND.name())
-                    .boothId(session.getBoothId())
-                    .tableNum(session.getTableNum())
-                    .payload(timeInfo)
-                    .build();
-            String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
-            messagingTemplate.convertAndSend(destination, message);
-
-            // 세션 삭제
-            groupOrderRepositoryJPA.delete(session);
-            cancelExistingTasks(sessionId);
-        }
-    }
-
-    // 세션 만료 처리
-//    @Transactional
-//    public void handleSessionExpiry(String sessionId) {
-//        GroupOrderDAO session = groupOrderRepositoryJPA.findById(sessionId).orElse(null);
-//
-//        if (session != null) {
-//            // 세션 종료 메시지 전송
-//            sendSessionEndMessage(session);
-//
-//            // 세션 삭제
-//            groupOrderRepositoryJPA.delete(session);
-//        }
-//
-//        // 관련 태스크 정리
-//        cancelExistingTasks(sessionId);
-//    }
 
     // 기존 예약 태스크 취소
     public void cancelExistingTasks(String sessionId) {
@@ -255,44 +178,6 @@ public class SessionTimeOutManage {
             timeUpdateTask.cancel(false);
         }
     }
-
-//    // 세션 종료 전 경고 메시지 전송
-//    private void sendPreSessionEndMessage(GroupOrderDAO session) {
-//        int remainingMinutes = getRemainingMinutes(session.getId());
-//
-//        TimeInfo timeInfo = TimeInfo.builder()
-//                .remainingMinutes(remainingMinutes)
-//                .build();
-//
-//        OrderMessageDTO message = OrderMessageDTO.builder()
-//                .type(TopicMessageType.PRESESSIONEND.name())
-//                .boothId(session.getBoothId())
-//                .tableNum(session.getTableNum())
-//                .payload(timeInfo)
-//                .build();
-//
-//        String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
-//        messagingTemplate.convertAndSend(destination, message);
-//    }
-//
-//    // 세션 종료 메시지 전송
-//    private void sendSessionEndMessage(GroupOrderDAO session) {
-//        int remainingMinutes = getRemainingMinutes(session.getId());
-//
-//        TimeInfo timeInfo = TimeInfo.builder()
-//                .remainingMinutes(remainingMinutes)
-//                .build();
-//
-//        OrderMessageDTO message = OrderMessageDTO.builder()
-//                .type(TopicMessageType.SESSIONEND.name())
-//                .boothId(session.getBoothId())
-//                .tableNum(session.getTableNum())
-//                .payload(timeInfo)
-//                .build();
-//
-//        String destination = "/topic/" + session.getBoothId() + "/" + session.getTableNum();
-//        messagingTemplate.convertAndSend(destination, message);
-//    }
 
     // 세션 남은 시간 조회 (분 단위, 더 정확한 계산)
     public int getRemainingMinutes(String sessionId) {
