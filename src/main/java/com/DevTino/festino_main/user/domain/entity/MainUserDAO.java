@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -22,4 +23,6 @@ public class MainUserDAO {
     private String authorizationCode;
 
     private boolean isAuthenticated;
+
+    LocalDateTime createAt;
 }

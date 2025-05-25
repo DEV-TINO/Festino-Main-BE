@@ -1,5 +1,6 @@
 package com.DevTino.festino_main.user.bean.small;
 
+import com.DevTino.festino_main.DateTimeUtils;
 import com.DevTino.festino_main.user.domain.dto.RequestMainUserSaveDTO;
 import com.DevTino.festino_main.user.domain.entity.MainUserDAO;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ public class CreateMainUserDAOBean {
                 .studentNum(requestMainUserSaveDTO.getStudentNum())
                 .authorizationCode(authorizationCode)
                 .isAuthenticated(false)
+                .createAt(DateTimeUtils.nowZone())
                 .build();
     }
 }
