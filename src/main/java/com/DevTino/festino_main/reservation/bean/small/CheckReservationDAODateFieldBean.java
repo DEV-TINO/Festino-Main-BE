@@ -20,8 +20,8 @@ public class CheckReservationDAODateFieldBean {
         LocalDateTime start28 = LocalDateTime.of(LocalDate.of(2025, 5, 28), LocalTime.of(15, 0, 0));
 
         // 종료 시간
-        LocalDateTime end26 = start26.plusHours(24);
-        LocalDateTime end27 = start27.plusHours(24);
+        LocalDateTime end26 = start26.plusHours(12);
+        LocalDateTime end27 = start27.plusHours(12);
 
         // 서버 시간 고려 9시간 더해줌
         LocalDateTime now = DateTimeUtils.nowZone();
