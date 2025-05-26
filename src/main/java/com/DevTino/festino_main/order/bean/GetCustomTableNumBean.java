@@ -19,7 +19,12 @@ public class GetCustomTableNumBean {
 
     public String exec(Integer tableNumIndex, UUID boothId) {
 
-        TableNumDAO tableNumDAO = getCustomTableNumDAOBean.exec(tableNumIndex, boothId);
+        // tableNumIndex는 url뒤의 값을 의미함 여기서만
+
+        String url = "https://festino.dev-tino.com/order/" + boothId.toString() + "/" + tableNumIndex;
+
+
+        TableNumDAO tableNumDAO = getCustomTableNumDAOBean.exec(url);
 
         return tableNumDAO.getCustomTableNum();
     }

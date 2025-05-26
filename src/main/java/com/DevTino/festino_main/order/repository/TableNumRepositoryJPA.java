@@ -9,4 +9,5 @@ public interface TableNumRepositoryJPA extends JpaRepository<TableNumDAO, Intege
 
     TableNumDAO findByTableNumIndexAndBoothId(Integer tableNumIndex, UUID boothId);
 
+    TableNumDAO findByOrderUrl(String url);
 }

@@ -18,13 +18,11 @@ import java.util.UUID;
 public class TableNumDAO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer tableNumIndex;
+    Long tableNumId;
     UUID boothId;
+    Integer tableNumIndex;
     String customTableNum;
     String orderUrl;
-    Integer tablePriority;
-
-    Boolean isDeleted;
 
     LocalDateTime createAt;
     LocalDateTime updateAt;

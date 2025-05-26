@@ -19,9 +19,9 @@ public class GetCustomTableNumDAOBean {
         this.tableNumRepositoryJPA = tableNumRepositoryJPA;
     }
 
-    public TableNumDAO exec(Integer tableNumIndex, UUID boothId) {
+    public TableNumDAO exec(String url) {
 
-        TableNumDAO dao = tableNumRepositoryJPA.findByTableNumIndexAndBoothId(tableNumIndex, boothId);
+        TableNumDAO dao = tableNumRepositoryJPA.findByOrderUrl(url);
         if (dao == null) throw new ServiceException(ExceptionEnum.ENTITY_NOT_FOUND);
 
         return dao;
