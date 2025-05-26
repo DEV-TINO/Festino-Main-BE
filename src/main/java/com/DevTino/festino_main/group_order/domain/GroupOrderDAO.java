@@ -90,7 +90,7 @@ public class GroupOrderDAO {
         }
         Duration diff = Duration.between(last, now);
         // 10초 이내면 활동 중
-        return diff.getSeconds() <= 10;
+        return diff.getSeconds() <= 180;
     }
 
     public List<String> findInactiveClients() {
