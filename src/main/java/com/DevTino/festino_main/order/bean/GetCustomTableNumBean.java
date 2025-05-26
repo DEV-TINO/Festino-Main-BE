@@ -1,5 +1,7 @@
 package com.DevTino.festino_main.order.bean;
 
+import com.DevTino.festino_main.exception.ExceptionEnum;
+import com.DevTino.festino_main.exception.ServiceException;
 import com.DevTino.festino_main.order.bean.small.GetCustomTableNumDAOBean;
 import com.DevTino.festino_main.order.domain.TableNumDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ public class GetCustomTableNumBean {
 
 
         TableNumDAO tableNumDAO = getCustomTableNumDAOBean.exec(url);
+        if (tableNumDAO == null) throw new ServiceException(ExceptionEnum.ENTITY_NOT_FOUND);
 
         return tableNumDAO.getCustomTableNum();
     }

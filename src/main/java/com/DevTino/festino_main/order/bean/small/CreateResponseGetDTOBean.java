@@ -42,8 +42,9 @@ public class CreateResponseGetDTOBean {
             NightBoothDAO nightBoothDAO = getNightBoothDAOBean.exec(orderDTO.getBoothId());
 
             String url = "https://festino.dev-tino.com/order/" + orderDTO.getBoothId().toString() + "/" + orderDTO.getTableNum();
-
+            System.out.println("url = " + url);
             TableNumDAO tableNumDAO = getCustomTableNumDAOBean.exec(url);
+            if (tableNumDAO == null) break;
             String tableNum = tableNumDAO.getCustomTableNum();
 
             responseOrderGetDTOList.add(ResponseOrderGetDTO.builder()
